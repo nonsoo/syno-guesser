@@ -1,8 +1,47 @@
-import type { NextPage } from "next";
+import type { NextPage, GetServerSideProps } from "next";
+import { useState } from "react";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 
-const Home: NextPage = () => {
+import axios from "axios";
+
+import EndGame from "../Components/EndGame";
+
+const Home: NextPage = ({ data }: any) => {
+  const secretWord = data[0].meta.id;
+
+  const synos =
+    data[0].meta.syns[0].length > 3
+      ? [
+          data[0].meta.syns[0][0],
+          data[0].meta.syns[0][data[0].meta.syns[0].length / 2 - 1],
+          data[0].meta.syns[0][data[0].meta.syns[0].length - 1],
+        ]
+      : data[0].meta.syns[0];
+
+  const [myGuess, setMyGuess] = useState<string>("");
+  const [winState, setWinState] = useState<boolean>(false);
+  const [gameState, setGameState] = useState<boolean>(false);
+  const [numGuess, setNumGuess] = useState<number>(1);
+  const [guessLst, setGuessLst] = useState<string[]>([]);
+  const onGuess = (e: any) => {
+    e.preventDefault();
+    if (myGuess === "") return;
+
+    if (numGuess === 6) {
+      setGameState(true);
+    }
+
+    if (myGuess === secretWord) {
+      setNumGuess((prev) => prev + 1);
+      setWinState(true);
+    } else {
+      setNumGuess((prev) => prev + 1);
+      setGuessLst((prevLst) => [...prevLst, myGuess]);
+      setMyGuess("");
+    }
+  };
+
   return (
     <div className={styles.mainContent}>
       <Head>
@@ -16,37 +55,51 @@ const Home: NextPage = () => {
       </header>
 
       <main className={styles.GuesserCon}>
-        <section className={styles.syno}>
-          <p className={styles.syno__item}>First item</p>
-          <p className={styles.syno__item}>Second item</p>
-          <p className={styles.syno__item}>Third item</p>
-        </section>
+        {gameState || winState ? (
+          <EndGame secretWord={secretWord} numGuesses={numGuess - 1} />
+        ) : (
+          <>
+            <section className={styles.syno}>
+              {synos.map((syno: string, index: number) => (
+                <p key={index} className={styles.syno__item}>
+                  {syno}
+                </p>
+              ))}
+            </section>
 
-        <form className={styles.guessingForm}>
-          <input
-            type="text"
-            maxLength={1}
-            className={styles.guessingForm__text_field}
-          />
-          <input
-            type="text"
-            maxLength={1}
-            className={styles.guessingForm__text_field}
-          />
-          <input
-            type="text"
-            maxLength={1}
-            className={styles.guessingForm__text_field}
-          />
-          <input
-            type="text"
-            maxLength={1}
-            className={styles.guessingForm__text_field}
-          />
-        </form>
+            <section className={styles.GuessedWords}>
+              {guessLst.map((word, index) => (
+                <p key={index} className={styles.GuessedWords__word}>
+                  {word}
+                </p>
+              ))}
+            </section>
+
+            <form className={styles.guessingForm} onSubmit={onGuess}>
+              <input
+                type="text"
+                value={myGuess}
+                maxLength={20}
+                className={styles.guessingForm__text_field}
+                onChange={(e) => setMyGuess(e.target.value)}
+                placeholder="enter a word"
+              />
+            </form>
+          </>
+        )}
       </main>
     </div>
   );
 };
 
 export default Home;
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const data = await axios.get(
+    `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/bottle?key=${process.env.DICT_API_KEY}`
+  );
+
+  return {
+    props: { data: data.data },
+  };
+};
