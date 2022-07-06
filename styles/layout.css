@@ -1,0 +1,45 @@
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+:root {
+  --ff-prmy: "Open Sans", sans-serif;
+
+  --fw-prmy: 500;
+  --fw-sec: 700;
+
+  --col-text-prmy: hsl(0, 100%, 72%);
+  --col-text-sec: hsl(53, 100%, 79%);
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  width: 100vw;
+  height: 100vh;
+
+  font-family: var(--ff-prmy);
+  font-weight: var(--fw-prmy);
+}
