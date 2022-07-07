@@ -66,7 +66,7 @@ const Home: NextPage<Props> = ({ data }) => {
         ) : (
           <>
             <section className={styles.syno}>
-              {synos.map((syno: string, index: number) => (
+              {synos.map((syno, index) => (
                 <p key={index} className={styles.syno__item}>
                   {syno}
                 </p>
