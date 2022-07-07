@@ -7,17 +7,20 @@ import axios from "axios";
 
 import EndGame from "../Components/EndGame";
 
+import { resData } from "../utils/types/projectTypes";
+
 const Home: NextPage = ({ data }: any) => {
-  const secretWord = data[0].meta.id;
+  const respData: resData = data[0];
+  const secretWord = respData.meta.id;
 
   const synos =
-    data[0].meta.syns[0].length > 3
+    respData.meta.syns[0].length > 3
       ? [
-          data[0].meta.syns[0][0],
-          data[0].meta.syns[0][data[0].meta.syns[0].length / 2 - 1],
-          data[0].meta.syns[0][data[0].meta.syns[0].length - 1],
+          respData.meta.syns[0][0],
+          respData.meta.syns[0][respData.meta.syns[0].length / 2 - 1],
+          respData.meta.syns[0][respData.meta.syns[0].length - 1],
         ]
-      : data[0].meta.syns[0];
+      : respData.meta.syns[0];
 
   const [myGuess, setMyGuess] = useState<string>("");
   const [winState, setWinState] = useState<boolean>(false);
@@ -99,7 +102,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
     `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/bottle?key=${process.env.DICT_API_KEY}`
   );
 
+  const resp = data.data;
+
   return {
-    props: { data: data.data },
+    props: { data: resp },
   };
 };
