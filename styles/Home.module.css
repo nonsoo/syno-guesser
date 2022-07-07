@@ -58,7 +58,7 @@
   width: max-content;
 
   animation-name: showGuess;
-  animation-duration: 0.5s;
+  animation-duration: 0.75s;
   animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 

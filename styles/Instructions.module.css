@@ -1,0 +1,53 @@
+.ModalBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  background-color: rgba(0, 0, 0, 0.2);
+
+  width: 100%;
+  height: 100%;
+  padding: 2em;
+  z-index: 5555;
+}
+
+.Modal {
+  margin: 0 auto;
+  max-width: 1400px;
+  min-width: 400px;
+  height: 400px;
+
+  background-color: #fff;
+  border-radius: 10px;
+
+  padding: 1.25em;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  animation-name: showModal;
+  animation-duration: 0.75s;
+  animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.Modal__closeBtn {
+  align-self: flex-end;
+
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.Modal__Text:last-child {
+  font-weight: var(--fw-sec);
+  font-size: 1.15rem;
+}
+
+@keyframes showModal {
+  from {
+    transform: translateY(-50px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
