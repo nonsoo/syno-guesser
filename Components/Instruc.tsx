@@ -13,7 +13,10 @@ const Instruc: FC<Props> = ({ onToggle }) => {
       <section className={styles.Modal}>
         <IoClose className={styles.Modal__closeBtn} onClick={onToggle} />
         <div className={styles.ModalTextCon}>
-          <p className={styles.Modal__Text}>Guess the Scrumble in 6 tries</p>
+          <p className={styles.Modal__Text}>
+            Given 3 synonyms to a word, can you guess the secret word? Try your
+            luck!
+          </p>
           <p className={styles.Modal__Text}>
             The wrong guesses will go into the guess bucket and the guesses that
             are close to the secret word will turn a warm colour.
