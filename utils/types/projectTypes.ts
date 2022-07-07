@@ -1,6 +1,8 @@
 export interface endgameProps {
   secretWord: string;
   numGuesses: number;
+  def: string[];
+  winState: boolean;
 }
 
 type synonyms = string[];

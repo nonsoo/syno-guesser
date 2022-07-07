@@ -12,10 +12,12 @@ const Instruc: FC<Props> = ({ onToggle }) => {
     <section className={styles.ModalBackground}>
       <section className={styles.Modal}>
         <IoClose className={styles.Modal__closeBtn} onClick={onToggle} />
+
+        <p className={styles.Modal__Title}>Synonym Guesser</p>
         <div className={styles.ModalTextCon}>
           <p className={styles.Modal__Text}>
             Given 3 synonyms to a word, can you guess the secret word? Try your
-            luck!
+            luck because you have only 6 tries!
           </p>
           <p className={styles.Modal__Text}>
             The wrong guesses will go into the guess bucket and the guesses that

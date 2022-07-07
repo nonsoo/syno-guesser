@@ -14,7 +14,7 @@
 .Modal {
   margin: 0 auto;
   max-width: 1400px;
-  min-width: 400px;
+  min-width: 300px;
   height: 400px;
 
   background-color: #fff;
@@ -38,6 +38,22 @@
   cursor: pointer;
 }
 
+.Modal__Title {
+  font-size: 1.5rem;
+  text-align: center;
+  font-weight: var(--fw-sec);
+}
+
+.ModalTextCon {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.Modal__Text {
+  text-align: center;
+}
+
 .Modal__Text:last-child {
   font-weight: var(--fw-sec);
   font-size: 1.15rem;
@@ -49,5 +65,11 @@
   }
   to {
     transform: translateY(0);
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .Modal__Text {
+    text-align: left;
   }
 }

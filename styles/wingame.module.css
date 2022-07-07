@@ -15,6 +15,12 @@
   animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
+.WinState {
+  font-size: 2.25rem;
+  text-align: center;
+  font-weight: var(--fw-sec);
+}
+
 .EndGame__Secret {
   font-size: 2rem;
   font-weight: var(--fw-sec);
@@ -22,9 +28,15 @@
   text-transform: capitalize;
 }
 
+.EndGame__defin {
+  text-align: center;
+  margin-top: 1rem;
+}
+
 .EndGame__guessnum {
   text-align: center;
   margin-top: 1em;
+  font-weight: var(--fw-sec);
 }
 
 @keyframes showModal {
