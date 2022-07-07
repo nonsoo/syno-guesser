@@ -9,6 +9,8 @@ import EndGame from "../Components/EndGame";
 
 import { resData } from "../utils/types/projectTypes";
 
+import InstructionModal from "../Components/Instruc";
+
 interface Props {
   data: resData[];
 }
@@ -30,6 +32,7 @@ const Home: NextPage<Props> = ({ data }) => {
   const [gameState, setGameState] = useState<boolean>(false);
   const [numGuess, setNumGuess] = useState<number>(1);
   const [guessLst, setGuessLst] = useState<string[]>([]);
+  const [showInstruct, setShowInstruct] = useState<boolean>(true);
   const onGuess = (e: any) => {
     e.preventDefault();
     if (myGuess === "") return;
@@ -94,6 +97,10 @@ const Home: NextPage<Props> = ({ data }) => {
           </>
         )}
       </main>
+
+      {showInstruct && (
+        <InstructionModal onToggle={() => setShowInstruct(false)} />
+      )}
     </div>
   );
 };
