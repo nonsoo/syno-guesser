@@ -1,31 +1,28 @@
 import type { NextPage, GetServerSideProps } from "next";
 import { useState } from "react";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
-
-import axios from "axios";
-
-import EndGame from "../Components/EndGame";
 
 import { resData } from "../utils/types/projectTypes";
-
-import InstructionModal from "../Components/Instruc";
-
 import WordLst from "../responseWords.json";
+import axios from "axios";
 
+import styles from "../styles/Home.module.css";
+
+import EndGame from "../Components/EndGame";
+import InstructionModal from "../Components/Instruc";
 interface Props {
   data: resData[];
 }
 
 const Home: NextPage<Props> = ({ data }) => {
-  const secretWord = data[0].meta.id;
+  const secretWord = data[0]?.meta?.id;
 
   const synos =
-    data[0].meta.syns[0].length > 3
+    data[0]?.meta?.syns[0].length > 3
       ? [
-          data[0].meta.syns[0][0],
-          data[0].meta.syns[0][data[0].meta.syns[0].length / 2 - 1],
-          data[0].meta.syns[0][data[0].meta.syns[0].length - 1],
+          data[0]?.meta?.syns[0][0],
+          data[0]?.meta?.syns[0][data[0]?.meta.syns[0].length / 2 - 1],
+          data[0]?.meta?.syns[0][data[0]?.meta.syns[0].length - 1],
         ]
       : data[0].meta.syns[0];
 
@@ -116,6 +113,8 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const randomWord = Math.floor(Math.random() * WordLst.length);
+  console.log(randomWord);
+
   const data = await axios.get(
     `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${WordLst[randomWord]}?key=${process.env.DICT_API_KEY}`
   );
