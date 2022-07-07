@@ -11,6 +11,8 @@ import { resData } from "../utils/types/projectTypes";
 
 import InstructionModal from "../Components/Instruc";
 
+import WordLst from "../responseWords.json";
+
 interface Props {
   data: resData[];
 }
@@ -113,8 +115,9 @@ const Home: NextPage<Props> = ({ data }) => {
 export default Home;
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  const randomWord = Math.floor(Math.random() * WordLst.length);
   const data = await axios.get(
-    `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/bottle?key=${process.env.DICT_API_KEY}`
+    `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${WordLst[randomWord]}?key=${process.env.DICT_API_KEY}`
   );
 
   const resp: resData[] = data.data;
