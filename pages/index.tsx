@@ -37,7 +37,10 @@ const Home: NextPage<Props> = ({ data }) => {
     e.preventDefault();
     if (myGuess === "") return;
 
-    if (!WordLst.includes(myGuess)) return;
+    if (!WordLst.includes(myGuess)) {
+      setMyGuess("");
+      return;
+    }
 
     if (numGuess === 6) {
       setGameState(true);
