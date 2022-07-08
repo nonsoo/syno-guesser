@@ -3,7 +3,7 @@ import { useState } from "react";
 import Head from "next/head";
 
 import { resData } from "../utils/types/projectTypes";
-import WordLst from "../responseWords.json";
+import WordLst from "../wordlist.json";
 import axios from "axios";
 
 import styles from "../styles/Home.module.css";
@@ -12,10 +12,10 @@ import EndGame from "../Components/EndGame";
 import InstructionModal from "../Components/Instruc";
 interface Props {
   data: resData[];
-  isError: boolean;
 }
 
-const Home: NextPage<Props> = ({ data, isError }) => {
+const Home: NextPage<Props> = ({ data }) => {
+  console.log(data);
   const secretWord = data[0]?.meta?.id;
 
   const synos =
@@ -36,6 +36,8 @@ const Home: NextPage<Props> = ({ data, isError }) => {
   const onGuess = (e: any) => {
     e.preventDefault();
     if (myGuess === "") return;
+
+    if (!WordLst.includes(myGuess)) return;
 
     if (numGuess === 6) {
       setGameState(true);
@@ -120,15 +122,9 @@ export const getServerSideProps: GetServerSideProps = async () => {
     `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${WordLst[randomWord]}?key=${process.env.DICT_API_KEY}`
   );
 
-  // const resData = await axios.get(
-  //   `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/terminal?key=${process.env.DICT_API_KEY}`
-  // );
-
-  const isError: boolean = resData ? false : true;
-
   const resp: resData[] = resData.data;
 
   return {
-    props: { data: resp, isError },
+    props: { data: resp },
   };
 };
