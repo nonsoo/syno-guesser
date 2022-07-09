@@ -3,7 +3,7 @@ import { useState } from "react";
 import Head from "next/head";
 
 import { resData } from "../utils/types/projectTypes";
-import WordLst from "../responseWords.json";
+import WordLst from "../wordlist.json";
 import axios from "axios";
 
 import styles from "../styles/Home.module.css";
@@ -15,14 +15,15 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ data }) => {
+  console.log(data);
   const secretWord = data[0]?.meta?.id;
 
   const synos =
-    data[0]?.meta?.syns[0].length > 3
+    data[0]?.meta?.syns[0]?.length > 3
       ? [
           data[0]?.meta?.syns[0][0],
-          data[0]?.meta?.syns[0][data[0]?.meta.syns[0].length / 2 - 1],
-          data[0]?.meta?.syns[0][data[0]?.meta.syns[0].length - 1],
+          data[0]?.meta?.syns[0][Math.ceil(data[0]?.meta.syns[0]?.length / 2)],
+          data[0]?.meta?.syns[0][data[0]?.meta.syns[0]?.length - 1],
         ]
       : data[0].meta.syns[0];
 
@@ -35,6 +36,11 @@ const Home: NextPage<Props> = ({ data }) => {
   const onGuess = (e: any) => {
     e.preventDefault();
     if (myGuess === "") return;
+
+    if (!WordLst.includes(myGuess)) {
+      setMyGuess("");
+      return;
+    }
 
     if (numGuess === 6) {
       setGameState(true);
@@ -115,11 +121,11 @@ export const getServerSideProps: GetServerSideProps = async () => {
   const randomWord = Math.floor(Math.random() * WordLst.length);
   console.log(randomWord);
 
-  const data = await axios.get(
+  const resData = await axios.get(
     `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${WordLst[randomWord]}?key=${process.env.DICT_API_KEY}`
   );
 
-  const resp: resData[] = data.data;
+  const resp: resData[] = resData.data;
 
   return {
     props: { data: resp },
