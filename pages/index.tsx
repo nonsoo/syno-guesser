@@ -6,10 +6,13 @@ import { resData } from "../utils/types/projectTypes";
 import WordLst from "../wordlist.json";
 import axios from "axios";
 
+import UseAlert from "../utils/hooks/useAlert";
+
 import styles from "../styles/Home.module.css";
 
 import EndGame from "../Components/EndGame";
 import InstructionModal from "../Components/Instruc";
+import Alert from "../Components/Alert";
 interface Props {
   data: resData[];
 }
@@ -33,12 +36,15 @@ const Home: NextPage<Props> = ({ data }) => {
   const [numGuess, setNumGuess] = useState<number>(1);
   const [guessLst, setGuessLst] = useState<string[]>([]);
   const [showInstruct, setShowInstruct] = useState<boolean>(true);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
   const onGuess = (e: any) => {
     e.preventDefault();
     if (myGuess === "") return;
 
     if (!WordLst.includes(myGuess)) {
       setMyGuess("");
+      setShowAlert(true);
+      UseAlert(2500, () => setShowAlert(false));
       return;
     }
 
@@ -106,6 +112,8 @@ const Home: NextPage<Props> = ({ data }) => {
             </form>
           </>
         )}
+
+        {showAlert && <Alert />}
       </main>
 
       {showInstruct && (
