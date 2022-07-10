@@ -1,0 +1,40 @@
+.Alert {
+  background-color: hsl(0, 80%, 81%);
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: 18px 14px 33px -7px rgba(0, 0, 0, 0.07);
+
+  padding: 1em 1.35em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75em;
+
+  width: max-content;
+
+  margin: 0 auto;
+  margin-top: 3rem;
+
+  animation-name: showAlert;
+  animation-duration: 0.55s;
+  animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.Alert__Icon,
+.Alert__Name {
+  font-weight: var(--fw-sec);
+}
+
+.Alert__Icon {
+  font-size: 1.25rem;
+}
+
+@keyframes showAlert {
+  from {
+    transform: translateY(50px);
+  }
+
+  to {
+    transform: translateY(0px);
+  }
+}

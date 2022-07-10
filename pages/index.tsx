@@ -6,16 +6,18 @@ import { resData } from "../utils/types/projectTypes";
 import WordLst from "../wordlist.json";
 import axios from "axios";
 
+import UseAlert from "../utils/hooks/useAlert";
+
 import styles from "../styles/Home.module.css";
 
 import EndGame from "../Components/EndGame";
 import InstructionModal from "../Components/Instruc";
+import Alert from "../Components/Alert";
 interface Props {
   data: resData[];
 }
 
 const Home: NextPage<Props> = ({ data }) => {
-  console.log(data);
   const secretWord = data[0]?.meta?.id;
 
   const synos =
@@ -33,14 +35,24 @@ const Home: NextPage<Props> = ({ data }) => {
   const [numGuess, setNumGuess] = useState<number>(1);
   const [guessLst, setGuessLst] = useState<string[]>([]);
   const [showInstruct, setShowInstruct] = useState<boolean>(true);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
   const onGuess = (e: any) => {
     e.preventDefault();
+
+    //first check if the guess is empty or in the list of guesses
     if (myGuess === "") return;
 
     if (!WordLst.includes(myGuess)) {
       setMyGuess("");
+      setShowAlert(true);
+      UseAlert(2500, () => setShowAlert(false));
       return;
     }
+
+    // if above checks pass then check the number of guesses has
+    // reached the limit
+    // if not check if the guess is equal to the secret word and add it to
+    // the list of guesses.
 
     if (numGuess === 6) {
       setGameState(true);
@@ -106,6 +118,8 @@ const Home: NextPage<Props> = ({ data }) => {
             </form>
           </>
         )}
+
+        {showAlert && <Alert />}
       </main>
 
       {showInstruct && (
@@ -119,7 +133,6 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const randomWord = Math.floor(Math.random() * WordLst.length);
-  console.log(randomWord);
 
   const resData = await axios.get(
     `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${WordLst[randomWord]}?key=${process.env.DICT_API_KEY}`
