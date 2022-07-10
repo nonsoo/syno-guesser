@@ -18,7 +18,6 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ data }) => {
-  console.log(data);
   const secretWord = data[0]?.meta?.id;
 
   const synos =
@@ -39,6 +38,8 @@ const Home: NextPage<Props> = ({ data }) => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const onGuess = (e: any) => {
     e.preventDefault();
+
+    //first check if the guess is empty or in the list of guesses
     if (myGuess === "") return;
 
     if (!WordLst.includes(myGuess)) {
@@ -47,6 +48,11 @@ const Home: NextPage<Props> = ({ data }) => {
       UseAlert(2500, () => setShowAlert(false));
       return;
     }
+
+    // if above checks pass then check the number of guesses has
+    // reached the limit
+    // if not check if the guess is equal to the secret word and add it to
+    // the list of guesses.
 
     if (numGuess === 6) {
       setGameState(true);
@@ -127,7 +133,6 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const randomWord = Math.floor(Math.random() * WordLst.length);
-  console.log(randomWord);
 
   const resData = await axios.get(
     `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${WordLst[randomWord]}?key=${process.env.DICT_API_KEY}`
