@@ -39,6 +39,15 @@
   font-weight: var(--fw-sec);
 }
 
+.MyGuessCon {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55em;
+  font-size: 1rem;
+  margin-top: 1.2em;
+}
+
 @keyframes showModal {
   from {
     transform: translateY(50px);

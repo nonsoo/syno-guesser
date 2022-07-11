@@ -7,6 +7,7 @@ import WordLst from "../wordlist.json";
 import axios from "axios";
 
 import UseAlert from "../utils/hooks/useAlert";
+import UseGetHint from "../utils/hooks/useGetHint";
 
 import styles from "../styles/Home.module.css";
 
@@ -20,22 +21,40 @@ interface Props {
 const Home: NextPage<Props> = ({ data }) => {
   const secretWord = data[0]?.meta?.id;
 
-  const synos =
+  const synonymSet: Set<number> = new Set();
+  synonymSet.add(0);
+  synonymSet.add(Math.ceil(data[0]?.meta.syns[0]?.length / 2));
+  synonymSet.add(data[0]?.meta.syns[0]?.length - 1);
+
+  const [myGuess, setMyGuess] = useState<string>("");
+  const [synos, setSynos] = useState<string[]>(
     data[0]?.meta?.syns[0]?.length > 3
       ? [
           data[0]?.meta?.syns[0][0],
           data[0]?.meta?.syns[0][Math.ceil(data[0]?.meta.syns[0]?.length / 2)],
           data[0]?.meta?.syns[0][data[0]?.meta.syns[0]?.length - 1],
         ]
-      : data[0].meta.syns[0];
-
-  const [myGuess, setMyGuess] = useState<string>("");
+      : data[0].meta.syns[0]
+  );
   const [winState, setWinState] = useState<boolean>(false);
   const [gameState, setGameState] = useState<boolean>(false);
   const [numGuess, setNumGuess] = useState<number>(1);
   const [guessLst, setGuessLst] = useState<string[]>([]);
   const [showInstruct, setShowInstruct] = useState<boolean>(true);
   const [showAlert, setShowAlert] = useState<boolean>(false);
+
+  const onGetHint = () => {
+    // pick a random hint and then check if the set has the hint
+    // if the hint exists in the set then pick a new hints
+    const newHint = UseGetHint(synonymSet, data[0]?.meta?.syns[0]?.length);
+    setSynos((prevState) => [...prevState, data[0]?.meta?.syns[0][newHint]]);
+    setNumGuess((prev) => prev + 1);
+
+    if (numGuess === 6) {
+      setGameState(true);
+    }
+  };
+
   const onGuess = (e: any) => {
     e.preventDefault();
 
@@ -61,6 +80,7 @@ const Home: NextPage<Props> = ({ data }) => {
     if (myGuess === secretWord) {
       setNumGuess((prev) => prev + 1);
       setWinState(true);
+      setGameState(true);
     } else {
       setNumGuess((prev) => prev + 1);
       setGuessLst((prevLst) => [...prevLst, myGuess]);
@@ -81,12 +101,12 @@ const Home: NextPage<Props> = ({ data }) => {
       </header>
 
       <main className={styles.GuesserCon}>
-        {gameState || winState ? (
+        {gameState ? (
           <EndGame
             secretWord={secretWord}
-            numGuesses={numGuess - 1}
             def={data[0].shortdef}
             winState={winState}
+            myGuesses={guessLst}
           />
         ) : (
           <>
@@ -114,13 +134,18 @@ const Home: NextPage<Props> = ({ data }) => {
                 className={styles.guessingForm__text_field}
                 onChange={(e) => setMyGuess(e.target.value)}
                 placeholder="enter a word"
+                autoFocus={true}
               />
             </form>
+            <section className={styles.Hints}>
+              <button className={styles.Hints_btn} onClick={() => onGetHint()}>
+                Hint
+              </button>
+            </section>
           </>
         )}
-
-        {showAlert && <Alert />}
       </main>
+      {showAlert && <Alert />}
 
       {showInstruct && (
         <InstructionModal onToggle={() => setShowInstruct(false)} />

@@ -5,9 +5,9 @@ import { endgameProps } from "../utils/types/projectTypes";
 
 const EndGame: FC<endgameProps> = ({
   secretWord,
-  numGuesses,
   def,
   winState,
+  myGuesses,
 }) => {
   return (
     <>
@@ -25,7 +25,12 @@ const EndGame: FC<endgameProps> = ({
             </p>
           ))}
         </div>
-        <p className={styles.EndGame__guessnum}> Guesses: {numGuesses}</p>
+        <p className={styles.EndGame__guessnum}> Guesses: {myGuesses.length}</p>
+        <div className={styles.MyGuessCon}>
+          {myGuesses.map((guess, index) => (
+            <p key={index}>{guess}</p>
+          ))}
+        </div>
       </section>
     </>
   );
