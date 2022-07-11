@@ -114,6 +114,7 @@ const Home: NextPage<Props> = ({ data }) => {
                 className={styles.guessingForm__text_field}
                 onChange={(e) => setMyGuess(e.target.value)}
                 placeholder="enter a word"
+                autoFocus={true}
               />
             </form>
           </>
