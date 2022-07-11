@@ -42,11 +42,13 @@ const Home: NextPage<Props> = ({ data }) => {
   const [guessLst, setGuessLst] = useState<string[]>([]);
   const [showInstruct, setShowInstruct] = useState<boolean>(true);
   const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [synonymSetState, setSynonymSetState] = useState(synonymSet);
 
   const onGetHint = () => {
     // pick a random hint and then check if the set has the hint
     // if the hint exists in the set then pick a new hints
-    const newHint = UseGetHint(synonymSet, data[0]?.meta?.syns[0]?.length);
+    const newHint = UseGetHint(synonymSetState, data[0]?.meta?.syns[0]?.length);
+    setSynonymSetState(synonymSetState.add(newHint));
     setSynos((prevState) => [...prevState, data[0]?.meta?.syns[0][newHint]]);
     setNumGuess((prev) => prev + 1);
 
