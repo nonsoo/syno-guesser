@@ -25,6 +25,7 @@
 
 .syno {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 1em;
 }
@@ -87,6 +88,21 @@
   text-align: center;
   text-transform: uppercase;
   font-weight: var(--fw-sec);
+}
+
+.Hints {
+  display: flex;
+  justify-content: flex-end;
+
+  margin-top: 1.55em;
+}
+
+.Hints_btn {
+  border: none;
+  border-radius: 10px;
+  padding: 0.5em 3.25em;
+
+  cursor: pointer;
 }
 
 @media screen and (min-width: 800px) {
