@@ -3,6 +3,7 @@ export interface endgameProps {
   numGuesses: number;
   def: string[];
   winState: boolean;
+  myGuesses: string[];
 }
 
 type synonyms = string[];

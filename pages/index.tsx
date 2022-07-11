@@ -87,6 +87,7 @@ const Home: NextPage<Props> = ({ data }) => {
             numGuesses={numGuess - 1}
             def={data[0].shortdef}
             winState={winState}
+            myGuesses={guessLst}
           />
         ) : (
           <>

@@ -8,6 +8,7 @@ const EndGame: FC<endgameProps> = ({
   numGuesses,
   def,
   winState,
+  myGuesses,
 }) => {
   return (
     <>
@@ -26,6 +27,11 @@ const EndGame: FC<endgameProps> = ({
           ))}
         </div>
         <p className={styles.EndGame__guessnum}> Guesses: {numGuesses}</p>
+        <div className={styles.MyGuessCon}>
+          {myGuesses.map((guess, index) => (
+            <p key={index}>{guess}</p>
+          ))}
+        </div>
       </section>
     </>
   );
