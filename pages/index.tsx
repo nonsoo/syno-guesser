@@ -26,15 +26,6 @@ const Home: NextPage<Props> = ({ data }) => {
   synonymSet.add(Math.ceil(data[0]?.meta.syns[0]?.length / 2));
   synonymSet.add(data[0]?.meta.syns[0]?.length - 1);
 
-  // const synos =
-  //   data[0]?.meta?.syns[0]?.length > 3
-  //     ? [
-  //         data[0]?.meta?.syns[0][0],
-  //         data[0]?.meta?.syns[0][Math.ceil(data[0]?.meta.syns[0]?.length / 2)],
-  //         data[0]?.meta?.syns[0][data[0]?.meta.syns[0]?.length - 1],
-  //       ]
-  //     : data[0].meta.syns[0];
-
   const [myGuess, setMyGuess] = useState<string>("");
   const [synos, setSynos] = useState<string[]>(
     data[0]?.meta?.syns[0]?.length > 3
@@ -62,20 +53,6 @@ const Home: NextPage<Props> = ({ data }) => {
     if (numGuess === 6) {
       setGameState(true);
     }
-    // synos.push(data[0]?.meta?.syns[0][newHint]);
-    // let newHint = false;
-    // let randomHint: number | undefined;
-    // while (!newHint) {
-    //   randomHint = Math.floor(Math.random() * data[0]?.meta?.syns[0]?.length);
-
-    //   //if new hint not in set then add new hint to set and return the new hint
-
-    //   if (!synonymSet.has(randomHint)) {
-    //     synonymSet.add(randomHint);
-    //     newHint = false;
-    //   }
-    // }
-    // return randomHint;
   };
 
   const onGuess = (e: any) => {
