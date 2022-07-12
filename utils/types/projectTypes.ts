@@ -1,7 +1,6 @@
 export interface endgameProps {
   secretWord: string;
 
-  def: string[];
   winState: boolean;
   myGuesses: string[];
 }

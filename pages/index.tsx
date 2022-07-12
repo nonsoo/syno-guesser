@@ -110,7 +110,6 @@ const Home: NextPage<Props> = ({ data }) => {
         {gameState ? (
           <EndGame
             secretWord={secretWord}
-            def={data[0].shortdef}
             winState={winState}
             myGuesses={guessLst}
           />
