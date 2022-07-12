@@ -42,4 +42,6 @@ body {
 
   font-family: var(--ff-prmy);
   font-weight: var(--fw-prmy);
+
+  background-color: #f9f8fa;
 }
