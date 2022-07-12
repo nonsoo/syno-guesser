@@ -47,6 +47,7 @@ const Home: NextPage<Props> = ({ data }) => {
   const onGetHint = () => {
     // pick a random hint and then check if the set has the hint
     // if the hint exists in the set then pick a new hints
+    if (synonymSetState.size === data[0]?.meta?.syns[0]?.length) return;
     const newHint = UseGetHint(synonymSetState, data[0]?.meta?.syns[0]?.length);
     setSynonymSetState(synonymSetState.add(newHint));
     setSynos((prevState) => [...prevState, data[0]?.meta?.syns[0][newHint]]);
