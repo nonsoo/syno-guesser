@@ -14,6 +14,7 @@ import styles from "../styles/Home.module.css";
 import EndGame from "../Components/EndGame";
 import InstructionModal from "../Components/Instruc";
 import Alert from "../Components/Alert";
+import Synonyms from "../Components/Synonyms";
 interface Props {
   data: resData[];
 }
@@ -112,16 +113,12 @@ const Home: NextPage<Props> = ({ data }) => {
             secretWord={secretWord}
             winState={winState}
             myGuesses={guessLst}
-          />
+          >
+            <Synonyms synos={synos} />
+          </EndGame>
         ) : (
           <>
-            <section className={styles.syno}>
-              {synos.map((syno, index) => (
-                <p key={index} className={styles.syno__item}>
-                  {syno}
-                </p>
-              ))}
-            </section>
+            <Synonyms synos={synos} />
 
             <section className={styles.GuessedWords}>
               {guessLst.map((word, index) => (
