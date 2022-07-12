@@ -129,19 +129,22 @@ const Home: NextPage<Props> = ({ data }) => {
             </section>
 
             <form className={styles.guessingForm} onSubmit={onGuess}>
+              <label htmlFor="myGuess" className={styles.guessingLabel}>
+                Enter a word
+              </label>
               <input
                 type="text"
                 value={myGuess}
                 maxLength={20}
+                id="myGuess"
                 className={styles.guessingForm__text_field}
                 onChange={(e) => setMyGuess(e.target.value)}
-                placeholder="enter a word"
                 autoFocus={true}
               />
             </form>
             <section className={styles.Hints}>
               <button className={styles.Hints_btn} onClick={() => onGetHint()}>
-                Hint
+                New Hint
               </button>
             </section>
           </>
