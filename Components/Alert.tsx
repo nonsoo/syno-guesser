@@ -7,7 +7,7 @@ const Alert: FC = () => {
   return (
     <section className={styles.Alert}>
       <MdOutlineErrorOutline className={styles.Alert__Icon} />
-      <p className={styles.Alert__Name}>Word not found</p>
+      <p className={styles.Alert__Name}>Not in word list</p>
     </section>
   );
 };
