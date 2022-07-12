@@ -1,9 +1,10 @@
+import { ReactNode } from "react";
 export interface endgameProps {
   secretWord: string;
 
-  def: string[];
   winState: boolean;
   myGuesses: string[];
+  children: ReactNode;
 }
 
 type synonyms = string[];
