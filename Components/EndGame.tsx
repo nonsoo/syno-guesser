@@ -12,7 +12,15 @@ const EndGame: FC<endgameProps> = ({
   return (
     <>
       {winState ? (
-        <p className={styles.WinState}>Winner!!!</p>
+        <div className={styles.WinState}>
+          <p className={styles.WinState_letter}>w</p>
+          <p className={styles.WinState_letter}>i</p>
+          <p className={styles.WinState_letter}>n</p>
+          <p className={styles.WinState_letter}>n</p>
+          <p className={styles.WinState_letter}>e</p>
+          <p className={styles.WinState_letter}>r</p>
+          <p className={styles.WinState_letter}>!</p>
+        </div>
       ) : (
         <p className={styles.WinState}>Better luck next time!</p>
       )}
