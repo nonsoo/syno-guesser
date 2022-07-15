@@ -26,11 +26,12 @@ select {
 :root {
   /* FONTS */
   --ff-prmy: "Open Sans", sans-serif;
+  --ff-sec: "Barlow", sans-serif;
 
   --fs-prmy: 1rem;
-  --fs-sec: 1.25rem;
-  --fs-tri: 1.75;
-  --fs-four: 2rem;
+  --fs-sec: 1.1rem;
+  --fs-tri: 1.25rem;
+  --fs-four: 1.5rem;
 
   --fw-prmy: 500;
   --fw-sec: 700;
@@ -41,6 +42,7 @@ select {
 
   --col-background-prmy: hsl(270, 17%, 98%);
   --col-background-sec: hsl(0, 0%, 100%);
+  --col-background-tri: hsl(240, 9%, 91%);
 
   /* box Shadows */
   --box-shadow: 18px 14px 33px -7px rgba(0, 0, 0, 0.07);
@@ -58,4 +60,13 @@ body {
   font-weight: var(--fw-prmy);
 
   background-color: var(--col-background-prmy);
+}
+
+@media screen and (min-width: 800px) {
+  :root {
+    --fs-prmy: 1rem;
+    --fs-sec: 1.25rem;
+    --fs-tri: 1.75rem;
+    --fs-four: 2rem;
+  }
 }

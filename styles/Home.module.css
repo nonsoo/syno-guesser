@@ -6,8 +6,27 @@
 
 .HeaderCon {
   width: 100%;
+  padding: 0.55em 1em;
 
+  background-color: var(--col-background-sec);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.HeaderTitle {
+  font-family: var(--ff-sec);
   text-align: center;
+  text-transform: uppercase;
+
+  flex: 1;
+}
+
+.HeaderIcon {
+  font-size: 1.5rem;
+
+  cursor: pointer;
 }
 .GuesserCon {
   margin: 0 auto;
@@ -45,7 +64,7 @@
   margin: 0 auto;
   margin-top: 4em;
   width: 100%;
-  height: 200px;
+  height: 100px;
 
   overflow-y: scroll;
 
@@ -91,12 +110,14 @@
 
   border: none;
   border-radius: 10px;
-  box-shadow: 18px 14px 33px -7px rgba(0, 0, 0, 0.07);
+  box-shadow: var(--box-shadow);
 
   font-size: var(--fs-four);
   text-align: center;
   text-transform: uppercase;
   font-weight: var(--fw-sec);
+
+  background-color: var(--col-background-tri);
 }
 
 .Hints {
@@ -121,6 +142,10 @@
   }
   .guessingForm__text_field {
     width: 70%;
+  }
+
+  .GuessedWords {
+    height: 200px;
   }
 }
 

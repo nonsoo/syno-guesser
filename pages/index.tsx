@@ -2,6 +2,8 @@ import type { NextPage, GetServerSideProps } from "next";
 import { useState } from "react";
 import Head from "next/head";
 
+import { AiFillBook } from "react-icons/ai";
+
 import { resData } from "../utils/types/projectTypes";
 import WordLst from "../wordlist.json";
 import axios from "axios";
@@ -104,7 +106,11 @@ const Home: NextPage<Props> = ({ data }) => {
       </Head>
 
       <header className={styles.HeaderCon}>
-        <h1>Clueless Words</h1>
+        <h1 className={styles.HeaderTitle}>Clueless Words</h1>
+        <AiFillBook
+          className={styles.HeaderIcon}
+          onClick={() => setShowInstruct((prev) => !prev)}
+        />
       </header>
 
       <main className={styles.GuesserCon}>
