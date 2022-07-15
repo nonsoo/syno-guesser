@@ -20,7 +20,7 @@
   text-align: center;
   text-transform: uppercase;
 
-  flex: 1;
+  /* flex: 1; */
 }
 
 .HeaderIcon {
@@ -137,6 +137,9 @@
 }
 
 @media screen and (min-width: 800px) {
+  .HeaderTitle {
+    flex: 1;
+  }
   .guessingForm {
     margin-top: 4em;
   }

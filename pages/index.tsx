@@ -2,7 +2,7 @@ import type { NextPage, GetServerSideProps } from "next";
 import { useState } from "react";
 import Head from "next/head";
 
-import { AiFillBook } from "react-icons/ai";
+import { BsBookHalf } from "react-icons/bs";
 
 import { resData } from "../utils/types/projectTypes";
 import WordLst from "../wordlist.json";
@@ -107,7 +107,7 @@ const Home: NextPage<Props> = ({ data }) => {
 
       <header className={styles.HeaderCon}>
         <h1 className={styles.HeaderTitle}>Clueless Words</h1>
-        <AiFillBook
+        <BsBookHalf
           className={styles.HeaderIcon}
           onClick={() => setShowInstruct((prev) => !prev)}
         />
