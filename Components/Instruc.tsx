@@ -1,5 +1,8 @@
 import { FC } from "react";
 import styles from "../styles/Instructions.module.css";
+import Image from "next/image";
+
+import Instruc_Img from "../public/example.png";
 
 import { IoClose } from "react-icons/io5";
 
@@ -13,16 +16,20 @@ const Instruc: FC<Props> = ({ onToggle }) => {
       <section className={styles.Modal}>
         <IoClose className={styles.Modal__closeBtn} onClick={onToggle} />
 
-        <p className={styles.Modal__Title}>Clueless Words</p>
+        <p className={styles.Modal__Title}>How to play</p>
         <div className={styles.ModalTextCon}>
           <p className={styles.Modal__Text}>
-            Given 3 synonyms to a word, can you guess the secret word? Try your
-            luck because you have only 6 tries!
+            Use the <span>CLUELESS WORDS</span> to guess the{" "}
+            <span>secret word</span> in only 6 tries! Clueless words are{" "}
+            <span>synonyms</span> to the secret word.
           </p>
           <p className={styles.Modal__Text}>
-            The wrong guesses will go into the guess bucket and the guesses that
-            are close to the secret word will turn a warm colour.
+            Wrong guesses will show up in the guess bucket! Use a hint to get a
+            new synonym! But be careful because each hint uses a guess.
           </p>
+
+          <Image src={Instruc_Img} alt="How to play the game" width={900} />
+
           <p className={styles.Modal__Text}>
             A new word will be available each day!
           </p>

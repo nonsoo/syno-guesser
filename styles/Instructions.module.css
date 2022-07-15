@@ -54,6 +54,10 @@
   text-align: center;
 }
 
+.Modal__Text span {
+  font-weight: var(--fw-sec);
+}
+
 .Modal__Text:last-child {
   font-weight: var(--fw-sec);
   font-size: 1.15rem;
@@ -69,6 +73,10 @@
 }
 
 @media screen and (min-width: 800px) {
+  .ModalBackground {
+    display: grid;
+    place-items: center;
+  }
   .Modal__Text {
     text-align: left;
   }
