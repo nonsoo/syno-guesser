@@ -13,7 +13,7 @@ const Instruc: FC<Props> = ({ onToggle }) => {
       <section className={styles.Modal}>
         <IoClose className={styles.Modal__closeBtn} onClick={onToggle} />
 
-        <p className={styles.Modal__Title}>The Sinna-mon Challenge</p>
+        <p className={styles.Modal__Title}>Clueless Words</p>
         <div className={styles.ModalTextCon}>
           <p className={styles.Modal__Text}>
             Given 3 synonyms to a word, can you guess the secret word? Try your
