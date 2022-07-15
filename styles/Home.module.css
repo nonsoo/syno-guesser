@@ -18,8 +18,8 @@
   max-width: 600px;
 
   padding: 1rem;
-  background-color: white;
-  box-shadow: 18px 14px 33px -7px rgba(0, 0, 0, 0.07);
+  background-color: var(--col-background-sec);
+  box-shadow: var(--box-shadow);
   border-radius: 10px;
 }
 
@@ -33,9 +33,9 @@
 .syno__item {
   padding: 1em;
   text-align: center;
-  background-color: #fff;
+  background-color: var(--col-background-sec);
   border-radius: 10px;
-  box-shadow: 18px 14px 33px -7px rgba(0, 0, 0, 0.07);
+  box-shadow: var(--box-shadow);
 
   width: max-content;
 }
@@ -58,9 +58,9 @@
 .GuessedWords__word {
   padding: 1em;
   text-align: center;
-  background-color: #fff;
+  background-color: var(--col-background-sec);
   border-radius: 10px;
-  box-shadow: 18px 14px 33px -7px rgba(0, 0, 0, 0.07);
+  box-shadow: var(--box-shadow);
 
   width: max-content;
 
@@ -70,7 +70,7 @@
 }
 
 .guessingForm {
-  margin-top: 4em;
+  margin-top: 2em;
 
   display: flex;
   flex-direction: column;
@@ -80,7 +80,7 @@
 }
 
 .guessingLabel {
-  font-size: 1.25rem;
+  font-size: var(--fs-sec);
   font-weight: var(--fw-sec);
 
   cursor: pointer;
@@ -93,7 +93,7 @@
   border-radius: 10px;
   box-shadow: 18px 14px 33px -7px rgba(0, 0, 0, 0.07);
 
-  font-size: 2rem;
+  font-size: var(--fs-four);
   text-align: center;
   text-transform: uppercase;
   font-weight: var(--fw-sec);
@@ -116,6 +116,9 @@
 }
 
 @media screen and (min-width: 800px) {
+  .guessingForm {
+    margin-top: 4em;
+  }
   .guessingForm__text_field {
     width: 70%;
   }
