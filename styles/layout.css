@@ -37,11 +37,14 @@ select {
   --fw-sec: 700;
 
   /* COLOURS */
-  --col-text-prmy: hsl(0, 100%, 72%);
-  --col-text-sec: hsl(53, 100%, 79%);
+  --col-text-prmy: hsl(0, 0%, 100%);
+
   --col-background-prmy: hsl(270, 17%, 98%);
   --col-background-sec: hsl(0, 0%, 100%);
   --col-background-tri: hsl(240, 9%, 91%);
+
+  --col-acc-prmy: hsl(0, 84%, 68%);
+  --col-acc-sec: hsl(111, 32%, 38%);
 
   /* box Shadows */
   --box-shadow: 18px 14px 33px -7px rgba(0, 0, 0, 0.07);
