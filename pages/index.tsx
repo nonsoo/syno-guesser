@@ -95,7 +95,7 @@ const Home: NextPage<Props> = ({ data }) => {
   return (
     <div className={styles.mainContent}>
       <Head>
-        <title>Sinnamons Challenge</title>
+        <title>Clueless Words</title>
         <meta
           name="description"
           content="The word game that puzzles your mind with multiple words for the same/similar meaning"
@@ -104,7 +104,7 @@ const Home: NextPage<Props> = ({ data }) => {
       </Head>
 
       <header className={styles.HeaderCon}>
-        <h1>The Sinna-mon Challenge</h1>
+        <h1>Clueless Words</h1>
       </header>
 
       <main className={styles.GuesserCon}>
