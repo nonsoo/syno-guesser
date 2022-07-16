@@ -182,7 +182,7 @@ const Home: NextPage<Props> = ({ data }) => {
       </main>
       {showAlert && <Alert />}
 
-      {!gameState && showInstruct && (
+      {showInstruct && (
         <InstructionModal onToggle={() => setShowInstruct(false)} />
       )}
     </div>
