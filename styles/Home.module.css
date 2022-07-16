@@ -30,7 +30,7 @@
 }
 .GuesserCon {
   margin: 0 auto;
-  margin-top: 4em;
+  margin-top: 2em;
 
   /* border: 1px solid black; */
 
@@ -77,9 +77,12 @@
 .GuessedWords__word {
   padding: 1em;
   text-align: center;
-  background-color: var(--col-background-sec);
+  background-color: var(--col-acc-prmy);
   border-radius: 10px;
   box-shadow: var(--box-shadow);
+
+  font-weight: var(--fw-sec);
+  color: var(--col-text-prmy);
 
   width: max-content;
 

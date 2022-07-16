@@ -21,7 +21,7 @@
   font-weight: var(--fw-sec);
 
   display: flex;
-  gap: 0.25em;
+  gap: 0.15em;
   justify-content: center;
 }
 
@@ -34,7 +34,8 @@
 
   border-radius: 5px;
 
-  background-color: var(--col-text-sec);
+  background-color: var(--col-acc-sec);
+  color: var(--col-text-prmy);
 }
 
 .EndGame__Secret {
