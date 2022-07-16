@@ -1,5 +1,5 @@
 import type { NextPage, GetServerSideProps } from "next";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 
 import { BsBookHalf } from "react-icons/bs";
@@ -10,6 +10,10 @@ import axios from "axios";
 
 import UseAlert from "../utils/hooks/useAlert";
 import UseGetHint from "../utils/hooks/useGetHint";
+import {
+  loadGameStateFromLocalStorage,
+  saveGameStateToLocalStorage,
+} from "../utils/helpers/saveGame";
 
 import styles from "../styles/Home.module.css";
 
@@ -22,7 +26,7 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ data }) => {
-  const secretWord = data[0]?.meta?.id;
+  // let secretWord = data[0]?.meta?.id;
 
   const synonymSet: Set<number> = new Set();
   synonymSet.add(0);
@@ -39,6 +43,7 @@ const Home: NextPage<Props> = ({ data }) => {
         ]
       : data[0].meta.syns[0]
   );
+  const [secretWord, setSecretWord] = useState<string>(data[0]?.meta?.id);
   const [winState, setWinState] = useState<boolean>(false);
   const [gameState, setGameState] = useState<boolean>(false);
   const [numGuess, setNumGuess] = useState<number>(1);
@@ -46,6 +51,18 @@ const Home: NextPage<Props> = ({ data }) => {
   const [showInstruct, setShowInstruct] = useState<boolean>(true);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [synonymSetState, setSynonymSetState] = useState(synonymSet);
+
+  useEffect(() => {
+    const localSavedState = loadGameStateFromLocalStorage();
+    if (localSavedState) {
+      console.log("loading from local");
+      setSecretWord(localSavedState.secretWord);
+      setWinState(localSavedState.winState);
+      setGuessLst(localSavedState.myGuesses);
+      setSynos(localSavedState.synonyms);
+      setGameState(localSavedState.gameState);
+    }
+  }, []);
 
   const onGetHint = () => {
     // pick a random hint and then check if the set has the hint
@@ -81,6 +98,13 @@ const Home: NextPage<Props> = ({ data }) => {
 
     if (numGuess === 6) {
       setGameState(true);
+      saveGameStateToLocalStorage({
+        secretWord: secretWord,
+        winState: winState,
+        myGuesses: guessLst,
+        synonyms: synos,
+        gameState: true,
+      });
     }
 
     if (myGuess === secretWord) {
@@ -158,7 +182,7 @@ const Home: NextPage<Props> = ({ data }) => {
       </main>
       {showAlert && <Alert />}
 
-      {showInstruct && (
+      {!gameState && showInstruct && (
         <InstructionModal onToggle={() => setShowInstruct(false)} />
       )}
     </div>
