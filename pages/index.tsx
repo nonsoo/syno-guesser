@@ -55,12 +55,12 @@ const Home: NextPage<Props> = ({ data }) => {
   useEffect(() => {
     const localSavedState = loadGameStateFromLocalStorage();
     if (localSavedState) {
-      console.log("loading from local");
       setSecretWord(localSavedState.secretWord);
       setWinState(localSavedState.winState);
       setGuessLst(localSavedState.myGuesses);
       setSynos(localSavedState.synonyms);
       setGameState(localSavedState.gameState);
+      setShowInstruct(false);
     }
   }, []);
 
