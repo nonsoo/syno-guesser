@@ -33,4 +33,5 @@ export interface StoredGameState {
   gameState: boolean;
   myGuesses: string[];
   synonyms: string[];
+  myLives: number;
 }

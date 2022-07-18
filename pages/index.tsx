@@ -63,6 +63,7 @@ const Home: NextPage<Props> = ({ data }) => {
       setGuessLst(localSavedState.myGuesses);
       setSynos(localSavedState.synonyms);
       setGameState(localSavedState.gameState);
+      setMyLives(localSavedState.myLives);
       setShowInstruct(false);
     }
   }, []);
@@ -109,6 +110,7 @@ const Home: NextPage<Props> = ({ data }) => {
         myGuesses: guessLst,
         synonyms: synos,
         gameState: true,
+        myLives: myLives,
       });
     }
 
