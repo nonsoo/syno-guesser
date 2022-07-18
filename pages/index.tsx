@@ -17,6 +17,7 @@ import EndGame from "../Components/EndGame";
 import InstructionModal from "../Components/Instruc";
 import Alert from "../Components/Alert";
 import Synonyms from "../Components/Synonyms";
+import MyLives from "../Components/myLives";
 interface Props {
   data: resData[];
 }
@@ -127,6 +128,7 @@ const Home: NextPage<Props> = ({ data }) => {
             myGuesses={guessLst}
           >
             <Synonyms synos={synos} />
+            <MyLives numLives={myLives} />
           </EndGame>
         ) : (
           <>
@@ -155,11 +157,7 @@ const Home: NextPage<Props> = ({ data }) => {
               />
             </form>
             <section className={styles.Hints}>
-              <div className={styles.Hints__LivesCon}>
-                {[...Array(myLives)].map((e, index) => (
-                  <div key={index} className={styles.myLives}></div>
-                ))}
-              </div>
+              <MyLives numLives={myLives} />
 
               <button className={styles.Hints_btn} onClick={() => onGetHint()}>
                 New Hint
@@ -181,6 +179,7 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const randomWord = Math.floor(Math.random() * WordLst.length);
+  console.log(WordLst[randomWord]);
 
   const resData = await axios.get(
     `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${WordLst[randomWord]}?key=${process.env.DICT_API_KEY}`
