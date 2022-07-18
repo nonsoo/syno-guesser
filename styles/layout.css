@@ -45,6 +45,7 @@ select {
 
   --col-acc-prmy: hsl(0, 84%, 68%);
   --col-acc-sec: hsl(111, 32%, 38%);
+  --col-acc-tri: hsl(54, 85%, 74%);
 
   /* box Shadows */
   --box-shadow: 18px 14px 33px -7px rgba(0, 0, 0, 0.07);
