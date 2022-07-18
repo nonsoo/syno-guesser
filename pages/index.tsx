@@ -17,12 +17,14 @@ import EndGame from "../Components/EndGame";
 import InstructionModal from "../Components/Instruc";
 import Alert from "../Components/Alert";
 import Synonyms from "../Components/Synonyms";
+import MyLives from "../Components/myLives";
 interface Props {
   data: resData[];
 }
 
 const Home: NextPage<Props> = ({ data }) => {
   const secretWord = data[0]?.meta?.id;
+  const totalGuessAllowed: number = 6;
 
   const synonymSet: Set<number> = new Set();
   synonymSet.add(0);
@@ -47,6 +49,8 @@ const Home: NextPage<Props> = ({ data }) => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [synonymSetState, setSynonymSetState] = useState(synonymSet);
 
+  const [myLives, setMyLives] = useState(totalGuessAllowed);
+
   const onGetHint = () => {
     // pick a random hint and then check if the set has the hint
     // if the hint exists in the set then pick a new hints
@@ -55,8 +59,9 @@ const Home: NextPage<Props> = ({ data }) => {
     setSynonymSetState(synonymSetState.add(newHint));
     setSynos((prevState) => [...prevState, data[0]?.meta?.syns[0][newHint]]);
     setNumGuess((prev) => prev + 1);
+    setMyLives((prev) => prev - 1);
 
-    if (numGuess === 6) {
+    if (numGuess === totalGuessAllowed) {
       setGameState(true);
     }
   };
@@ -79,7 +84,7 @@ const Home: NextPage<Props> = ({ data }) => {
     // if not check if the guess is equal to the secret word and add it to
     // the list of guesses.
 
-    if (numGuess === 6) {
+    if (numGuess === totalGuessAllowed) {
       setGameState(true);
     }
 
@@ -91,6 +96,8 @@ const Home: NextPage<Props> = ({ data }) => {
       setNumGuess((prev) => prev + 1);
       setGuessLst((prevLst) => [...prevLst, myGuess]);
       setMyGuess("");
+
+      setMyLives((prev) => prev - 1);
     }
   };
 
@@ -121,6 +128,7 @@ const Home: NextPage<Props> = ({ data }) => {
             myGuesses={guessLst}
           >
             <Synonyms synos={synos} />
+            <MyLives numLives={myLives} />
           </EndGame>
         ) : (
           <>
@@ -149,6 +157,8 @@ const Home: NextPage<Props> = ({ data }) => {
               />
             </form>
             <section className={styles.Hints}>
+              <MyLives numLives={myLives} />
+
               <button className={styles.Hints_btn} onClick={() => onGetHint()}>
                 New Hint
               </button>
