@@ -179,7 +179,6 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const randomWord = Math.floor(Math.random() * WordLst.length);
-  console.log(WordLst[randomWord]);
 
   const resData = await axios.get(
     `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${WordLst[randomWord]}?key=${process.env.DICT_API_KEY}`
