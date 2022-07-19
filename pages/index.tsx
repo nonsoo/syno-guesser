@@ -43,13 +43,11 @@ const Home: NextPage<Props> = ({ data }) => {
   );
   const [winState, setWinState] = useState<boolean>(false);
   const [gameState, setGameState] = useState<boolean>(false);
-  const [numGuess, setNumGuess] = useState<number>(1);
+  const [myLives, setMyLives] = useState(totalGuessAllowed);
   const [guessLst, setGuessLst] = useState<string[]>([]);
   const [showInstruct, setShowInstruct] = useState<boolean>(true);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [synonymSetState, setSynonymSetState] = useState(synonymSet);
-
-  const [myLives, setMyLives] = useState(totalGuessAllowed);
 
   const onGetHint = () => {
     // pick a random hint and then check if the set has the hint
@@ -58,10 +56,9 @@ const Home: NextPage<Props> = ({ data }) => {
     const newHint = UseGetHint(synonymSetState, data[0]?.meta?.syns[0]?.length);
     setSynonymSetState(synonymSetState.add(newHint));
     setSynos((prevState) => [...prevState, data[0]?.meta?.syns[0][newHint]]);
-    setNumGuess((prev) => prev + 1);
     setMyLives((prev) => prev - 1);
 
-    if (numGuess === totalGuessAllowed) {
+    if (myLives === 1) {
       setGameState(true);
     }
   };
@@ -84,19 +81,16 @@ const Home: NextPage<Props> = ({ data }) => {
     // if not check if the guess is equal to the secret word and add it to
     // the list of guesses.
 
-    if (numGuess === totalGuessAllowed) {
+    if (myLives === 1) {
       setGameState(true);
     }
 
     if (myGuess === secretWord) {
-      setNumGuess((prev) => prev + 1);
       setWinState(true);
       setGameState(true);
     } else {
-      setNumGuess((prev) => prev + 1);
       setGuessLst((prevLst) => [...prevLst, myGuess]);
       setMyGuess("");
-
       setMyLives((prev) => prev - 1);
     }
   };
