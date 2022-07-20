@@ -1,9 +1,6 @@
 import WordLst from "../../wordlist.json";
-import moment from "moment";
 
-const date = moment("20111031", "YYYYMMDD").fromNow();
-
-const getTodaysWord = () => {
+const getTodaysWord = (): string => {
   // calculate todays date in days and then have an offest value
   // The day are going to be used in index the wordLst, therefore,
   // everyday a new word is going to be selected from the word list
@@ -13,10 +10,17 @@ const getTodaysWord = () => {
   // then create an offset value so that the index starts at 0
   // and then index the word lst for that specific index to get the
   // word for the day and then return that from this function
-  const day: Date = new Date();
-  const todaysDate: number = day.getDate();
 
-  console.log(todaysDate);
+  const baseLineDay = new Date("July 19, 2022 00:00:00");
+  const todaysDate = new Date();
+
+  const indexArray: number = Math.floor(
+    todaysDate.valueOf() - baseLineDay.valueOf()
+  );
+
+  const todaysWord = WordLst[indexArray];
+
+  return todaysWord;
 };
 
 export default getTodaysWord;
