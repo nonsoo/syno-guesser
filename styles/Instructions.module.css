@@ -52,6 +52,7 @@
 
 .Modal__Text {
   text-align: center;
+  align-self: center;
 }
 
 .Modal__Text span {
