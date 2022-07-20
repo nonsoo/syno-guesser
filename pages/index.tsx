@@ -10,6 +10,7 @@ import axios from "axios";
 
 import UseAlert from "../utils/hooks/useAlert";
 import UseGetHint from "../utils/hooks/useGetHint";
+import getWordOftheDay from "../utils/helpers/newDay";
 
 import styles from "../styles/Home.module.css";
 
@@ -20,10 +21,11 @@ import Synonyms from "../Components/Synonyms";
 import MyLives from "../Components/myLives";
 interface Props {
   data: resData[];
+  wordOfDay: string;
 }
 
-const Home: NextPage<Props> = ({ data }) => {
-  const secretWord = data[0]?.meta?.id;
+const Home: NextPage<Props> = ({ data, wordOfDay }) => {
+  const secretWord = wordOfDay;
   const totalGuessAllowed: number = 6;
 
   const synonymSet: Set<number> = new Set();
@@ -172,15 +174,15 @@ const Home: NextPage<Props> = ({ data }) => {
 export default Home;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const randomWord = Math.floor(Math.random() * WordLst.length);
+  const wordOfDay = getWordOftheDay();
 
   const resData = await axios.get(
-    `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${WordLst[randomWord]}?key=${process.env.DICT_API_KEY}`
+    `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${wordOfDay}?key=${process.env.DICT_API_KEY}`
   );
 
   const resp: resData[] = resData.data;
 
   return {
-    props: { data: resp },
+    props: { data: resp, wordOfDay },
   };
 };
