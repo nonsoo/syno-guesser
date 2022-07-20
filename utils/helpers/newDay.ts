@@ -1,5 +1,16 @@
 import WordLst from "../../wordlist.json";
 
+export const getOffsetDay = (currDate: Date): number => {
+  const baseLineDay = new Date("July 19, 2022 00:00:00");
+
+  const offSet: number = Math.floor(currDate.valueOf() - baseLineDay.valueOf());
+  const toDaysConverter = 24 * 60 * 60 * 1000;
+
+  const convertToDaysNumber = Math.floor(offSet / toDaysConverter);
+
+  return convertToDaysNumber;
+};
+
 const getTodaysWord = (): string => {
   // calculate todays date in days and then have an offest value
   // The day are going to be used in index the wordLst, therefore,
@@ -11,12 +22,8 @@ const getTodaysWord = (): string => {
   // and then index the word lst for that specific index to get the
   // word for the day and then return that from this function
 
-  const baseLineDay = new Date("July 19, 2022 00:00:00");
   const todaysDate = new Date();
-
-  const indexArray: number = Math.floor(
-    todaysDate.valueOf() - baseLineDay.valueOf()
-  );
+  const indexArray = getOffsetDay(todaysDate);
 
   const todaysWord = WordLst[indexArray];
 
