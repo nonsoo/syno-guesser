@@ -87,7 +87,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
       setGameState(true);
     }
 
-    if (myGuess === secretWord) {
+    if (myGuess.toLowerCase() === secretWord) {
       setWinState(true);
       setGameState(true);
     } else {
