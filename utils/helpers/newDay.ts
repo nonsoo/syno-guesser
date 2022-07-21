@@ -1,7 +1,7 @@
-import WordLst from "../../wordlist.json";
+import WordLst from "../../shufflewordLst.json";
 
 export const getOffsetDay = (currDate: Date): number => {
-  const baseLineDay = new Date("July 19, 2022 00:00:00");
+  const baseLineDay = new Date("July 19, 2022 04:00:00");
 
   const offSet: number = Math.floor(currDate.valueOf() - baseLineDay.valueOf());
   const toDaysConverter = 24 * 60 * 60 * 1000;

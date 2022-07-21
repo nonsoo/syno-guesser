@@ -87,7 +87,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
     //first check if the guess is empty or in the list of guesses
     if (myGuess === "") return;
 
-    if (!WordLst.includes(myGuess)) {
+    if (!WordLst.includes(myGuess.toLowerCase())) {
       setMyGuess("");
       setShowAlert(true);
       UseAlert(2500, () => setShowAlert(false));
@@ -111,7 +111,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
       });
     }
 
-    if (myGuess === secretWord) {
+    if (myGuess.toLowerCase() === secretWord) {
       setWinState(true);
       setGameState(true);
       saveGameStateToLocalStorage({
