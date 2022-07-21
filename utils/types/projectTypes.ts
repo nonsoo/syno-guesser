@@ -26,3 +26,13 @@ export interface resData {
   };
   shortdef: string[];
 }
+
+export interface StoredGameState {
+  secretWord: string;
+  winState: boolean;
+  gameState: boolean;
+  myGuesses: string[];
+  synonyms: string[];
+  myLives: number;
+  dayOfPlay: number;
+}

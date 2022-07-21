@@ -1,5 +1,5 @@
 import type { NextPage, GetServerSideProps } from "next";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 
 import { BsBookHalf } from "react-icons/bs";
@@ -10,7 +10,12 @@ import axios from "axios";
 
 import UseAlert from "../utils/hooks/useAlert";
 import UseGetHint from "../utils/hooks/useGetHint";
-import getWordOftheDay from "../utils/helpers/newDay";
+import {
+  loadGameStateFromLocalStorage,
+  saveGameStateToLocalStorage,
+  removeGameStateFromLocalStorage,
+} from "../utils/helpers/saveGame";
+import getWordOftheDay, { getOffsetDay } from "../utils/helpers/newDay";
 
 import styles from "../styles/Home.module.css";
 
@@ -25,9 +30,9 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ data, wordOfDay }) => {
-  const secretWord = wordOfDay;
+  const todaysDate = new Date();
+  const offsetDate = getOffsetDay(todaysDate);
   const totalGuessAllowed: number = 6;
-
   const synonymSet: Set<number> = new Set();
   synonymSet.add(0);
   synonymSet.add(Math.ceil(data[0]?.meta.syns[0]?.length / 2));
@@ -43,6 +48,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
         ]
       : data[0].meta.syns[0]
   );
+  const [secretWord, setSecretWord] = useState<string>(wordOfDay);
   const [winState, setWinState] = useState<boolean>(false);
   const [gameState, setGameState] = useState<boolean>(false);
   const [myLives, setMyLives] = useState(totalGuessAllowed);
@@ -50,6 +56,28 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
   const [showInstruct, setShowInstruct] = useState<boolean>(true);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [synonymSetState, setSynonymSetState] = useState(synonymSet);
+
+  useEffect(() => {
+    const localSavedState = loadGameStateFromLocalStorage();
+    if (localSavedState) {
+      setSecretWord(localSavedState.secretWord);
+      setWinState(localSavedState.winState);
+      setGuessLst(localSavedState.myGuesses);
+      setSynos(localSavedState.synonyms);
+      setGameState(localSavedState.gameState);
+      setMyLives(localSavedState.myLives);
+      setShowInstruct(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const localSavedState = loadGameStateFromLocalStorage();
+    const checkDate = new Date();
+    const offsetDate = getOffsetDay(checkDate);
+    if (offsetDate !== localSavedState?.dayOfPlay) {
+      removeGameStateFromLocalStorage();
+    }
+  }, []);
 
   const onGetHint = () => {
     // pick a random hint and then check if the set has the hint
@@ -85,11 +113,29 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
 
     if (myLives === 1) {
       setGameState(true);
+      saveGameStateToLocalStorage({
+        secretWord: secretWord,
+        winState: winState,
+        myGuesses: guessLst,
+        synonyms: synos,
+        gameState: true,
+        myLives: myLives,
+        dayOfPlay: offsetDate,
+      });
     }
 
     if (myGuess.toLowerCase() === secretWord) {
       setWinState(true);
       setGameState(true);
+      saveGameStateToLocalStorage({
+        secretWord: secretWord,
+        winState: true,
+        myGuesses: guessLst,
+        synonyms: synos,
+        gameState: true,
+        myLives: myLives,
+        dayOfPlay: offsetDate,
+      });
     } else {
       setGuessLst((prevLst) => [...prevLst, myGuess]);
       setMyGuess("");
