@@ -78,6 +78,13 @@
   margin-top: 1.2em;
 }
 
+.checkBack {
+  margin-top: 1rem;
+  font-weight: var(--fw-sec);
+  font-size: var(--fs-sec);
+  text-align: center;
+}
+
 @keyframes showModal {
   from {
     transform: translateY(50px);
