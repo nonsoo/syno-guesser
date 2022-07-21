@@ -6,7 +6,7 @@ export const getOffsetDay = (currDate: Date): number => {
   const offSet: number = Math.floor(currDate.valueOf() - baseLineDay.valueOf());
   const toDaysConverter = 24 * 60 * 60 * 1000;
 
-  const convertToDaysNumber = Math.floor(offSet / toDaysConverter);
+  const convertToDaysNumber = Math.abs(Math.floor(offSet / toDaysConverter));
 
   return convertToDaysNumber;
 };
