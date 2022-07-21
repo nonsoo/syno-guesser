@@ -94,3 +94,9 @@
     transform: translateY(0px);
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  .EndGame__Secret {
+    background-color: var(--col-background-prmy);
+  }
+}

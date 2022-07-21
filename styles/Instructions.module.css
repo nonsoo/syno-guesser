@@ -17,7 +17,7 @@
   min-width: 300px;
   /* height: 400px; */
 
-  background-color: #fff;
+  background-color: var(--col-background-prmy);
   border-radius: 10px;
 
   padding: 1.25em;
