@@ -5,7 +5,7 @@ import Head from "next/head";
 import { BsBookHalf } from "react-icons/bs";
 
 import { resData } from "../utils/types/projectTypes";
-import WordLst from "../wordlist.json";
+import wordSet from "../utils/helpers/createWordSet";
 import axios from "axios";
 
 import UseAlert from "../utils/hooks/useAlert";
@@ -99,7 +99,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
     //first check if the guess is empty or in the list of guesses
     if (myGuess === "") return;
 
-    if (!WordLst.includes(myGuess.toLowerCase())) {
+    if (!wordSet.has(myGuess.toLowerCase())) {
       setMyGuess("");
       setShowAlert(true);
       UseAlert(2500, () => setShowAlert(false));
