@@ -34,4 +34,5 @@ export interface StoredGameState {
   myGuesses: string[];
   synonyms: string[];
   myLives: number;
+  dayOfPlay: number;
 }

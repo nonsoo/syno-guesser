@@ -13,8 +13,9 @@ import UseGetHint from "../utils/hooks/useGetHint";
 import {
   loadGameStateFromLocalStorage,
   saveGameStateToLocalStorage,
+  removeGameStateFromLocalStorage,
 } from "../utils/helpers/saveGame";
-import getWordOftheDay from "../utils/helpers/newDay";
+import getWordOftheDay, { getOffsetDay } from "../utils/helpers/newDay";
 
 import styles from "../styles/Home.module.css";
 
@@ -29,6 +30,8 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ data, wordOfDay }) => {
+  const todaysDate = new Date();
+  const offsetDate = getOffsetDay(todaysDate);
   const totalGuessAllowed: number = 6;
   const synonymSet: Set<number> = new Set();
   synonymSet.add(0);
@@ -64,6 +67,15 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
       setGameState(localSavedState.gameState);
       setMyLives(localSavedState.myLives);
       setShowInstruct(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const localSavedState = loadGameStateFromLocalStorage();
+    const checkDate = new Date();
+    const offsetDate = getOffsetDay(checkDate);
+    if (offsetDate !== localSavedState?.dayOfPlay) {
+      removeGameStateFromLocalStorage();
     }
   }, []);
 
@@ -108,6 +120,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
         synonyms: synos,
         gameState: true,
         myLives: myLives,
+        dayOfPlay: offsetDate,
       });
     }
 
@@ -121,6 +134,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
         synonyms: synos,
         gameState: true,
         myLives: myLives,
+        dayOfPlay: offsetDate,
       });
     } else {
       setGuessLst((prevLst) => [...prevLst, myGuess]);
