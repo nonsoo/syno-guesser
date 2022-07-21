@@ -129,7 +129,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
       setGameState(true);
       saveGameStateToLocalStorage({
         secretWord: secretWord,
-        winState: winState,
+        winState: true,
         myGuesses: guessLst,
         synonyms: synos,
         gameState: true,
