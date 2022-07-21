@@ -173,7 +173,11 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
 
 export default Home;
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ res }) => {
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
   const wordOfDay = getWordOftheDay();
 
   const resData = await axios.get(
