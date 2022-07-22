@@ -104,6 +104,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
 
     if (myLives === 1) {
       setGameState(true);
+      gameStateFunc(offsetDate, false);
     }
   };
 
