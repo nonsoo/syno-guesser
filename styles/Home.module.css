@@ -82,7 +82,7 @@
   box-shadow: var(--box-shadow);
 
   font-weight: var(--fw-sec);
-  color: var(--col-text-prmy);
+  color: var(--col-text-sec);
 
   width: max-content;
 
@@ -191,5 +191,11 @@
 
   to {
     transform: translateY(0px);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .syno__item {
+    background-color: var(--col-background-prmy);
   }
 }

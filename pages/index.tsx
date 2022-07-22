@@ -4,8 +4,8 @@ import Head from "next/head";
 
 import { BsBookHalf } from "react-icons/bs";
 
-import { resData } from "../utils/types/projectTypes";
-import WordLst from "../wordlist.json";
+import { resData, StoredGameStatistics } from "../utils/types/projectTypes";
+import wordSet from "../utils/helpers/createWordSet";
 import axios from "axios";
 
 import UseAlert from "../utils/hooks/useAlert";
@@ -14,8 +14,10 @@ import {
   loadGameStateFromLocalStorage,
   saveGameStateToLocalStorage,
   removeGameStateFromLocalStorage,
+  loadGameStats,
 } from "../utils/helpers/saveGame";
 import getWordOftheDay, { getOffsetDay } from "../utils/helpers/newDay";
+import gameStateFunc from "../utils/helpers/gameStat";
 
 import styles from "../styles/Home.module.css";
 
@@ -24,6 +26,7 @@ import InstructionModal from "../Components/Instruc";
 import Alert from "../Components/Alert";
 import Synonyms from "../Components/Synonyms";
 import MyLives from "../Components/myLives";
+import GameStat from "../Components/gameStats";
 interface Props {
   data: resData[];
   wordOfDay: string;
@@ -34,6 +37,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
   const offsetDate = getOffsetDay(todaysDate);
   const totalGuessAllowed: number = 6;
   const synonymSet: Set<number> = new Set();
+
   synonymSet.add(0);
   synonymSet.add(Math.ceil(data[0]?.meta.syns[0]?.length / 2));
   synonymSet.add(data[0]?.meta.syns[0]?.length - 1);
@@ -56,6 +60,16 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
   const [showInstruct, setShowInstruct] = useState<boolean>(true);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [synonymSetState, setSynonymSetState] = useState(synonymSet);
+  const [myGameStats, setMyGameStats] = useState<StoredGameStatistics | null>(
+    null
+  );
+
+  useEffect(() => {
+    const myGameStatsZ = loadGameStats();
+    if (myGameStatsZ) {
+      setMyGameStats(myGameStatsZ);
+    }
+  }, [gameState]);
 
   useEffect(() => {
     const localSavedState = loadGameStateFromLocalStorage();
@@ -90,6 +104,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
 
     if (myLives === 1) {
       setGameState(true);
+      gameStateFunc(offsetDate, false);
     }
   };
 
@@ -99,7 +114,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
     //first check if the guess is empty or in the list of guesses
     if (myGuess === "") return;
 
-    if (!WordLst.includes(myGuess.toLowerCase())) {
+    if (!wordSet.has(myGuess.toLowerCase())) {
       setMyGuess("");
       setShowAlert(true);
       UseAlert(2500, () => setShowAlert(false));
@@ -122,6 +137,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
         myLives: myLives,
         dayOfPlay: offsetDate,
       });
+      gameStateFunc(offsetDate, false);
     }
 
     if (myGuess.toLowerCase() === secretWord) {
@@ -136,6 +152,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
         myLives: myLives,
         dayOfPlay: offsetDate,
       });
+      gameStateFunc(offsetDate, true);
     } else {
       setGuessLst((prevLst) => [...prevLst, myGuess]);
       setMyGuess("");
@@ -164,14 +181,21 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
 
       <main className={styles.GuesserCon}>
         {gameState ? (
-          <EndGame
-            secretWord={secretWord}
-            winState={winState}
-            myGuesses={guessLst}
-          >
-            <Synonyms synos={synos} />
-            <MyLives numLives={myLives} />
-          </EndGame>
+          <>
+            <EndGame
+              secretWord={secretWord}
+              winState={winState}
+              myGuesses={guessLst}
+            >
+              <Synonyms synos={synos} />
+              <MyLives numLives={myLives} />
+            </EndGame>
+            <GameStat
+              gamesPlayed={myGameStats?.gamesPlayed}
+              winStreak={myGameStats?.winStreak}
+              maxWinStreak={myGameStats?.maxWinStreak}
+            />
+          </>
         ) : (
           <>
             <Synonyms synos={synos} />

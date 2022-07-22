@@ -1,0 +1,38 @@
+.gameStatCon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0.75em;
+
+  margin-top: 1rem;
+}
+
+.gameStat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.gameStat__Stat {
+  font-weight: var(--fw-sec);
+  font-size: var(--fs-sec);
+}
+
+.gameStat_Title {
+  text-align: center;
+}
+
+@media screen and (min-width: 800px) {
+  .gameStatCon {
+    margin-top: 2rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .gameStatCon {
+    background-color: var(--col-background-prmy);
+    border-radius: 10px;
+  }
+}
