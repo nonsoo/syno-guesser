@@ -36,3 +36,9 @@ export interface StoredGameState {
   myLives: number;
   dayOfPlay: number;
 }
+
+export interface StoredGameStatistics {
+  gamesPlayed: number[];
+  winStreak: number;
+  maxWinStreak: number;
+}
