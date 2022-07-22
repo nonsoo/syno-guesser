@@ -4,7 +4,7 @@ import Head from "next/head";
 
 import { BsBookHalf } from "react-icons/bs";
 
-import { resData } from "../utils/types/projectTypes";
+import { resData, StoredGameStatistics } from "../utils/types/projectTypes";
 import wordSet from "../utils/helpers/createWordSet";
 import axios from "axios";
 
@@ -14,8 +14,10 @@ import {
   loadGameStateFromLocalStorage,
   saveGameStateToLocalStorage,
   removeGameStateFromLocalStorage,
+  loadGameStats,
 } from "../utils/helpers/saveGame";
 import getWordOftheDay, { getOffsetDay } from "../utils/helpers/newDay";
+import gameStateFunc from "../utils/helpers/gameStat";
 
 import styles from "../styles/Home.module.css";
 
@@ -35,6 +37,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
   const offsetDate = getOffsetDay(todaysDate);
   const totalGuessAllowed: number = 6;
   const synonymSet: Set<number> = new Set();
+
   synonymSet.add(0);
   synonymSet.add(Math.ceil(data[0]?.meta.syns[0]?.length / 2));
   synonymSet.add(data[0]?.meta.syns[0]?.length - 1);
@@ -57,6 +60,16 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
   const [showInstruct, setShowInstruct] = useState<boolean>(true);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [synonymSetState, setSynonymSetState] = useState(synonymSet);
+  const [myGameStats, setMyGameStats] = useState<StoredGameStatistics | null>(
+    null
+  );
+
+  useEffect(() => {
+    const myGameStatsZ = loadGameStats();
+    if (myGameStatsZ) {
+      setMyGameStats(myGameStatsZ);
+    }
+  }, [gameState]);
 
   useEffect(() => {
     const localSavedState = loadGameStateFromLocalStorage();
@@ -123,6 +136,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
         myLives: myLives,
         dayOfPlay: offsetDate,
       });
+      gameStateFunc(offsetDate, false);
     }
 
     if (myGuess.toLowerCase() === secretWord) {
@@ -137,6 +151,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
         myLives: myLives,
         dayOfPlay: offsetDate,
       });
+      gameStateFunc(offsetDate, true);
     } else {
       setGuessLst((prevLst) => [...prevLst, myGuess]);
       setMyGuess("");
@@ -174,7 +189,11 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
               <Synonyms synos={synos} />
               <MyLives numLives={myLives} />
             </EndGame>
-            <GameStat />
+            <GameStat
+              gamesPlayed={myGameStats?.gamesPlayed}
+              winStreak={myGameStats?.winStreak}
+              maxWinStreak={myGameStats?.maxWinStreak}
+            />
           </>
         ) : (
           <>
