@@ -9,10 +9,10 @@ const gameStat = (offSetDate: number, playerWinState: boolean) => {
     // check if the last item in the list + 1 is equal to the offset date
     // If it is then it means that the player played a game the previous day
     // then add the new date to the list
-    if (gamesPlayedLst[gamesPlayedLst.length - 1] + 1 === offSetDate) {
+    if (gamesPlayedLst[gamesPlayedLst.length - 1] === offSetDate - 1) {
       gamesPlayedLst.push(offSetDate);
     } else {
-      gamesPlayedLst = [];
+      gamesPlayedLst = [offSetDate];
     }
 
     if (playerWinState) {
