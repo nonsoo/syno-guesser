@@ -166,7 +166,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
         <title>Clueless Words</title>
         <meta
           name="description"
-          content="The word game that puzzles your mind with multiple words for the same/similar meaning"
+          content="Can you use the clueless words (synonyms) to solve the mystery word? You only have 6 tries! Wrong guesses will show up in the guess bucket!"
         />
         <link
           rel="icon"
