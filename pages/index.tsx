@@ -24,6 +24,7 @@ import InstructionModal from "../Components/Instruc";
 import Alert from "../Components/Alert";
 import Synonyms from "../Components/Synonyms";
 import MyLives from "../Components/myLives";
+import GameStat from "../Components/gameStats";
 interface Props {
   data: resData[];
   wordOfDay: string;
@@ -164,14 +165,17 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
 
       <main className={styles.GuesserCon}>
         {gameState ? (
-          <EndGame
-            secretWord={secretWord}
-            winState={winState}
-            myGuesses={guessLst}
-          >
-            <Synonyms synos={synos} />
-            <MyLives numLives={myLives} />
-          </EndGame>
+          <>
+            <EndGame
+              secretWord={secretWord}
+              winState={winState}
+              myGuesses={guessLst}
+            >
+              <Synonyms synos={synos} />
+              <MyLives numLives={myLives} />
+            </EndGame>
+            <GameStat />
+          </>
         ) : (
           <>
             <Synonyms synos={synos} />
