@@ -11,7 +11,6 @@ const useGetHint = (hintSet: Set<number>, lenLst: number): number => {
     }
   }
 
-  console.log(hintSet);
   return randomHint;
 };
 
