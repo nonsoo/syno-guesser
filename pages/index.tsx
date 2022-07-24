@@ -75,23 +75,20 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
 
   useEffect(() => {
     const localSavedState = loadGameStateFromLocalStorage();
-    if (localSavedState) {
-      setSecretWord(localSavedState.secretWord);
-      setWinState(localSavedState.winState);
-      setGuessLst(localSavedState.myGuesses);
-      setSynos(localSavedState.synonyms);
-      setGameState(localSavedState.gameState);
-      setMyLives(localSavedState.myLives);
-      setShowInstruct(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    const localSavedState = loadGameStateFromLocalStorage();
     const checkDate = new Date();
     const offsetDate = getOffsetDay(checkDate);
-    if (offsetDate !== localSavedState?.dayOfPlay) {
-      removeGameStateFromLocalStorage();
+    if (localSavedState) {
+      if (offsetDate !== localSavedState.dayOfPlay) {
+        removeGameStateFromLocalStorage();
+      } else {
+        setSecretWord(localSavedState.secretWord);
+        setWinState(localSavedState.winState);
+        setGuessLst(localSavedState.myGuesses);
+        setSynos(localSavedState.synonyms);
+        setGameState(localSavedState.gameState);
+        setMyLives(localSavedState.myLives);
+        setShowInstruct(false);
+      }
     }
   }, []);
 
