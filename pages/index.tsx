@@ -232,7 +232,9 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
                 </p>
               ))}
             </section>
-
+            <div className={styles.AlertContainer}>
+              {showAlert && <Alert />}
+            </div>
             <form className={styles.guessingForm} onSubmit={onGuess}>
               <label htmlFor="myGuess" className={styles.guessingLabel}>
                 Enter a word
@@ -257,7 +259,6 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
           </>
         )}
       </main>
-      {showAlert && <Alert />}
 
       {showInstruct && (
         <InstructionModal onToggle={() => setShowInstruct(false)} />

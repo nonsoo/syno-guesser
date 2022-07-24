@@ -13,11 +13,15 @@
   width: max-content;
 
   margin: 0 auto;
-  margin-top: 3rem;
 
   animation-name: showAlert;
   animation-duration: 0.55s;
   animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+
+  position: absolute;
+  top: 8px;
+  bottom: 10px;
+  left: 185px;
 }
 
 .Alert__Icon,
