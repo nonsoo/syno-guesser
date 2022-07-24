@@ -52,7 +52,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
           synonyms[Math.ceil(synonyms.length / 2)],
           synonyms[synonyms.length - 1],
         ]
-      : [synonyms[0]]
+      : [...synonyms]
   );
   const [secretWord, setSecretWord] = useState<string>(wordOfDay);
   const [winState, setWinState] = useState<boolean>(false);
