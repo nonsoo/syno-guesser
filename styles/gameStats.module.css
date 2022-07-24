@@ -24,15 +24,13 @@
   text-align: center;
 }
 
+.gameStatCon {
+  background-color: var(--col-background-prmy);
+  border-radius: 10px;
+}
+
 @media screen and (min-width: 800px) {
   .gameStatCon {
     margin-top: 2rem;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .gameStatCon {
-    background-color: var(--col-background-prmy);
-    border-radius: 10px;
   }
 }

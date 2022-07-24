@@ -64,6 +64,10 @@
   font-size: 1.15rem;
 }
 
+.ModalImg {
+  width: 100%;
+}
+
 @keyframes showModal {
   from {
     transform: translateY(-50px);
