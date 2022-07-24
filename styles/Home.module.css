@@ -94,6 +94,9 @@
 }
 .AlertContainer {
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .guessingForm {
   margin-top: 2em;

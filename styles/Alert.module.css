@@ -4,7 +4,7 @@
   border-radius: 10px;
   box-shadow: 18px 14px 33px -7px rgba(0, 0, 0, 0.07);
 
-  padding: 1em 1.35em;
+  padding: 0.25em 1.35em;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,8 +20,6 @@
 
   position: absolute;
   top: 8px;
-  bottom: 10px;
-  left: 185px;
 }
 
 .Alert__Icon,
