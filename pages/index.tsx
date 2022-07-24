@@ -10,6 +10,7 @@ import axios from "axios";
 
 import UseAlert from "../utils/hooks/useAlert";
 import UseGetHint from "../utils/hooks/useGetHint";
+import UseGetAllSynonyms from "../utils/hooks/useGetAllSynonyms";
 import {
   loadGameStateFromLocalStorage,
   saveGameStateToLocalStorage,
@@ -37,20 +38,21 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
   const offsetDate = getOffsetDay(todaysDate);
   const totalGuessAllowed: number = 6;
   const synonymSet: Set<number> = new Set();
+  const synonyms = UseGetAllSynonyms(data[0]?.meta?.syns);
 
   synonymSet.add(0);
-  synonymSet.add(Math.ceil(data[0]?.meta.syns[0]?.length / 2));
-  synonymSet.add(data[0]?.meta.syns[0]?.length - 1);
+  synonymSet.add(Math.ceil(synonyms.length / 2));
+  synonymSet.add(synonyms.length - 1);
 
   const [myGuess, setMyGuess] = useState<string>("");
   const [synos, setSynos] = useState<string[]>(
-    data[0]?.meta?.syns[0]?.length > 3
+    synonyms.length > 3
       ? [
-          data[0]?.meta?.syns[0][0],
-          data[0]?.meta?.syns[0][Math.ceil(data[0]?.meta.syns[0]?.length / 2)],
-          data[0]?.meta?.syns[0][data[0]?.meta.syns[0]?.length - 1],
+          synonyms[0],
+          synonyms[Math.ceil(synonyms.length / 2)],
+          synonyms[synonyms.length - 1],
         ]
-      : data[0].meta.syns[0]
+      : [synonyms[0]]
   );
   const [secretWord, setSecretWord] = useState<string>(wordOfDay);
   const [winState, setWinState] = useState<boolean>(false);
@@ -96,10 +98,10 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
   const onGetHint = () => {
     // pick a random hint and then check if the set has the hint
     // if the hint exists in the set then pick a new hints
-    if (synonymSetState.size === data[0]?.meta?.syns[0]?.length) return;
-    const newHint = UseGetHint(synonymSetState, data[0]?.meta?.syns[0]?.length);
+    if (synonymSetState.size === synonyms.length) return;
+    const newHint = UseGetHint(synonymSetState, synonyms.length);
     setSynonymSetState(synonymSetState.add(newHint));
-    setSynos((prevState) => [...prevState, data[0]?.meta?.syns[0][newHint]]);
+    setSynos((prevState) => [...prevState, synonyms[newHint]]);
     setMyLives((prev) => prev - 1);
 
     if (myLives === 1) {
@@ -230,7 +232,9 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
                 </p>
               ))}
             </section>
-
+            <div className={styles.AlertContainer}>
+              {showAlert && <Alert />}
+            </div>
             <form className={styles.guessingForm} onSubmit={onGuess}>
               <label htmlFor="myGuess" className={styles.guessingLabel}>
                 Enter a word
@@ -255,7 +259,6 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
           </>
         )}
       </main>
-      {showAlert && <Alert />}
 
       {showInstruct && (
         <InstructionModal onToggle={() => setShowInstruct(false)} />

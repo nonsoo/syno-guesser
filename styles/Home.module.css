@@ -92,7 +92,12 @@
   animation-duration: 0.75s;
   animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
-
+.AlertContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .guessingForm {
   margin-top: 2em;
 

@@ -28,7 +28,13 @@ const Instruc: FC<Props> = ({ onToggle }) => {
             new synonym! But be careful because each hint uses a guess.
           </p>
 
-          <Image src={Instruc_Img} alt="How to play the game" width={900} />
+          <div className={styles.ModalImg}>
+            <Image
+              src={Instruc_Img}
+              alt="How to play the game"
+              layout="responsive"
+            />
+          </div>
 
           <p className={styles.Modal__Text}>
             A new word will be available each day!

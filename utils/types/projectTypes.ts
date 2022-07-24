@@ -7,7 +7,7 @@ export interface endgameProps {
   children: ReactNode;
 }
 
-type synonyms = string[];
+export type synonyms = string[];
 
 export interface resData {
   def: any;
