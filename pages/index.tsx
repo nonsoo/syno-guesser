@@ -103,6 +103,15 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
 
     if (myLives === 1) {
       setGameState(true);
+      saveGameStateToLocalStorage({
+        secretWord: secretWord,
+        winState: winState,
+        myGuesses: guessLst,
+        synonyms: synos,
+        gameState: true,
+        myLives: myLives - 1,
+        dayOfPlay: offsetDate,
+      });
       gameStateFunc(offsetDate, false);
     }
   };
@@ -133,7 +142,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
         myGuesses: guessLst,
         synonyms: synos,
         gameState: true,
-        myLives: myLives,
+        myLives: myLives - 1,
         dayOfPlay: offsetDate,
       });
       gameStateFunc(offsetDate, false);
