@@ -15,6 +15,16 @@ export default function Document() {
           rel="stylesheet"
         />
         <link rel="manifest" href="/manifest.json" />
+        <meta
+          name="theme-color"
+          content="hsl(270, 17%, 98%);"
+          media="(prefers-color-scheme: light)"
+        />
+        <meta
+          name="theme-color"
+          content="hsl(0, 0%, 8%);"
+          media="(prefers-color-scheme: dark)"
+        />
       </Head>
       <body>
         <Main />
