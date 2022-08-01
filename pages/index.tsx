@@ -6,7 +6,11 @@ import { BsBookHalf } from "react-icons/bs";
 import axios from "axios";
 import styles from "../styles/Home.module.css";
 
-import { resData, StoredGameStatistics } from "../utils/types/projectTypes";
+import {
+  resData,
+  StoredGameStatistics,
+  synonyms,
+} from "../utils/types/projectTypes";
 import wordSet from "../utils/helpers/createWordSet";
 import UseAlert from "../utils/hooks/useAlert";
 import UseGetHint from "../utils/hooks/useGetHint";
@@ -45,7 +49,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
   synonymSet.add(synonyms.length - 1);
 
   const [myGuess, setMyGuess] = useState<string>("");
-  const [synos, setSynos] = useState<string[]>(
+  const [synos, setSynos] = useState<synonyms>(
     synonyms.length > 3
       ? [
           synonyms[0],
