@@ -1,8 +1,9 @@
 import { FC } from "react";
 import styles from "../styles/Home.module.css";
+import { synonyms } from "../utils/types/projectTypes";
 
 interface Props {
-  synos: string[];
+  synos: synonyms;
 }
 
 const Synonyms: FC<Props> = ({ synos }) => {

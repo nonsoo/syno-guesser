@@ -1,13 +1,17 @@
 import type { NextPage, GetServerSideProps } from "next";
 import { useState, useEffect } from "react";
-import Head from "next/head";
 
 import { BsBookHalf } from "react-icons/bs";
 
-import { resData, StoredGameStatistics } from "../utils/types/projectTypes";
-import wordSet from "../utils/helpers/createWordSet";
 import axios from "axios";
+import styles from "../styles/Home.module.css";
 
+import {
+  resData,
+  StoredGameStatistics,
+  synonyms,
+} from "../utils/types/projectTypes";
+import wordSet from "../utils/helpers/createWordSet";
 import UseAlert from "../utils/hooks/useAlert";
 import UseGetHint from "../utils/hooks/useGetHint";
 import UseGetAllSynonyms from "../utils/hooks/useGetAllSynonyms";
@@ -20,14 +24,14 @@ import {
 import getWordOftheDay, { getOffsetDay } from "../utils/helpers/newDay";
 import gameStateFunc from "../utils/helpers/gameStat";
 
-import styles from "../styles/Home.module.css";
-
+import HeadMeta from "../Components/headTags/HeadMeta";
 import EndGame from "../Components/EndGame";
 import InstructionModal from "../Components/Instruc";
 import Alert from "../Components/Alert";
 import Synonyms from "../Components/Synonyms";
 import MyLives from "../Components/myLives";
 import GameStat from "../Components/gameStats";
+
 interface Props {
   data: resData[];
   wordOfDay: string;
@@ -45,7 +49,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
   synonymSet.add(synonyms.length - 1);
 
   const [myGuess, setMyGuess] = useState<string>("");
-  const [synos, setSynos] = useState<string[]>(
+  const [synos, setSynos] = useState<synonyms>(
     synonyms.length > 3
       ? [
           synonyms[0],
@@ -103,6 +107,15 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
 
     if (myLives === 1) {
       setGameState(true);
+      saveGameStateToLocalStorage({
+        secretWord: secretWord,
+        winState: winState,
+        myGuesses: guessLst,
+        synonyms: synos,
+        gameState: true,
+        myLives: myLives - 1,
+        dayOfPlay: offsetDate,
+      });
       gameStateFunc(offsetDate, false);
     }
   };
@@ -113,6 +126,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
     //first check if the guess is empty or in the list of guesses
     if (myGuess === "") return;
 
+    // check if the guess is in the word lst
     if (!wordSet.has(myGuess.toLowerCase())) {
       setMyGuess("");
       setShowAlert(true);
@@ -133,7 +147,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
         myGuesses: guessLst,
         synonyms: synos,
         gameState: true,
-        myLives: myLives,
+        myLives: myLives - 1,
         dayOfPlay: offsetDate,
       });
       gameStateFunc(offsetDate, false);
@@ -161,37 +175,7 @@ const Home: NextPage<Props> = ({ data, wordOfDay }) => {
 
   return (
     <div className={styles.mainContent}>
-      <Head>
-        <title>Clueless Words</title>
-        <meta
-          name="description"
-          content="Can you use the clueless words (these synonyms) to solve the mystery word? You only have 6 tries! Wrong guesses will show up in the guess bucket!"
-        />
-        <link
-          rel="shortcut icon"
-          href="/favicon/favicon.ico"
-          type="image/x-icon"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="favicon/favicon-16x16.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="favicon/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="192x192"
-          href="favicon/android-chrome-192x192.png"
-        />
-        <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" />
-      </Head>
+      <HeadMeta />
 
       <header className={styles.HeaderCon}>
         <h1 className={styles.HeaderTitle}>Clueless Words</h1>
