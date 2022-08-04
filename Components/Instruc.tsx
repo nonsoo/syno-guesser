@@ -19,8 +19,8 @@ const Instruc: FC<Props> = ({ onToggle }) => {
         <p className={styles.Modal__Title}>How to play</p>
         <div className={styles.ModalTextCon}>
           <p className={styles.Modal__Text}>
-            Use the <span>CLUELESS WORDS</span> to guess the{" "}
-            <span>secret word</span> in only 6 tries! Clueless words are{" "}
+            Use the <span>CLUELESS WORDS</span> to find the{" "}
+            <span>secret word</span> in only 6 tries! The clueless words are{" "}
             <span>synonyms</span> to the secret word.
           </p>
           <p className={styles.Modal__Text}>
@@ -28,16 +28,50 @@ const Instruc: FC<Props> = ({ onToggle }) => {
             new synonym! But be careful because each hint uses a guess.
           </p>
 
-          <div className={styles.ModalImg}>
+          <section className={styles.Modal__Example}>
+            <p className={styles.ExamplesTitle}>Examples</p>
+            <div className={styles.Example__syns}>
+              <div className={styles.Example__synsTags}>
+                <p className={styles.syno__item}>hello</p>
+                <p className={styles.syno__item}>there</p>
+                <p className={styles.syno__item}>okay</p>
+              </div>
+              <p className={styles.Example__synsWord}>
+                These words are your Clueless words to start.
+              </p>
+            </div>
+            <div className={styles.Example__syns}>
+              <div className={styles.Example__synsTags}>
+                <p className={styles.wrongGuess}>hello</p>
+                <p className={styles.wrongGuess}>there</p>
+                <p className={styles.wrongGuess}>okay</p>
+              </div>
+              <p className={styles.Example__synsWord}>
+                This word is not the secret word and is not a synonym.
+              </p>
+            </div>
+            <div className={styles.Example__syns}>
+              <div className={styles.Example__synsTags}>
+                <p className={styles.inSynoLst}>hello</p>
+                <p className={styles.inSynoLst}>there</p>
+                <p className={styles.inSynoLst}>okay</p>
+              </div>
+              <p className={styles.Example__synsWord}>
+                This words is not the secret word but it is a synonym.
+              </p>
+            </div>
+          </section>
+
+          {/* <div className={styles.ModalImg}>
             <Image
               src={Instruc_Img}
               alt="How to play the game"
               layout="responsive"
             />
-          </div>
+          </div> */}
 
           <p className={styles.Modal__Text}>
-            A new word will be available each day!
+            A set of clueless words will be available each day!
           </p>
         </div>
       </section>
