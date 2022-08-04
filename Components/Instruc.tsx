@@ -32,46 +32,27 @@ const Instruc: FC<Props> = ({ onToggle }) => {
             <p className={styles.ExamplesTitle}>Examples</p>
             <div className={styles.Example__syns}>
               <div className={styles.Example__synsTags}>
-                <p className={styles.syno__item}>hello</p>
-                <p className={styles.syno__item}>there</p>
-                <p className={styles.syno__item}>okay</p>
+                <p className={styles.syno__item}>Novel</p>
+                <p className={styles.syno__item}>Fiction</p>
+                <p className={styles.syno__item}>Softcover</p>
               </div>
               <p className={styles.Example__synsWord}>
-                These words are your Clueless words to start.
+                Your starting Clueless Words
               </p>
             </div>
             <div className={styles.Example__syns}>
               <div className={styles.Example__synsTags}>
-                <p className={styles.wrongGuess}>hello</p>
-                <p className={styles.wrongGuess}>there</p>
-                <p className={styles.wrongGuess}>okay</p>
+                <p className={styles.wrongGuess}>Read</p>
+                <p className={styles.wrongGuess}>Play</p>
+                <p className={styles.wrongGuess}>Picture</p>
               </div>
               <p className={styles.Example__synsWord}>
-                This word is not the secret word and is not a synonym.
-              </p>
-            </div>
-            <div className={styles.Example__syns}>
-              <div className={styles.Example__synsTags}>
-                <p className={styles.inSynoLst}>hello</p>
-                <p className={styles.inSynoLst}>there</p>
-                <p className={styles.inSynoLst}>okay</p>
-              </div>
-              <p className={styles.Example__synsWord}>
-                This words is not the secret word but it is a synonym.
+                The guess you entered is not the secret word
               </p>
             </div>
           </section>
-
-          {/* <div className={styles.ModalImg}>
-            <Image
-              src={Instruc_Img}
-              alt="How to play the game"
-              layout="responsive"
-            />
-          </div> */}
-
           <p className={styles.Modal__Text}>
-            A set of clueless words will be available each day!
+            A new set of clueless words will be available each day!
           </p>
         </div>
       </section>
