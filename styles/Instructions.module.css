@@ -87,7 +87,7 @@
 }
 .Example__synsTags {
   display: flex;
-  gap: 1.25em;
+  gap: 0.55em;
 }
 
 .syno__item,
@@ -126,6 +126,10 @@
   }
   .Modal__Text {
     text-align: left;
+  }
+
+  .Example__synsTags {
+    gap: 1em;
   }
 }
 
