@@ -1,8 +1,5 @@
 import { FC } from "react";
 import styles from "../styles/Instructions.module.css";
-import Image from "next/image";
-
-import Instruc_Img from "../public/example.png";
 
 import { IoClose } from "react-icons/io5";
 
@@ -37,7 +34,7 @@ const Instruc: FC<Props> = ({ onToggle }) => {
                 <p className={styles.syno__item}>Softcover</p>
               </div>
               <p className={styles.Example__synsWord}>
-                Your starting Clueless Words
+                Your starting Clueless Words (synonyms to the secret word)
               </p>
             </div>
             <div className={styles.Example__syns}>
@@ -47,7 +44,13 @@ const Instruc: FC<Props> = ({ onToggle }) => {
                 <p className={styles.wrongGuess}>Picture</p>
               </div>
               <p className={styles.Example__synsWord}>
-                The guess you entered is not the secret word
+                Wrong guesses are in red and will appear in the guess bucket
+              </p>
+            </div>
+            <div className={styles.secretWord}>
+              <p className={styles.secretWord_Word}>Book</p>
+              <p className={styles.secretWord_WordInstuctions}>
+                The secret word will be revealed to you at the end
               </p>
             </div>
           </section>
