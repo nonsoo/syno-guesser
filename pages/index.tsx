@@ -33,16 +33,15 @@ import MyLives from "../Components/myLives";
 import GameStat from "../Components/gameStats";
 
 interface Props {
-  data: resData[];
+  synonyms: synonyms;
   wordOfDay: string;
 }
 
-const Home: NextPage<Props> = ({ data, wordOfDay }) => {
+const Home: NextPage<Props> = ({ synonyms, wordOfDay }) => {
   const todaysDate = new Date();
   const offsetDate = getOffsetDay(todaysDate);
   const totalGuessAllowed: number = 6;
   const synonymSet: Set<number> = new Set();
-  const synonyms = UseGetAllSynonyms(data[0]?.meta?.syns);
 
   synonymSet.add(0);
   synonymSet.add(Math.ceil(synonyms.length / 2));
@@ -263,7 +262,9 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 
   const resp: resData[] = resData.data;
 
+  const synonyms = UseGetAllSynonyms(resp[0]?.meta?.syns);
+
   return {
-    props: { data: resp, wordOfDay },
+    props: { synonyms, wordOfDay },
   };
 };
