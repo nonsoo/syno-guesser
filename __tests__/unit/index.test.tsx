@@ -4,7 +4,7 @@ import "@testing-library/jest-dom";
 import Home from "../../pages/index";
 
 const stringWords = ["hello", "There"];
-let word = "there";
+const word: string = "there";
 
 describe("Test the application for Functionality", () => {
   describe("Instruction page", () => {
