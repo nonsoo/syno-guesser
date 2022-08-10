@@ -207,7 +207,11 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay }) => {
 
             <section className={styles.GuessedWords}>
               {guessLst.map((word, index) => (
-                <p key={index} className={styles.GuessedWords__word}>
+                <p
+                  key={index}
+                  className={styles.GuessedWords__word}
+                  data-testid="GuessedWord"
+                >
                   {word}
                 </p>
               ))}
@@ -215,7 +219,11 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay }) => {
             <div className={styles.AlertContainer}>
               {showAlert && <Alert />}
             </div>
-            <form className={styles.guessingForm} onSubmit={onGuess}>
+            <form
+              className={styles.guessingForm}
+              onSubmit={onGuess}
+              data-testid="formSubmit"
+            >
               <label htmlFor="myGuess" className={styles.guessingLabel}>
                 Enter a word
               </label>

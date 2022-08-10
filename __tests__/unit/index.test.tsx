@@ -16,4 +16,24 @@ describe("Test the application for Functionality", () => {
       expect(InstructionHeader).toBeVisible();
     });
   });
+
+  describe("testing the game", () => {
+    it("should allow user to submit a guess", () => {
+      render(<Home synonyms={stringWords} wordOfDay={word} />);
+      const closeBtn = screen.getByTestId("instruct_Close_btn");
+      fireEvent.click(closeBtn);
+
+      const guessInput = screen.getByRole("textbox");
+      const form = screen.getByTestId("formSubmit");
+      fireEvent.change(guessInput, {
+        target: { value: "university" },
+      });
+
+      fireEvent.submit(form);
+
+      const guessedWord = screen.getByTestId("GuessedWord");
+
+      expect(guessedWord).toBeInTheDocument();
+    });
+  });
 });
