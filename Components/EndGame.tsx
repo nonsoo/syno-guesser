@@ -22,7 +22,9 @@ const EndGame: FC<endgameProps> = ({
           <p className={styles.WinState_letter}>!</p>
         </div>
       ) : (
-        <p className={styles.WinState}>Better luck next time!</p>
+        <p className={styles.WinState} data-testid="loseState">
+          Better luck next time!
+        </p>
       )}
       <section className={styles.EndGame}>
         <p className={styles.EndGame__Secret}>{secretWord}</p>
@@ -31,7 +33,9 @@ const EndGame: FC<endgameProps> = ({
         <p className={styles.EndGame__guessnum}> Guesses: {myGuesses.length}</p>
         <div className={styles.MyGuessCon}>
           {myGuesses.map((guess, index) => (
-            <p key={index}>{guess}</p>
+            <p key={index} data-testid="guessEntered">
+              {guess}
+            </p>
           ))}
         </div>
         <p className={styles.checkBack}>Check back tomorrow for a new word!</p>

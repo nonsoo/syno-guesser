@@ -10,7 +10,11 @@ const myLives: FC<Props> = ({ numLives }) => {
   return (
     <div className={styles.Hints__LivesCon}>
       {[...Array(numLives)].map((e, index) => (
-        <div key={index} className={styles.myLives}></div>
+        <div
+          key={index}
+          className={styles.myLives}
+          data-testid="liveMeter"
+        ></div>
       ))}
     </div>
   );
