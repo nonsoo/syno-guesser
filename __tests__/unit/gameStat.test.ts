@@ -25,6 +25,7 @@ describe("Testing if we can properly load and save a game", () => {
     afterEach(() => {
       window.localStorage.clear();
     });
+
     it("should increase the day streak by 1 if consecutive days are played", () => {
       gameStat(2, false);
       gameStat(3, false);
@@ -33,6 +34,17 @@ describe("Testing if we can properly load and save a game", () => {
       const daysCounter = savedGame?.gamesPlayed;
 
       expect(daysCounter?.length).toEqual(2);
+    });
+
+    it("should reset played streat to 1 if a day is skipped", () => {
+      gameStat(2, false);
+      gameStat(3, false);
+      gameStat(5, false);
+
+      const savedGame = loadGameStats();
+      const daysCounter = savedGame?.gamesPlayed;
+
+      expect(daysCounter?.length).toEqual(1);
     });
 
     it("should increase the win streak by 1 if game has been won", () => {
