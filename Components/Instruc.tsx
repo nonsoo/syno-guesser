@@ -11,7 +11,11 @@ const Instruc: FC<Props> = ({ onToggle }) => {
   return (
     <section className={styles.ModalBackground}>
       <section className={styles.Modal}>
-        <IoClose className={styles.Modal__closeBtn} onClick={onToggle} />
+        <IoClose
+          className={styles.Modal__closeBtn}
+          onClick={onToggle}
+          data-testid="instruct_Close_btn"
+        />
 
         <p className={styles.Modal__Title}>How to play</p>
         <div className={styles.ModalTextCon}>
