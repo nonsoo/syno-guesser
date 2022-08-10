@@ -12,7 +12,7 @@ const EndGame: FC<endgameProps> = ({
   return (
     <>
       {winState ? (
-        <div className={styles.WinState}>
+        <div className={styles.WinState} data-testid="winState">
           <p className={styles.WinState_letter}>w</p>
           <p className={styles.WinState_letter}>i</p>
           <p className={styles.WinState_letter}>n</p>
