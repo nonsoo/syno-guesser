@@ -78,7 +78,8 @@
   font-size: var(--fs-sec);
   margin-bottom: 1em;
 }
-.Example__syns {
+.Example__syns,
+.secretWord {
   margin-top: 2.25em;
 }
 
@@ -105,9 +106,23 @@
   color: var(--col-text-sec);
 }
 
-.Example__synsWord {
+.Example__synsWord,
+.secretWord_WordInstuctions {
   margin-top: 0.55em;
   font-weight: var(--fw-sec);
+}
+
+.secretWord_Word {
+  font-size: 1.55rem;
+  font-weight: var(--fw-sec);
+  text-align: center;
+  text-transform: capitalize;
+
+  padding: 0.25em;
+  background-color: var(--col-background-tri);
+  border-radius: 10px;
+
+  width: clamp(100px, 30%, 400px);
 }
 
 @keyframes showModal {
@@ -141,5 +156,9 @@
   .Modal__Example {
     border-top: 2px solid var(--col-acc-four);
     border-bottom: 2px solid var(--col-acc-four);
+  }
+
+  .secretWord_Word {
+    background-color: var(--col-acc-sec);
   }
 }
