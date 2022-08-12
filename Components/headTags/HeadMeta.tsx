@@ -4,10 +4,19 @@ import Head from "next/head";
 const HeadMeta: FC = () => {
   return (
     <Head>
-      <title>Clueless Words</title>
+      <title>Clueless Words | Daily word game with Synonyms</title>
       <meta
         name="description"
         content="Can you use the clueless words (these synonyms) to solve the mystery word? You only have 6 tries! Wrong guesses will show up in the guess bucket!"
+      />
+      <meta
+        property="og:title"
+        content="Clueless Words | Daily word game with Synonyms "
+      />
+      <meta property="og:url" content="https://www.cluelesswords.com/" />
+      <meta
+        property="og:description"
+        content="Can you use the clueless words (these synonyms) to solve the mystery word? You only have 6 tries! Wrong guesses will show up in the guess bucket"
       />
       <link
         rel="shortcut icon"
