@@ -17,3 +17,5 @@ export const decoder = (word: string, key: number): string => {
 
   return newWord;
 };
+
+export const wordKey: number = 4;

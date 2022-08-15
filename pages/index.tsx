@@ -23,7 +23,7 @@ import {
 } from "../utils/helpers/saveGame";
 import getWordOftheDay, { getOffsetDay } from "../utils/helpers/newDay";
 import gameStateFunc from "../utils/helpers/gameStat";
-import { encoder, decoder } from "../utils/helpers/wordEncrypt";
+import { encoder, decoder, wordKey } from "../utils/helpers/wordEncrypt";
 
 import HeadMeta from "../Components/headTags/HeadMeta";
 import EndGame from "../Components/EndGame";
@@ -58,7 +58,9 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay }) => {
         ]
       : [...synonyms]
   );
-  const [secretWord, setSecretWord] = useState<string>(decoder(wordOfDay, 3));
+  const [secretWord, setSecretWord] = useState<string>(
+    decoder(wordOfDay, wordKey)
+  );
   const [winState, setWinState] = useState<boolean>(false);
   const [gameState, setGameState] = useState<boolean>(false);
   const [myLives, setMyLives] = useState(totalGuessAllowed);
@@ -268,7 +270,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   );
   const wordOfDay = getWordOftheDay();
 
-  const encryptedWord = encoder(wordOfDay, 3);
+  const encryptedWord = encoder(wordOfDay, wordKey);
 
   const resData = await axios.get(
     `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${wordOfDay}?key=${process.env.DICT_API_KEY}`
