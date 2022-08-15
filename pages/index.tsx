@@ -23,6 +23,7 @@ import {
 } from "../utils/helpers/saveGame";
 import getWordOftheDay, { getOffsetDay } from "../utils/helpers/newDay";
 import gameStateFunc from "../utils/helpers/gameStat";
+import { encoder, decoder } from "../utils/helpers/wordEncrypt";
 
 import HeadMeta from "../Components/headTags/HeadMeta";
 import EndGame from "../Components/EndGame";
@@ -57,7 +58,7 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay }) => {
         ]
       : [...synonyms]
   );
-  const [secretWord, setSecretWord] = useState<string>(wordOfDay);
+  const [secretWord, setSecretWord] = useState<string>(decoder(wordOfDay, 3));
   const [winState, setWinState] = useState<boolean>(false);
   const [gameState, setGameState] = useState<boolean>(false);
   const [myLives, setMyLives] = useState(totalGuessAllowed);
@@ -126,7 +127,10 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay }) => {
     if (myGuess === "") return;
 
     // check if the guess is in the word lst
-    if (!wordSet.has(myGuess.toLowerCase())) {
+    if (
+      !wordSet.has(myGuess.toLowerCase()) &&
+      !synonyms.includes(myGuess.toLowerCase())
+    ) {
       setMyGuess("");
       setShowAlert(true);
       UseAlert(2500, () => setShowAlert(false));
@@ -264,6 +268,8 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   );
   const wordOfDay = getWordOftheDay();
 
+  const encryptedWord = encoder(wordOfDay, 3);
+
   const resData = await axios.get(
     `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${wordOfDay}?key=${process.env.DICT_API_KEY}`
   );
@@ -273,6 +279,6 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const synonyms = UseGetAllSynonyms(resp[0]?.meta?.syns);
 
   return {
-    props: { synonyms, wordOfDay },
+    props: { synonyms, wordOfDay: encryptedWord },
   };
 };
