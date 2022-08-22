@@ -173,6 +173,8 @@
   font-weight: var(--fw-sec);
 
   cursor: pointer;
+  user-select: none;
+  touch-action: none;
 }
 
 @media screen and (min-width: 800px) {
