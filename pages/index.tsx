@@ -31,6 +31,7 @@ import Alert from "../Components/Alert";
 import Synonyms from "../Components/Synonyms";
 import MyLives from "../Components/myLives";
 import GameStat from "../Components/gameStats";
+import HowToPlay from "../Components/Modals/instructionModal";
 
 interface Props {
   synonyms: synonyms;
@@ -249,7 +250,9 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay }) => {
       </main>
 
       {showInstruct && (
-        <InstructionModal onToggle={() => setShowInstruct(false)} />
+        <InstructionModal onToggle={() => setShowInstruct(false)}>
+          <HowToPlay />
+        </InstructionModal>
       )}
     </div>
   );
