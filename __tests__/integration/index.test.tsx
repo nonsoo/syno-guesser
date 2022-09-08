@@ -53,7 +53,7 @@ describe("Test the application for Functionality", () => {
       expect(synosLst.length).toEqual(4);
     });
 
-    it("should show the not in word list prompt when a user enters a word that is not in the word list", async () => {
+    it("should show the not in word list prompt when a user enters a word that is not in the word list", () => {
       render(<Home synonyms={stringWords} wordOfDay={word} />);
       const closeBtn = screen.getByTestId("instruct_Close_btn");
       fireEvent.click(closeBtn);
@@ -66,7 +66,7 @@ describe("Test the application for Functionality", () => {
 
       fireEvent.submit(form);
 
-      const alertError = await screen.findByText(/Not in word list/i);
+      const alertError = screen.getByText(/Not in word list/i);
 
       expect(alertError).toBeVisible();
     });
