@@ -53,6 +53,24 @@ describe("Test the application for Functionality", () => {
       expect(synosLst.length).toEqual(4);
     });
 
+    it("should show the not in word list prompt when a user enters a word that is not in the word list", async () => {
+      render(<Home synonyms={stringWords} wordOfDay={word} />);
+      const closeBtn = screen.getByTestId("instruct_Close_btn");
+      fireEvent.click(closeBtn);
+
+      const guessInput = screen.getByRole("textbox");
+      const form = screen.getByTestId("formSubmit");
+      fireEvent.change(guessInput, {
+        target: { value: "sdsdsd" },
+      });
+
+      fireEvent.submit(form);
+
+      const alertError = await screen.findByText(/Not in word list/i);
+
+      expect(alertError).toBeVisible();
+    });
+
     it("should show the user that they have won the game", () => {
       render(<Home synonyms={stringWords} wordOfDay={word} />);
       const closeBtn = screen.getByTestId("instruct_Close_btn");
