@@ -42,3 +42,8 @@ export interface StoredGameStatistics {
   winStreak: number;
   maxWinStreak: number;
 }
+
+export interface BookmarkWord {
+  secretWord: string;
+  synonyms: synonyms;
+}
