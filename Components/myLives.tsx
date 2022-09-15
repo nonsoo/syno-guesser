@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 
 import styles from "../styles/Home.module.css";
 
@@ -20,4 +20,4 @@ const myLives: FC<Props> = ({ numLives }) => {
   );
 };
 
-export default myLives;
+export default memo(myLives);
