@@ -10,6 +10,7 @@ import {
   resData,
   StoredGameStatistics,
   synonyms,
+  setupValues,
 } from "../utils/types/projectTypes";
 import wordSet from "../utils/helpers/createWordSet";
 import UseAlert from "../utils/hooks/useAlert";
@@ -39,7 +40,7 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ synonyms, wordOfDay }) => {
-  const setUpValues = useMemo(() => {
+  const setUpValues: setupValues = useMemo(() => {
     const todaysDate = new Date();
     const offsetDate = getOffsetDay(todaysDate);
     const totalGuessAllowed: number = 6;

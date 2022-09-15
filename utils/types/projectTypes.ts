@@ -47,3 +47,9 @@ export interface BookmarkWord {
   secretWord: string;
   synonyms: synonyms;
 }
+
+export interface setupValues {
+  offsetDate: number;
+  totalGuessAllowed: number;
+  synonymSet: Set<number>;
+}
