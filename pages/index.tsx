@@ -1,5 +1,5 @@
 import type { NextPage, GetServerSideProps } from "next";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import { BsBookHalf } from "react-icons/bs";
 
@@ -10,6 +10,7 @@ import {
   resData,
   StoredGameStatistics,
   synonyms,
+  setupValues,
 } from "../utils/types/projectTypes";
 import wordSet from "../utils/helpers/createWordSet";
 import UseAlert from "../utils/hooks/useAlert";
@@ -31,6 +32,7 @@ import Alert from "../Components/Alert";
 import Synonyms from "../Components/Synonyms";
 import MyLives from "../Components/myLives";
 import GameStat from "../Components/gameStats";
+import HowToPlay from "../Components/Modals/instructionModal";
 
 interface Props {
   synonyms: synonyms;
@@ -38,14 +40,18 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ synonyms, wordOfDay }) => {
-  const todaysDate = new Date();
-  const offsetDate = getOffsetDay(todaysDate);
-  const totalGuessAllowed: number = 6;
-  const synonymSet: Set<number> = new Set();
+  const setUpValues: setupValues = useMemo(() => {
+    const todaysDate = new Date();
+    const offsetDate = getOffsetDay(todaysDate);
+    const totalGuessAllowed: number = 6;
+    const synonymSet: Set<number> = new Set();
 
-  synonymSet.add(0);
-  synonymSet.add(Math.ceil(synonyms.length / 2));
-  synonymSet.add(synonyms.length - 1);
+    synonymSet.add(0);
+    synonymSet.add(Math.ceil(synonyms.length / 2));
+    synonymSet.add(synonyms.length - 1);
+
+    return { offsetDate, totalGuessAllowed, synonymSet };
+  }, [synonyms]);
 
   const [myGuess, setMyGuess] = useState<string>("");
   const [synos, setSynos] = useState<synonyms>(
@@ -60,11 +66,13 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay }) => {
   const [secretWord, setSecretWord] = useState<string>(wordOfDay);
   const [winState, setWinState] = useState<boolean>(false);
   const [gameState, setGameState] = useState<boolean>(false);
-  const [myLives, setMyLives] = useState(totalGuessAllowed);
+  const [myLives, setMyLives] = useState(setUpValues.totalGuessAllowed);
   const [guessLst, setGuessLst] = useState<string[]>([]);
   const [showInstruct, setShowInstruct] = useState<boolean>(true);
   const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [synonymSetState, setSynonymSetState] = useState(synonymSet);
+  const [synonymSetState, setSynonymSetState] = useState(
+    setUpValues.synonymSet
+  );
   const [myGameStats, setMyGameStats] = useState<StoredGameStatistics | null>(
     null
   );
@@ -113,9 +121,9 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay }) => {
         synonyms: synos,
         gameState: true,
         myLives: myLives - 1,
-        dayOfPlay: offsetDate,
+        dayOfPlay: setUpValues.offsetDate,
       });
-      gameStateFunc(offsetDate, false);
+      gameStateFunc(setUpValues.offsetDate, false);
     }
   };
 
@@ -147,9 +155,9 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay }) => {
         synonyms: synos,
         gameState: true,
         myLives: myLives - 1,
-        dayOfPlay: offsetDate,
+        dayOfPlay: setUpValues.offsetDate,
       });
-      gameStateFunc(offsetDate, false);
+      gameStateFunc(setUpValues.offsetDate, false);
     }
 
     if (myGuess.toLowerCase() === secretWord) {
@@ -162,9 +170,9 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay }) => {
         synonyms: synos,
         gameState: true,
         myLives: myLives,
-        dayOfPlay: offsetDate,
+        dayOfPlay: setUpValues.offsetDate,
       });
-      gameStateFunc(offsetDate, true);
+      gameStateFunc(setUpValues.offsetDate, true);
     } else {
       setGuessLst((prevLst) => [...prevLst, myGuess]);
       setMyGuess("");
@@ -249,7 +257,9 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay }) => {
       </main>
 
       {showInstruct && (
-        <InstructionModal onToggle={() => setShowInstruct(false)} />
+        <InstructionModal onToggle={() => setShowInstruct(false)}>
+          <HowToPlay />
+        </InstructionModal>
       )}
     </div>
   );

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import styles from "../styles/Home.module.css";
 import { synonyms } from "../utils/types/projectTypes";
 
@@ -18,4 +18,4 @@ const Synonyms: FC<Props> = ({ synos }) => {
   );
 };
 
-export default Synonyms;
+export default memo(Synonyms);
