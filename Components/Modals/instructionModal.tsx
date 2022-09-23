@@ -33,11 +33,11 @@ const instructionModal: FC = () => {
               <p className={styles.wrongGuess}>Screen</p>
               <p className={styles.wrongGuess}>Picture</p>
               <p className={`${styles.wrongGuess} ${styles.trgWordGuess}`}>
-                Play
+                Comics
               </p>
             </div>
             <p className={styles.Example__synsWord}>
-              {`"Play" is either a synonym or a word that is often seen in the same sentence as the secret word. "Picture" does not fit that criteria.`}
+              {`"Comics" is either a synonym or a word that is often seen in the same sentence as the secret word. "Picture" does not fit that criteria.`}
             </p>
           </div>
           <div className={styles.secretWord}>
