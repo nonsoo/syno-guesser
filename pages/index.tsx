@@ -11,13 +11,14 @@ import {
   synonyms,
   setupValues,
   triggerWord,
-  promiseResolver,
 } from "../utils/types/projectTypes";
 import wordSet from "../utils/helpers/createWordSet";
 import UseAlert from "../utils/hooks/useAlert";
 import UseGetHint from "../utils/hooks/useGetHint";
 import UseGetAllSynonyms from "../utils/hooks/useGetAllSynonyms";
 import UseGetTriggerWord from "../utils/hooks/useGetTriggerWords";
+import UsePromiseResolver from "../utils/hooks/usePromiseResolver";
+
 import {
   loadGameStateFromLocalStorage,
   saveGameStateToLocalStorage,
@@ -26,7 +27,6 @@ import {
 } from "../utils/helpers/saveGame";
 import getWordOftheDay, { getOffsetDay } from "../utils/helpers/newDay";
 import gameStateFunc from "../utils/helpers/gameStat";
-import fetchData from "../utils/helpers/fetchData";
 
 import HeadMeta from "../Components/headTags/HeadMeta";
 import EndGame from "../Components/EndGame";
@@ -40,9 +40,10 @@ import HowToPlay from "../Components/Modals/instructionModal";
 interface Props {
   synonyms: synonyms;
   wordOfDay: string;
+  trgWords: string[];
 }
 
-const Home: NextPage<Props> = ({ synonyms, wordOfDay }) => {
+const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
   const setUpValues: setupValues = useMemo(() => {
     const todaysDate = new Date();
     const offsetDate = getOffsetDay(todaysDate);
@@ -79,6 +80,8 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay }) => {
   const [myGameStats, setMyGameStats] = useState<StoredGameStatistics | null>(
     null
   );
+  const [synomynBackgroundCol, setSynomynBackgroundCol] =
+    useState<string>("black");
 
   useEffect(() => {
     const myGameStatsZ = loadGameStats();
@@ -137,7 +140,10 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay }) => {
     if (myGuess === "") return;
 
     // check if the guess is in the word lst
-    if (!wordSet.has(myGuess.toLowerCase())) {
+    if (
+      !wordSet.has(myGuess.toLowerCase()) &&
+      !trgWords.includes(myGuess.toLowerCase())
+    ) {
       setMyGuess("");
       setShowAlert(true);
       UseAlert(2500, () => setShowAlert(false));
@@ -148,6 +154,12 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay }) => {
     // reached the limit
     // if not check if the guess is equal to the secret word and add it to
     // the list of guesses.
+
+    if (trgWords.includes(myGuess.toLowerCase())) {
+      setSynomynBackgroundCol("hsl(111, 32%, 38%)");
+    } else {
+      setSynomynBackgroundCol("hsl(0, 84%, 68%)");
+    }
 
     if (myLives === 1) {
       setGameState(true);
@@ -177,7 +189,8 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay }) => {
       });
       gameStateFunc(setUpValues.offsetDate, true);
     } else {
-      setGuessLst((prevLst) => [...prevLst, myGuess]);
+      // setGuessLst((prevLst) => [...prevLst, myGuess]);
+      setGuessLst([...guessLst, myGuess]);
       setMyGuess("");
       setMyLives((prev) => prev - 1);
     }
@@ -217,10 +230,11 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay }) => {
             <Synonyms synos={synos} />
 
             <section className={styles.GuessedWords}>
-              {guessLst.map((word, index) => (
+              {guessLst.map((word) => (
                 <p
-                  key={index}
+                  key={word}
                   className={styles.GuessedWords__word}
+                  style={{ backgroundColor: synomynBackgroundCol }}
                   data-testid="GuessedWord"
                 >
                   {word}
@@ -277,21 +291,17 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   );
   const wordOfDay = getWordOftheDay();
 
-  const resData: promiseResolver = await Promise.all([
-    fetchData(
-      `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${wordOfDay}?key=${process.env.DICT_API_KEY}`
-    ),
-    fetchData(`https://api.datamuse.com/words?rel_trg=${wordOfDay}`),
-  ]);
+  const resData = await UsePromiseResolver(wordOfDay);
 
-  const resp = resData[0];
-  const trgWordResp = resData[1];
+  const resp: resData[] = resData[0];
+  const trgWordResp: triggerWord[] = resData[1];
 
   const synonyms = UseGetAllSynonyms(resp[0]?.meta?.syns);
-  const trgWord = UseGetTriggerWord(trgWordResp);
+  const trgWords = UseGetTriggerWord(trgWordResp);
 
-  console.log(trgWord);
+  console.log(trgWords);
+
   return {
-    props: { synonyms, wordOfDay },
+    props: { synonyms, wordOfDay, trgWords },
   };
 };
