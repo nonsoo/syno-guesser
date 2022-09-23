@@ -141,7 +141,8 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
     // check if the guess is in the word lst
     if (
       !wordSet.has(myGuess.toLowerCase()) &&
-      !trgWords.includes(myGuess.toLowerCase())
+      !trgWords.includes(myGuess.toLowerCase()) &&
+      !synonyms.includes(myGuess.toLowerCase())
     ) {
       setMyGuess("");
       setShowAlert(true);
@@ -182,7 +183,10 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
       gameStateFunc(setUpValues.offsetDate, true);
     } else {
       let synonymBackgroudColVar: string;
-      if (trgWords.includes(myGuess.toLowerCase())) {
+      if (
+        trgWords.includes(myGuess.toLowerCase()) ||
+        synonyms.includes(myGuess.toLowerCase())
+      ) {
         synonymBackgroudColVar = "hsl(111, 32%, 38%)";
       } else {
         synonymBackgroudColVar = "hsl(0, 84%, 68%)";
