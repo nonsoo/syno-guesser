@@ -269,13 +269,25 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
             <section className={styles.Hints}>
               <MyLives numLives={myLives} />
 
-              <button className={styles.Hints_btn} onClick={() => onGetHint()}>
+              <button
+                className={styles.Hints_btn}
+                onClick={() => onGetHint()}
+                disabled={synonyms.length === 0 ? true : false}
+              >
                 New Hint
               </button>
             </section>
           </>
         )}
       </main>
+
+      {synonyms.length === 0 && (
+        <p className={styles.Disclamer}>
+          Looks like the secret word today does not have any synonyms. You can
+          try your luck to guess the word unaided or come back tomorrow for a
+          new word.
+        </p>
+      )}
 
       {showInstruct && (
         <InstructionModal onToggle={() => setShowInstruct(false)}>
@@ -295,15 +307,37 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   );
   const wordOfDay = getWordOftheDay();
 
-  const resData = await UsePromiseResolver(wordOfDay);
+  try {
+    const resData = await UsePromiseResolver(wordOfDay);
 
-  const resp: resData[] = resData[0];
-  const trgWordResp: triggerWord[] = resData[1];
+    if (typeof resData[0][0] === "string") {
+      const synonyms: string[] = [];
+      let trgWords: string[] = [];
 
-  const synonyms = UseGetAllSynonyms(resp[0]?.meta?.syns);
-  const trgWords = UseGetTriggerWord(trgWordResp);
+      if (resData[1].length != 0) {
+        trgWords = UseGetTriggerWord(resData[1]);
+      }
 
-  return {
-    props: { synonyms, wordOfDay, trgWords },
-  };
+      return {
+        props: { synonyms, wordOfDay, trgWords },
+      };
+    }
+
+    const resp: resData[] = resData[0];
+    const trgWordResp: triggerWord[] = resData[1];
+
+    const synonyms = UseGetAllSynonyms(resp[0]?.meta?.syns);
+    const trgWords = UseGetTriggerWord(trgWordResp);
+
+    return {
+      props: { synonyms, wordOfDay, trgWords },
+    };
+  } catch {
+    const synonyms: string[] = [];
+    const trgWords: string[] = [];
+
+    return {
+      props: { synonyms, wordOfDay, trgWords },
+    };
+  }
 };

@@ -177,6 +177,18 @@
   touch-action: none;
 }
 
+.Disclamer {
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 2em;
+  max-width: 600px;
+  padding: 1em;
+  background-color: var(--col-background-sec);
+  border-radius: 10px;
+
+  font-weight: var(--fw-sec);
+}
+
 @media screen and (min-width: 800px) {
   .HeaderTitle {
     flex: 1;
