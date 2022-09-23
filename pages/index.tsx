@@ -3,7 +3,6 @@ import { useState, useEffect, useMemo } from "react";
 
 import { BsBookHalf } from "react-icons/bs";
 
-import axios from "axios";
 import styles from "../styles/Home.module.css";
 
 import {
@@ -11,11 +10,14 @@ import {
   StoredGameStatistics,
   synonyms,
   setupValues,
+  triggerWord,
+  promiseResolver,
 } from "../utils/types/projectTypes";
 import wordSet from "../utils/helpers/createWordSet";
 import UseAlert from "../utils/hooks/useAlert";
 import UseGetHint from "../utils/hooks/useGetHint";
 import UseGetAllSynonyms from "../utils/hooks/useGetAllSynonyms";
+import UseGetTriggerWord from "../utils/hooks/useGetTriggerWords";
 import {
   loadGameStateFromLocalStorage,
   saveGameStateToLocalStorage,
@@ -24,6 +26,7 @@ import {
 } from "../utils/helpers/saveGame";
 import getWordOftheDay, { getOffsetDay } from "../utils/helpers/newDay";
 import gameStateFunc from "../utils/helpers/gameStat";
+import fetchData from "../utils/helpers/fetchData";
 
 import HeadMeta from "../Components/headTags/HeadMeta";
 import EndGame from "../Components/EndGame";
@@ -274,14 +277,20 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   );
   const wordOfDay = getWordOftheDay();
 
-  const resData = await axios.get(
-    `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${wordOfDay}?key=${process.env.DICT_API_KEY}`
-  );
+  const resData: promiseResolver = await Promise.all([
+    fetchData(
+      `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${wordOfDay}?key=${process.env.DICT_API_KEY}`
+    ),
+    fetchData(`https://api.datamuse.com/words?rel_trg=${wordOfDay}`),
+  ]);
 
-  const resp: resData[] = resData.data;
+  const resp = resData[0];
+  const trgWordResp = resData[1];
 
   const synonyms = UseGetAllSynonyms(resp[0]?.meta?.syns);
+  const trgWord = UseGetTriggerWord(trgWordResp);
 
+  console.log(trgWord);
   return {
     props: { synonyms, wordOfDay },
   };

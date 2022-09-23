@@ -9,6 +9,8 @@ export interface endgameProps {
 
 export type synonyms = string[];
 
+export type promiseResolver = [resData[], triggerWord[]];
+
 export interface resData {
   def: any;
   fl: string;
@@ -25,6 +27,11 @@ export interface resData {
     };
   };
   shortdef: string[];
+}
+
+export interface triggerWord {
+  word: string;
+  score: number;
 }
 
 export interface StoredGameState {
