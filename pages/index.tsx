@@ -303,8 +303,6 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const synonyms = UseGetAllSynonyms(resp[0]?.meta?.syns);
   const trgWords = UseGetTriggerWord(trgWordResp);
 
-  console.log(trgWords);
-
   return {
     props: { synonyms, wordOfDay, trgWords },
   };
