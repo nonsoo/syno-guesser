@@ -3,7 +3,7 @@ export interface endgameProps {
   secretWord: string;
 
   winState: boolean;
-  myGuesses: string[];
+  myGuesses: userGuessLst[];
   children: ReactNode;
 }
 
@@ -34,11 +34,16 @@ export interface triggerWord {
   score: number;
 }
 
+export interface userGuessLst {
+  word: string;
+  statusColour: string;
+}
+
 export interface StoredGameState {
   secretWord: string;
   winState: boolean;
   gameState: boolean;
-  myGuesses: string[];
+  myGuesses: userGuessLst[];
   synonyms: string[];
   myLives: number;
   dayOfPlay: number;

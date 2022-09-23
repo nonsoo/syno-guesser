@@ -8,6 +8,7 @@ import styles from "../styles/Home.module.css";
 import {
   resData,
   StoredGameStatistics,
+  userGuessLst,
   synonyms,
   setupValues,
   triggerWord,
@@ -71,7 +72,7 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
   const [winState, setWinState] = useState<boolean>(false);
   const [gameState, setGameState] = useState<boolean>(false);
   const [myLives, setMyLives] = useState(setUpValues.totalGuessAllowed);
-  const [guessLst, setGuessLst] = useState<string[]>([]);
+  const [guessLst, setGuessLst] = useState<userGuessLst[]>([]);
   const [showInstruct, setShowInstruct] = useState<boolean>(true);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [synonymSetState, setSynonymSetState] = useState(
@@ -80,8 +81,6 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
   const [myGameStats, setMyGameStats] = useState<StoredGameStatistics | null>(
     null
   );
-  const [synomynBackgroundCol, setSynomynBackgroundCol] =
-    useState<string>("black");
 
   useEffect(() => {
     const myGameStatsZ = loadGameStats();
@@ -154,13 +153,6 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
     // reached the limit
     // if not check if the guess is equal to the secret word and add it to
     // the list of guesses.
-
-    if (trgWords.includes(myGuess.toLowerCase())) {
-      setSynomynBackgroundCol("hsl(111, 32%, 38%)");
-    } else {
-      setSynomynBackgroundCol("hsl(0, 84%, 68%)");
-    }
-
     if (myLives === 1) {
       setGameState(true);
       saveGameStateToLocalStorage({
@@ -189,8 +181,16 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
       });
       gameStateFunc(setUpValues.offsetDate, true);
     } else {
-      // setGuessLst((prevLst) => [...prevLst, myGuess]);
-      setGuessLst([...guessLst, myGuess]);
+      let synonymBackgroudColVar: string;
+      if (trgWords.includes(myGuess.toLowerCase())) {
+        synonymBackgroudColVar = "hsl(111, 32%, 38%)";
+      } else {
+        synonymBackgroudColVar = "hsl(0, 84%, 68%)";
+      }
+      setGuessLst((prevLst) => [
+        ...prevLst,
+        { word: myGuess, statusColour: synonymBackgroudColVar },
+      ]);
       setMyGuess("");
       setMyLives((prev) => prev - 1);
     }
@@ -230,14 +230,14 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
             <Synonyms synos={synos} />
 
             <section className={styles.GuessedWords}>
-              {guessLst.map((word) => (
+              {guessLst.map((word, index) => (
                 <p
-                  key={word}
+                  key={index}
                   className={styles.GuessedWords__word}
-                  style={{ backgroundColor: synomynBackgroundCol }}
+                  style={{ backgroundColor: word.statusColour }}
                   data-testid="GuessedWord"
                 >
-                  {word}
+                  {word.word}
                 </p>
               ))}
             </section>
