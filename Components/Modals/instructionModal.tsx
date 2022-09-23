@@ -30,12 +30,14 @@ const instructionModal: FC = () => {
           </div>
           <div className={styles.Example__syns}>
             <div className={styles.Example__synsTags}>
-              <p className={styles.wrongGuess}>Read</p>
-              <p className={styles.wrongGuess}>Play</p>
+              <p className={styles.wrongGuess}>Screen</p>
               <p className={styles.wrongGuess}>Picture</p>
+              <p className={`${styles.wrongGuess} ${styles.trgWordGuess}`}>
+                Play
+              </p>
             </div>
             <p className={styles.Example__synsWord}>
-              Wrong guesses are in red and will appear in the guess bucket
+              {`"Play" is either a synonym or a word that is often seen in the same sentence as the secret word. "Picture" does not fit that criteria.`}
             </p>
           </div>
           <div className={styles.secretWord}>

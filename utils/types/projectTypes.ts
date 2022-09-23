@@ -3,11 +3,13 @@ export interface endgameProps {
   secretWord: string;
 
   winState: boolean;
-  myGuesses: string[];
+  myGuesses: userGuessLst[];
   children: ReactNode;
 }
 
 export type synonyms = string[];
+
+export type promiseResolver = [resData[], triggerWord[]];
 
 export interface resData {
   def: any;
@@ -27,11 +29,21 @@ export interface resData {
   shortdef: string[];
 }
 
+export interface triggerWord {
+  word: string;
+  score: number;
+}
+
+export interface userGuessLst {
+  word: string;
+  statusColour: string;
+}
+
 export interface StoredGameState {
   secretWord: string;
   winState: boolean;
   gameState: boolean;
-  myGuesses: string[];
+  myGuesses: userGuessLst[];
   synonyms: string[];
   myLives: number;
   dayOfPlay: number;

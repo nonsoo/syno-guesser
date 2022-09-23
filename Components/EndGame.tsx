@@ -34,7 +34,7 @@ const EndGame: FC<endgameProps> = ({
         <div className={styles.MyGuessCon}>
           {myGuesses.map((guess, index) => (
             <p key={index} data-testid="guessEntered">
-              {guess}
+              {guess.word}
             </p>
           ))}
         </div>
