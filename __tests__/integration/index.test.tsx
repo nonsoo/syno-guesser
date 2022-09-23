@@ -5,11 +5,14 @@ import Home from "../../pages/index";
 
 const stringWords = ["hello", "There", "you", "test", "test1"];
 const word: string = "there";
+const trgWordsLst = ["bob", " Apple", "trigger"];
 
 describe("Test the application for Functionality", () => {
   describe("Instruction page", () => {
     it("should mount the instruction page when page is loaded", () => {
-      render(<Home synonyms={stringWords} wordOfDay={word} />);
+      render(
+        <Home synonyms={stringWords} wordOfDay={word} trgWords={trgWordsLst} />
+      );
 
       const InstructionHeader = screen.getByText(/How to play/i);
 
@@ -22,7 +25,9 @@ describe("Test the application for Functionality", () => {
       window.localStorage.clear();
     });
     it("should allow user to submit a guess", () => {
-      render(<Home synonyms={stringWords} wordOfDay={word} />);
+      render(
+        <Home synonyms={stringWords} wordOfDay={word} trgWords={trgWordsLst} />
+      );
       const closeBtn = screen.getByTestId("instruct_Close_btn");
       fireEvent.click(closeBtn);
 
@@ -40,7 +45,9 @@ describe("Test the application for Functionality", () => {
     });
 
     it("should show the user a new synonym when the new hint btn is pressed", () => {
-      render(<Home synonyms={stringWords} wordOfDay={word} />);
+      render(
+        <Home synonyms={stringWords} wordOfDay={word} trgWords={trgWordsLst} />
+      );
       const closeBtn = screen.getByTestId("instruct_Close_btn");
       fireEvent.click(closeBtn);
 
@@ -54,7 +61,9 @@ describe("Test the application for Functionality", () => {
     });
 
     it("should show the not in word list prompt when a user enters a word that is not in the word list", () => {
-      render(<Home synonyms={stringWords} wordOfDay={word} />);
+      render(
+        <Home synonyms={stringWords} wordOfDay={word} trgWords={trgWordsLst} />
+      );
       const closeBtn = screen.getByTestId("instruct_Close_btn");
       fireEvent.click(closeBtn);
 
@@ -72,7 +81,9 @@ describe("Test the application for Functionality", () => {
     });
 
     it("should show the user that they have won the game", () => {
-      render(<Home synonyms={stringWords} wordOfDay={word} />);
+      render(
+        <Home synonyms={stringWords} wordOfDay={word} trgWords={trgWordsLst} />
+      );
       const closeBtn = screen.getByTestId("instruct_Close_btn");
       fireEvent.click(closeBtn);
 
@@ -90,7 +101,9 @@ describe("Test the application for Functionality", () => {
     });
 
     it("should show if the user has lost the game", () => {
-      render(<Home synonyms={stringWords} wordOfDay={word} />);
+      render(
+        <Home synonyms={stringWords} wordOfDay={word} trgWords={trgWordsLst} />
+      );
       const closeBtn = screen.getByTestId("instruct_Close_btn");
       fireEvent.click(closeBtn);
       const guessInput = screen.getByRole("textbox");
@@ -108,7 +121,9 @@ describe("Test the application for Functionality", () => {
     });
 
     it("should keep track of the number of guesses the user has entered", () => {
-      render(<Home synonyms={stringWords} wordOfDay={word} />);
+      render(
+        <Home synonyms={stringWords} wordOfDay={word} trgWords={trgWordsLst} />
+      );
       const closeBtn = screen.getByTestId("instruct_Close_btn");
       fireEvent.click(closeBtn);
       const guessInput = screen.getByRole("textbox");
@@ -132,7 +147,9 @@ describe("Test the application for Functionality", () => {
     });
 
     it("should decrease the life by 1 when an incorrect guess is entered", () => {
-      render(<Home synonyms={stringWords} wordOfDay={word} />);
+      render(
+        <Home synonyms={stringWords} wordOfDay={word} trgWords={trgWordsLst} />
+      );
       const closeBtn = screen.getByTestId("instruct_Close_btn");
       fireEvent.click(closeBtn);
 
