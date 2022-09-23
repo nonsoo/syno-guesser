@@ -106,6 +106,10 @@
   color: var(--col-text-sec);
 }
 
+.trgWordGuess {
+  background-color: var(--col-acc-sec);
+}
+
 .Example__synsWord,
 .secretWord_WordInstuctions {
   margin-top: 0.55em;
@@ -159,6 +163,6 @@
   }
 
   .secretWord_Word {
-    background-color: var(--col-acc-sec);
+    background-color: hsl(0, 0%, 16%);
   }
 }
