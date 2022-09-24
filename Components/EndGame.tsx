@@ -32,8 +32,8 @@ const EndGame: FC<endgameProps> = ({
 
         <p className={styles.EndGame__guessnum}> Guesses: {myGuesses.length}</p>
         <div className={styles.MyGuessCon}>
-          {myGuesses.map((guess, index) => (
-            <p key={index} data-testid="guessEntered">
+          {myGuesses.map((guess) => (
+            <p key={guess.id} data-testid="guessEntered">
               {guess.word}
             </p>
           ))}

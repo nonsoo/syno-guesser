@@ -1,5 +1,6 @@
 import type { NextPage, GetServerSideProps } from "next";
 import { useState, useEffect, useMemo } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import { BsBookHalf } from "react-icons/bs";
 
@@ -193,7 +194,7 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
       }
       setGuessLst((prevLst) => [
         ...prevLst,
-        { word: myGuess, statusColour: synonymBackgroudColVar },
+        { id: uuidv4(), word: myGuess, statusColour: synonymBackgroudColVar },
       ]);
       setMyGuess("");
       setMyLives((prev) => prev - 1);
@@ -234,9 +235,9 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
             <Synonyms synos={synos} />
 
             <section className={styles.GuessedWords}>
-              {guessLst.map((word, index) => (
+              {guessLst.map((word) => (
                 <p
-                  key={index}
+                  key={word.id}
                   className={styles.GuessedWords__word}
                   style={{ backgroundColor: word.statusColour }}
                   data-testid="GuessedWord"

@@ -35,6 +35,7 @@ export interface triggerWord {
 }
 
 export interface userGuessLst {
+  id: string;
   word: string;
   statusColour: string;
 }
