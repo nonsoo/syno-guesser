@@ -1,15 +1,12 @@
 import { ReactNode } from "react";
 export interface endgameProps {
   secretWord: string;
-
   winState: boolean;
   myGuesses: userGuessLst[];
   children: ReactNode;
 }
 
 export type synonyms = string[];
-
-export type promiseResolver = [resData[], triggerWord[]];
 
 export interface resData {
   def: any;
