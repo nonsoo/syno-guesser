@@ -7,6 +7,38 @@ export interface endgameProps {
 }
 
 export type synonyms = string[];
+export interface synonym {
+  language: string;
+  text: string;
+}
+
+export interface newResData {
+  id: string;
+  metadata: {
+    operation: string;
+    provider: string;
+    scheme: string;
+  };
+  results: {
+    id: string;
+    languages: string;
+    lexicalEntries: {
+      entries: {
+        senses: {
+          id: string;
+          synonyms: synonym[];
+          subsenses: {
+            id: string;
+            synonyms: synonym[];
+          }[];
+        }[];
+      }[];
+    }[];
+  }[];
+  word: string;
+}
+
+export type entries = newResData["results"][0]["lexicalEntries"][0]["entries"];
 
 export interface resData {
   def: any;

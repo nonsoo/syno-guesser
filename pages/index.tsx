@@ -8,6 +8,7 @@ import styles from "../styles/Home.module.css";
 
 import {
   resData,
+  newResData,
   StoredGameStatistics,
   userGuessLst,
   synonyms,
@@ -308,24 +309,16 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   try {
     const resData = await UsePromiseResolver(wordOfDay);
 
-    if (typeof resData[0][0] === "string") {
-      const synonyms: string[] = [];
-      let trgWords: string[] = [];
-
-      if (resData[1].length != 0) {
-        trgWords = UseGetTriggerWord(resData[1]);
-      }
-
-      return {
-        props: { synonyms, wordOfDay, trgWords },
-      };
-    }
-
-    const resp: resData[] = resData[0];
+    const resp: newResData = resData[0];
     const trgWordResp: triggerWord[] = resData[1];
 
-    const synonyms = UseGetAllSynonyms(resp[0]?.meta?.syns);
+    const synonyms = UseGetAllSynonyms(
+      resp.results[0].lexicalEntries[0].entries
+    );
     const trgWords = UseGetTriggerWord(trgWordResp);
+
+    console.log(trgWords);
+    console.log(synonyms);
 
     return {
       props: { synonyms, wordOfDay, trgWords },
