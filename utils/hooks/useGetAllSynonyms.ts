@@ -1,20 +1,19 @@
-import { synonyms, entries } from "../types/projectTypes";
-const parseSynonyms = (lst: synonyms[]) => {
-  const newArray: synonyms = [];
+import { entries } from "../types/projectTypes";
+const parseSynonyms = <T>(lst: T[][]) => {
+  let newArray: T[] = [];
 
   lst.forEach((pair) => newArray.push(...pair));
   return newArray;
 };
 
 const getAllSynonyms = (entries: entries) => {
-  const newArray: synonyms[] = [];
   const allSynonyms = entries.map((entry) =>
     entry.senses.map((sense) => sense.synonyms.map((word) => word.text))
   );
 
-  allSynonyms.forEach((pair) => newArray.push(...pair));
+  const subSynonymsLst = parseSynonyms(allSynonyms);
 
-  const lstOfSynonyms = parseSynonyms(newArray);
+  const lstOfSynonyms = parseSynonyms(subSynonymsLst);
 
   return lstOfSynonyms;
 };
