@@ -29,6 +29,7 @@ import {
 } from "../utils/helpers/saveGame";
 import getWordOftheDay, { getOffsetDay } from "../utils/helpers/newDay";
 import gameStateFunc from "../utils/helpers/gameStat";
+import setSynBackgroundCol from "../utils/helpers/setSynBackgroundCol";
 
 import HeadMeta from "../Components/headTags/HeadMeta";
 import EndGame from "../Components/EndGame";
@@ -183,15 +184,11 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
       });
       gameStateFunc(setUpValues.offsetDate, true);
     } else {
-      let synonymBackgroudColVar: string;
-      if (
-        trgWords.includes(myGuess.toLowerCase()) ||
-        synonyms.includes(myGuess.toLowerCase())
-      ) {
-        synonymBackgroudColVar = "hsl(111, 32%, 38%)";
-      } else {
-        synonymBackgroudColVar = "hsl(0, 84%, 68%)";
-      }
+      const synonymBackgroudColVar = setSynBackgroundCol(
+        myGuess,
+        trgWords,
+        synonyms
+      );
       setGuessLst((prevLst) => [
         ...prevLst,
         { id: uuidv4(), word: myGuess, statusColour: synonymBackgroudColVar },
