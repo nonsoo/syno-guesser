@@ -54,7 +54,7 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
     const synonymSet: Set<number> = new Set();
 
     synonymSet.add(0);
-    synonymSet.add(Math.ceil(synonyms.length / 2));
+    synonymSet.add(Math.floor(synonyms.length / 2));
     synonymSet.add(synonyms.length - 1);
 
     return { offsetDate, totalGuessAllowed, synonymSet };
@@ -270,7 +270,12 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
               <button
                 className={styles.Hints_btn}
                 onClick={() => onGetHint()}
-                disabled={synonyms.length === 0 ? true : false}
+                disabled={
+                  synonyms.length === 0 ||
+                  synonymSetState.size === synonyms.length
+                    ? true
+                    : false
+                }
               >
                 New Hint
               </button>
