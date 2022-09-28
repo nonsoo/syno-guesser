@@ -1,6 +1,7 @@
 import type { NextPage, GetServerSideProps } from "next";
 import { useState, useEffect, useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
+import cookie from "cookie";
 
 import { BsBookHalf } from "react-icons/bs";
 
@@ -299,13 +300,20 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
 
 export default Home;
 
-export const getServerSideProps: GetServerSideProps = async ({ res }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   res.setHeader(
     "Cache-Control",
     "public, s-maxage=10, stale-while-revalidate=59"
   );
-  const wordOfDay = getWordOftheDay();
 
+  const { token } = req.cookies;
+
+  if (token) {
+    const data = JSON.parse(token);
+
+    return { props: data };
+  }
+  const wordOfDay = getWordOftheDay();
   try {
     const resData = await UsePromiseResolver(wordOfDay);
 
@@ -317,8 +325,20 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
     );
     const trgWords = UseGetTriggerWord(trgWordResp);
 
-    console.log(trgWords);
-    console.log(synonyms);
+    res.setHeader(
+      "Set-Cookie",
+      cookie.serialize(
+        "token",
+        JSON.stringify({ synonyms, wordOfDay, trgWords }),
+        {
+          httpOnly: true,
+          secure: process.env.NODE_ENV !== "development",
+          maxAge: 60 * 60,
+          sameSite: "strict",
+          path: "/",
+        }
+      )
+    );
 
     return {
       props: { synonyms, wordOfDay, trgWords },
