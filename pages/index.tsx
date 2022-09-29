@@ -65,7 +65,7 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
     synonyms.length > 3
       ? [
           synonyms[0],
-          synonyms[Math.ceil(synonyms.length / 2)],
+          synonyms[Math.floor(synonyms.length / 2)],
           synonyms[synonyms.length - 1],
         ]
       : [...synonyms]
@@ -113,8 +113,8 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
   const onGetHint = () => {
     // pick a random hint and then check if the set has the hint
     // if the hint exists in the set then pick a new hints
-    if (synonymSetState.size === synonyms.length) return;
     const newHint = UseGetHint(synonymSetState, synonyms.length);
+    if (!newHint) return;
     setSynonymSetState(synonymSetState.add(newHint));
     setSynos((prevState) => [...prevState, synonyms[newHint]]);
     setMyLives((prev) => prev - 1);
