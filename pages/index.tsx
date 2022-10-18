@@ -329,7 +329,10 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
     const resp: resData[] = resData[0];
     const trgWordResp: triggerWord[] = resData[1];
 
-    const synonyms = UseGetAllSynonyms(resp[0]?.meta?.syns);
+    const cleanData = resp.filter((obj) => obj?.meta?.id === wordOfDay);
+
+    const synonyms = UseGetAllSynonyms(cleanData);
+
     const trgWords = UseGetTriggerWord(trgWordResp);
 
     return {
