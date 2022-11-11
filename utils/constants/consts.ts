@@ -1,6 +1,6 @@
 export const BASE_URL =
   process.env.NODE_ENV !== "development"
-    ? "https://www.nonsoo.com"
+    ? "https://www.cluelesswords.com"
     : "localhost:3000";
 
 export const SOCIAL_IMG_URL_DEFAULT =
