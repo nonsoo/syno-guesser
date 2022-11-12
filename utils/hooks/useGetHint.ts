@@ -4,7 +4,7 @@ const useGetHint = (hintSet: Set<number>, lenLst: number) => {
   let randomHint: number = 0;
   let counter: number = 0;
 
-  if (hintSet.size === lenLst) return;
+  if (hintSet.size === lenLst) return null;
 
   while (newHint === false || counter > lenLst) {
     counter++;
