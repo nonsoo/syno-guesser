@@ -1,6 +1,8 @@
 import { useState, useCallback, useEffect } from "react";
 
-export const useAlert = (timeOut = 3000): [boolean, () => void] => {
+import type { useAlertType } from "../types/hookTypes";
+
+const useAlert: useAlertType = (timeOut = 3000) => {
   const [result, setResult] = useState(false);
 
   const alertFn = useCallback(() => {
