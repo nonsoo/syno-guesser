@@ -15,7 +15,7 @@ import {
   triggerWord,
 } from "../utils/types/projectTypes";
 import wordSet from "../utils/helpers/createWordSet";
-import UseAlert from "../utils/hooks/useAlert";
+import useAlert from "../utils/hooks/useAlert";
 import UseGetHint from "../utils/hooks/useGetHint";
 import UseGetAllSynonyms from "../utils/hooks/useGetAllSynonyms";
 import UseGetTriggerWord from "../utils/hooks/useGetTriggerWords";
@@ -76,7 +76,7 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
   const [myLives, setMyLives] = useState(setUpValues.totalGuessAllowed);
   const [guessLst, setGuessLst] = useState<userGuessLst[]>([]);
   const [showInstruct, setShowInstruct] = useState<boolean>(true);
-  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [showAlert, setShowAlert] = useAlert(2500);
   const [synonymSetState, setSynonymSetState] = useState(
     setUpValues.synonymSet
   );
@@ -147,8 +147,7 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
       !synonyms.includes(myGuess.toLowerCase())
     ) {
       setMyGuess("");
-      setShowAlert(true);
-      UseAlert(2500, () => setShowAlert(false));
+      setShowAlert();
       return;
     }
 
