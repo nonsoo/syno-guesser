@@ -84,6 +84,13 @@
   text-align: center;
 }
 
+.countDown {
+  font-size: var(--fs-prmy);
+  font-weight: var(--fw-tri);
+
+  margin: 2rem auto;
+}
+
 @keyframes showModal {
   from {
     transform: translateY(50px);
