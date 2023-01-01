@@ -40,7 +40,6 @@ const EndGame: FC<endgameProps> = ({
             </p>
           ))}
         </div>
-        <p className={styles.checkBack}>Check back tomorrow for a new word!</p>
         <Countdown />
       </section>
     </>

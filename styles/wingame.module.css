@@ -47,6 +47,7 @@
   background-color: var(--col-background-tri);
   border-radius: 10px;
 }
+
 .EndGame__Synonyms {
   margin: 1.5rem 0;
   display: flex;
@@ -77,16 +78,10 @@
   margin-top: 1.2em;
 }
 
-.checkBack {
-  margin-top: 1rem;
-  font-weight: var(--fw-sec);
-  font-size: var(--fs-sec);
-  text-align: center;
-}
-
 .countDown {
-  font-size: var(--fs-prmy);
-  font-weight: var(--fw-tri);
+  font-size: var(--fs-sec);
+  font-weight: var(--fw-sec);
+  text-align: center;
 
   margin: 2rem auto;
 }

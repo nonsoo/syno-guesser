@@ -19,8 +19,8 @@ const convertValue = (countDown: number) => {
   return [days, hours, minutes, seconds];
 };
 
-const useCountdown = (targetDate: Date) => {
-  const countDownDate = targetDate.getDate();
+const useCountdown = (targetDate: string) => {
+  const countDownDate = new Date(targetDate).getTime();
   const delta = countDownDate - new Date().getTime();
   const [countDown, setCountDown] = useState(delta);
 
