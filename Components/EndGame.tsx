@@ -3,6 +3,8 @@ import styles from "../styles/wingame.module.css";
 
 import { endgameProps } from "../utils/types/projectTypes";
 
+import Countdown from "../Components/Countdown";
+
 const EndGame: FC<endgameProps> = ({
   secretWord,
   winState,
@@ -38,7 +40,7 @@ const EndGame: FC<endgameProps> = ({
             </p>
           ))}
         </div>
-        <p className={styles.checkBack}>Check back tomorrow for a new word!</p>
+        <Countdown />
       </section>
     </>
   );
