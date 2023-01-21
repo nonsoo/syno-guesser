@@ -20,6 +20,7 @@ import UseGetHint from "../utils/hooks/useGetHint";
 import UseGetAllSynonyms from "../utils/hooks/useGetAllSynonyms";
 import UseGetTriggerWord from "../utils/hooks/useGetTriggerWords";
 import UsePromiseResolver from "../utils/hooks/usePromiseResolver";
+import useOnClickOutside from "../utils/hooks/useOnClickOutsite";
 
 import {
   loadGameStateFromLocalStorage,
@@ -83,6 +84,8 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
   const [myGameStats, setMyGameStats] = useState<StoredGameStatistics | null>(
     null
   );
+
+  const refNode = useOnClickOutside(() => setShowInstruct(false));
 
   useEffect(() => {
     const myGameStatsZ = loadGameStats();
@@ -292,7 +295,7 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
       )}
 
       {showInstruct && (
-        <InstructionModal onToggle={() => setShowInstruct(false)}>
+        <InstructionModal onToggle={() => setShowInstruct(false)} ref={refNode}>
           <HowToPlay />
         </InstructionModal>
       )}
