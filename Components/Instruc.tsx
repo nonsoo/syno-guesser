@@ -1,4 +1,4 @@
-import { FC, forwardRef, ReactNode, ForwardedRef } from "react";
+import { forwardRef, ReactNode, ForwardedRef } from "react";
 import styles from "../styles/Instructions.module.css";
 
 import { IoClose } from "react-icons/io5";
