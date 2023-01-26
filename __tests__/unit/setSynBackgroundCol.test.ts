@@ -5,7 +5,8 @@ describe("setSynBackgroundCol", () => {
     const myGuess = "hello";
     const trgWords = ["hello", "world"];
     const synonyms = ["hi", "greetings"];
-    expect(setSynBackgroundCol(myGuess, trgWords, synonyms)).toBe(
+    const secretWord = "book";
+    expect(setSynBackgroundCol(myGuess, trgWords, synonyms, secretWord)).toBe(
       "hsl(111, 32%, 38%)"
     );
   });
@@ -14,7 +15,8 @@ describe("setSynBackgroundCol", () => {
     const myGuess = "goodbye";
     const trgWords = ["hello", "world"];
     const synonyms = ["hi", "greetings"];
-    expect(setSynBackgroundCol(myGuess, trgWords, synonyms)).toBe(
+    const secretWord = "book";
+    expect(setSynBackgroundCol(myGuess, trgWords, synonyms, secretWord)).toBe(
       "hsl(0, 84%, 68%)"
     );
   });

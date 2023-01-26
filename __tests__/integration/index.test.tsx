@@ -143,7 +143,7 @@ describe("Test the application for Functionality", () => {
 
       fireEvent.submit(form);
       const numOfGuesses = screen.getAllByTestId("guessEntered");
-      expect(numOfGuesses.length).toEqual(3);
+      expect(numOfGuesses.length).toEqual(4);
     });
 
     it("should decrease the life by 1 when an incorrect guess is entered", () => {
