@@ -184,12 +184,27 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
         myLives: myLives,
         dayOfPlay: setUpValues.offsetDate,
       });
+      const synonymBackgroudColVar = setSynBackgroundCol(
+        myGuess,
+        trgWords,
+        synonyms,
+        secretWord
+      );
+      setGuessLst((prevLst) => [
+        ...prevLst,
+        {
+          id: uuidv4(),
+          word: myGuess,
+          statusColour: synonymBackgroudColVar,
+        },
+      ]);
       gameStateFunc(setUpValues.offsetDate, true);
     } else {
       const synonymBackgroudColVar = setSynBackgroundCol(
         myGuess,
         trgWords,
-        synonyms
+        synonyms,
+        secretWord
       );
       setGuessLst((prevLst) => [
         ...prevLst,
