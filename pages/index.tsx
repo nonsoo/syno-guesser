@@ -154,6 +154,14 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
       return;
     }
 
+    // check if guess is correct or not so that we can set the background color
+    const synonymBackgroudColVar = setSynBackgroundCol(
+      myGuess,
+      trgWords,
+      synonyms,
+      secretWord
+    );
+
     // if above checks pass then check the number of guesses has
     // reached the limit
     // if not check if the guess is equal to the secret word and add it to
@@ -163,7 +171,10 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
       saveGameStateToLocalStorage({
         secretWord: secretWord,
         winState: winState,
-        myGuesses: guessLst,
+        myGuesses: [
+          ...guessLst,
+          { id: uuidv4(), word: myGuess, statusColour: synonymBackgroudColVar },
+        ],
         synonyms: synos,
         gameState: true,
         myLives: myLives - 1,
@@ -178,18 +189,16 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
       saveGameStateToLocalStorage({
         secretWord: secretWord,
         winState: true,
-        myGuesses: guessLst,
+        myGuesses: [
+          ...guessLst,
+          { id: uuidv4(), word: myGuess, statusColour: synonymBackgroudColVar },
+        ],
         synonyms: synos,
         gameState: true,
         myLives: myLives,
         dayOfPlay: setUpValues.offsetDate,
       });
-      const synonymBackgroudColVar = setSynBackgroundCol(
-        myGuess,
-        trgWords,
-        synonyms,
-        secretWord
-      );
+
       setGuessLst((prevLst) => [
         ...prevLst,
         {
@@ -200,12 +209,6 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
       ]);
       gameStateFunc(setUpValues.offsetDate, true);
     } else {
-      const synonymBackgroudColVar = setSynBackgroundCol(
-        myGuess,
-        trgWords,
-        synonyms,
-        secretWord
-      );
       setGuessLst((prevLst) => [
         ...prevLst,
         { id: uuidv4(), word: myGuess, statusColour: synonymBackgroudColVar },
