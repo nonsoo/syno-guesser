@@ -32,7 +32,6 @@ const EndGame: FC<endgameProps> = ({
         <p className={styles.EndGame__Secret}>{secretWord}</p>
         <div className={styles.EndGame__Synonyms}>{children}</div>
 
-        <p className={styles.EndGame__guessnum}> Guesses: {myGuesses.length}</p>
         <div className={styles.MyGuessCon}>
           {myGuesses.map((guess) => (
             <p
