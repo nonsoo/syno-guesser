@@ -16,11 +16,12 @@ import {
 } from "../utils/types/projectTypes";
 import wordSet from "../utils/helpers/createWordSet";
 import useAlert from "../utils/hooks/useAlert";
-import UseGetHint from "../utils/hooks/useGetHint";
+import { newRandomHint } from "../utils/hooks/useGetHint";
 import UseGetAllSynonyms from "../utils/hooks/useGetAllSynonyms";
 import UseGetTriggerWord from "../utils/hooks/useGetTriggerWords";
 import UsePromiseResolver from "../utils/hooks/usePromiseResolver";
 import useOnClickOutside from "../utils/hooks/useOnClickOutsite";
+import randomizeHint from "../utils/helpers/randomizeHints";
 
 import {
   loadGameStateFromLocalStorage,
@@ -52,13 +53,10 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
     const todaysDate = new Date();
     const offsetDate = getOffsetDay(todaysDate);
     const totalGuessAllowed: number = 6;
-    const synonymSet: Set<number> = new Set();
 
-    synonymSet.add(0);
-    synonymSet.add(Math.floor(synonyms.length / 2));
-    synonymSet.add(synonyms.length - 1);
+    const randomizedHints = randomizeHint(synonyms);
 
-    return { offsetDate, totalGuessAllowed, synonymSet };
+    return { offsetDate, totalGuessAllowed, randomizedHints };
   }, [synonyms]);
 
   const [myGuess, setMyGuess] = useState<string>("");
@@ -78,12 +76,10 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
   const [guessLst, setGuessLst] = useState<userGuessLst[]>([]);
   const [showInstruct, setShowInstruct] = useState<boolean>(true);
   const [showAlert, setShowAlert] = useAlert(2500);
-  const [synonymSetState, setSynonymSetState] = useState(
-    setUpValues.synonymSet
-  );
   const [myGameStats, setMyGameStats] = useState<StoredGameStatistics | null>(
     null
   );
+  const [number_of_hints_used, set_number_of_hints_used] = useState(0);
 
   const refNode = useOnClickOutside(() => setShowInstruct(false));
 
@@ -116,10 +112,12 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
   const onGetHint = () => {
     // pick a random hint and then check if the set has the hint
     // if the hint exists in the set then pick a new hints
-    const newHint = UseGetHint(synonymSetState, synonyms.length);
-    if (!newHint) return;
-    setSynonymSetState(synonymSetState.add(newHint));
-    setSynos((prevState) => [...prevState, synonyms[newHint]]);
+    set_number_of_hints_used((prev) => prev + 1);
+    const newRandomHints = newRandomHint(setUpValues.randomizedHints);
+
+    if (!newRandomHints) return;
+
+    setSynos((prevState) => [...prevState, newRandomHints]);
     setMyLives((prev) => prev - 1);
 
     if (myLives === 1) {
@@ -292,7 +290,7 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
                 onClick={() => onGetHint()}
                 disabled={
                   synonyms.length === 0 ||
-                  synonymSetState.size === synonyms.length
+                  number_of_hints_used === setUpValues.randomizedHints.length
                     ? true
                     : false
                 }

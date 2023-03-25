@@ -1,21 +1,20 @@
-const useGetHint = (hintSet: Set<number>, lenLst: number) => {
-  let newHint = false;
-
+import { synonyms } from "../types/projectTypes";
+export const useGetHint = (hintSet: Set<number>, lenLst: number) => {
   let randomHint: number = 0;
   let counter: number = 0;
 
   if (hintSet.size === lenLst) return;
 
-  while (newHint === false || counter > lenLst) {
+  while (counter <= lenLst) {
     counter++;
     randomHint = Math.floor(Math.random() * lenLst);
 
-    if (!hintSet.has(randomHint)) {
-      newHint = true;
-    }
+    if (!hintSet.has(randomHint)) break;
   }
 
   return randomHint;
 };
 
-export default useGetHint;
+export const newRandomHint = (synonymsLstRandom: synonyms) => {
+  return synonymsLstRandom.pop();
+};
