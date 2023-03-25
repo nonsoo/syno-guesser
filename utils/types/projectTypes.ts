@@ -62,4 +62,5 @@ export interface setupValues {
   offsetDate: number;
   totalGuessAllowed: number;
   synonymSet: Set<number>;
+  randomizedHints: synonyms;
 }

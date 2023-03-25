@@ -16,7 +16,7 @@ import {
 } from "../utils/types/projectTypes";
 import wordSet from "../utils/helpers/createWordSet";
 import useAlert from "../utils/hooks/useAlert";
-import UseGetHint from "../utils/hooks/useGetHint";
+import UseGetHint, { newRandomHint } from "../utils/hooks/useGetHint";
 import UseGetAllSynonyms from "../utils/hooks/useGetAllSynonyms";
 import UseGetTriggerWord from "../utils/hooks/useGetTriggerWords";
 import UsePromiseResolver from "../utils/hooks/usePromiseResolver";
@@ -58,7 +58,13 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
     synonymSet.add(Math.floor(synonyms.length / 2));
     synonymSet.add(synonyms.length - 1);
 
-    return { offsetDate, totalGuessAllowed, synonymSet };
+    const randomizeHint = (arr: synonyms) => {
+      return [...arr].sort(() => 0.5 - Math.random());
+    };
+
+    const randomizedHints = randomizeHint(synonyms);
+
+    return { offsetDate, totalGuessAllowed, synonymSet, randomizedHints };
   }, [synonyms]);
 
   const [myGuess, setMyGuess] = useState<string>("");
@@ -116,10 +122,14 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
   const onGetHint = () => {
     // pick a random hint and then check if the set has the hint
     // if the hint exists in the set then pick a new hints
-    const newHint = UseGetHint(synonymSetState, synonyms.length);
-    if (!newHint) return;
-    setSynonymSetState(synonymSetState.add(newHint));
-    setSynos((prevState) => [...prevState, synonyms[newHint]]);
+
+    const newRandomHints = newRandomHint(setUpValues.randomizedHints);
+
+    // const newHint = UseGetHint(synonymSetState, synonyms.length);
+    if (!newRandomHints) return;
+
+    // setSynonymSetState(synonymSetState.add(newHint));
+    setSynos((prevState) => [...prevState, newRandomHints]);
     setMyLives((prev) => prev - 1);
 
     if (myLives === 1) {
