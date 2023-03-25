@@ -30,4 +30,11 @@ describe("useGetHint", () => {
 
     expect(words.length).toBe(4);
   });
+
+  it("should return undefined when the lst length is 0", () => {
+    const words: string[] = [];
+
+    const randomWord = newRandomHint(words);
+    expect(randomWord).toBeUndefined();
+  });
 });
