@@ -6,10 +6,19 @@ const getSynonyms = <T>(lst: T[][]): T[] => {
   lst.forEach((pair) => newArray.push(...pair));
   return newArray;
 };
+
+const removeDuplicates = (lst: string[]) => {
+  const newSet = new Set(lst);
+
+  return Array.from(newSet);
+};
+
 const useGetAllSynonyms = (lst: resData[]) => {
   const newLst = lst.map((point) => getSynonyms(point.meta.syns));
-  const finalLst = getSynonyms(newLst);
 
+  const synonyms = getSynonyms(newLst);
+
+  const finalLst = removeDuplicates(synonyms);
   return finalLst;
 };
 
