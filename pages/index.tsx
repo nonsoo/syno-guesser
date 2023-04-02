@@ -54,7 +54,16 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
     const offsetDate = getOffsetDay(todaysDate);
     const totalGuessAllowed: number = 6;
 
-    const randomizedHints = randomizeHint(synonyms);
+    const newRandomHints = synonyms.filter((synonym) => {
+      if (
+        synonym != synonyms[0] &&
+        synonym != synonyms[Math.floor(synonyms.length / 2)] &&
+        synonym != synonyms[synonyms.length - 1]
+      )
+        return [synonym];
+    });
+
+    const randomizedHints = randomizeHint(newRandomHints);
 
     return { offsetDate, totalGuessAllowed, randomizedHints };
   }, [synonyms]);
@@ -79,7 +88,6 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
   const [myGameStats, setMyGameStats] = useState<StoredGameStatistics | null>(
     null
   );
-  const [number_of_hints_used, set_number_of_hints_used] = useState(0);
 
   const refNode = useOnClickOutside(() => setShowInstruct(false));
 
@@ -112,7 +120,6 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
   const onGetHint = () => {
     // pick a random hint and then check if the set has the hint
     // if the hint exists in the set then pick a new hints
-    set_number_of_hints_used((prev) => prev + 1);
     const newRandomHints = newRandomHint(setUpValues.randomizedHints);
 
     if (!newRandomHints) return;
@@ -289,10 +296,7 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
                 className={styles.Hints_btn}
                 onClick={() => onGetHint()}
                 disabled={
-                  synonyms.length === 0 ||
-                  number_of_hints_used === setUpValues.randomizedHints.length
-                    ? true
-                    : false
+                  setUpValues.randomizedHints.length === 0 ? true : false
                 }
               >
                 New Hint
