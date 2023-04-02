@@ -35,3 +35,4 @@ jobs:
       - name: Test Suites
         run: |
           npm run test
+          npm run test:typecheck
