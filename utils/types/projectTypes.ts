@@ -78,3 +78,30 @@ export type IonGetHint = (
   guessLst: userGuessLst[],
   synos: synonyms
 ) => void;
+
+export type IonGuess = (
+  e: any,
+  myGuess: string,
+  wordSet: Set<string>,
+  trgWords: string[],
+  synonyms: synonyms,
+  secretWord: string,
+  winState: boolean,
+  myLives: number,
+  guessLst: userGuessLst[],
+  synos: synonyms,
+  offsetDate: number,
+  setMyGuess: iSetState<string>,
+  setGameState: iSetState<boolean>,
+  setWinState: iSetState<boolean>,
+  setGuessLst: iSetState<userGuessLst[]>,
+  setMyLives: iSetState<number>,
+  setShowAlert: () => void
+) => void;
+
+export type Iis_guess_in_word_lst_func = (
+  wordSet: Set<string>,
+  myGuess: string,
+  trgWords: string[],
+  synonyms: synonyms
+) => boolean;
