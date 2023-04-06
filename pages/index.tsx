@@ -1,5 +1,5 @@
 import type { NextPage, GetServerSideProps } from "next";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 
 import { BsBookHalf } from "react-icons/bs";
 
@@ -10,7 +10,6 @@ import {
   StoredGameStatistics,
   userGuessLst,
   synonyms,
-  setupValues,
   triggerWord,
 } from "../utils/types/projectTypes";
 import wordSet from "../utils/helpers/createWordSet";
@@ -20,7 +19,6 @@ import UseGetAllSynonyms from "../utils/hooks/useGetAllSynonyms";
 import UseGetTriggerWord from "../utils/hooks/useGetTriggerWords";
 import UsePromiseResolver from "../utils/hooks/usePromiseResolver";
 import useOnClickOutside from "../utils/hooks/useOnClickOutsite";
-import randomizeHint from "../utils/helpers/randomizeHints";
 
 import {
   loadGameStateFromLocalStorage,
@@ -40,6 +38,8 @@ import HowToPlay from "../Components/Modals/instructionModal";
 
 import useGetHint from "../utils/hooks/use-get-hint";
 import useOnGuess from "../utils/hooks/use-on-guess";
+import useSetupValues from "../utils/hooks/use-setup-values";
+import get_initial_synonyms_lst from "../utils/helpers/get-initial-synonyms-lst";
 interface Props {
   synonyms: synonyms;
   wordOfDay: string;
@@ -47,34 +47,10 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
-  const setUpValues: setupValues = useMemo(() => {
-    const todaysDate = new Date();
-    const offsetDate = getOffsetDay(todaysDate);
-    const totalGuessAllowed: number = 6;
-
-    const newRandomHints = synonyms.filter((synonym) => {
-      if (
-        synonym != synonyms[0] &&
-        synonym != synonyms[Math.floor(synonyms.length / 2)] &&
-        synonym != synonyms[synonyms.length - 1]
-      )
-        return [synonym];
-    });
-
-    const randomizedHints = randomizeHint(newRandomHints);
-
-    return { offsetDate, totalGuessAllowed, randomizedHints };
-  }, [synonyms]);
-
+  const setUpValues = useSetupValues(synonyms);
   const [myGuess, setMyGuess] = useState<string>("");
-  const [synos, setSynos] = useState<synonyms>(
-    synonyms.length > 3
-      ? [
-          synonyms[0],
-          synonyms[Math.floor(synonyms.length / 2)],
-          synonyms[synonyms.length - 1],
-        ]
-      : [...synonyms]
+  const [synos, setSynos] = useState<synonyms>(() =>
+    get_initial_synonyms_lst(synonyms)
   );
   const [secretWord, setSecretWord] = useState<string>(wordOfDay);
   const [winState, setWinState] = useState<boolean>(false);
