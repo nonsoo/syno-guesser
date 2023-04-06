@@ -19,6 +19,10 @@ import UseGetAllSynonyms from "../utils/hooks/useGetAllSynonyms";
 import UseGetTriggerWord from "../utils/hooks/useGetTriggerWords";
 import UsePromiseResolver from "../utils/hooks/usePromiseResolver";
 import useOnClickOutside from "../utils/hooks/useOnClickOutsite";
+import useGetHint from "../utils/hooks/use-get-hint";
+import useOnGuess from "../utils/hooks/use-on-guess";
+import useSetupValues from "../utils/hooks/use-setup-values";
+import get_initial_synonyms_lst from "../utils/helpers/get-initial-synonyms-lst";
 
 import {
   loadGameStateFromLocalStorage,
@@ -36,10 +40,6 @@ import MyLives from "../Components/myLives";
 import GameStat from "../Components/gameStats";
 import HowToPlay from "../Components/Modals/instructionModal";
 
-import useGetHint from "../utils/hooks/use-get-hint";
-import useOnGuess from "../utils/hooks/use-on-guess";
-import useSetupValues from "../utils/hooks/use-setup-values";
-import get_initial_synonyms_lst from "../utils/helpers/get-initial-synonyms-lst";
 interface Props {
   synonyms: synonyms;
   wordOfDay: string;
