@@ -42,6 +42,7 @@ import MyLives from "../Components/myLives";
 import GameStat from "../Components/gameStats";
 import HowToPlay from "../Components/Modals/instructionModal";
 
+import useGetHint from "../utils/hooks/use-get-hint";
 interface Props {
   synonyms: synonyms;
   wordOfDay: string;
@@ -89,6 +90,8 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
     null
   );
 
+  const { onGetHint } = useGetHint();
+
   const refNode = useOnClickOutside(() => setShowInstruct(false));
 
   useEffect(() => {
@@ -117,31 +120,20 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
     }
   }, []);
 
-  const onGetHint = () => {
-    // pick a random hint and then check if the set has the hint
-    // if the hint exists in the set then pick a new hints
-    const newRandomHints = newRandomHint(setUpValues.randomizedHints);
-
-    if (!newRandomHints) return;
-
-    setSynos((prevState) => [...prevState, newRandomHints]);
-    setMyLives((prev) => prev - 1);
-
-    if (myLives === 1) {
-      setGameState(true);
-      saveGameStateToLocalStorage({
-        secretWord: secretWord,
-        winState: winState,
-        myGuesses: guessLst,
-        synonyms: synos,
-        gameState: true,
-        myLives: myLives - 1,
-        dayOfPlay: setUpValues.offsetDate,
-      });
-      gameStateFunc(setUpValues.offsetDate, false);
-    }
+  const trigger_Get_Hint = () => {
+    onGetHint(
+      setUpValues.randomizedHints,
+      setSynos,
+      setMyLives,
+      setGameState,
+      myLives,
+      setUpValues.offsetDate,
+      secretWord,
+      winState,
+      guessLst,
+      synos
+    );
   };
-
   const onGuess = (e: any) => {
     e.preventDefault();
 
@@ -294,7 +286,7 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
 
               <button
                 className={styles.Hints_btn}
-                onClick={() => onGetHint()}
+                onClick={trigger_Get_Hint}
                 disabled={
                   setUpValues.randomizedHints.length === 0 ? true : false
                 }

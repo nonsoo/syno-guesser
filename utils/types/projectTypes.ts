@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, SetStateAction } from "react";
 export interface endgameProps {
   secretWord: string;
   winState: boolean;
@@ -63,3 +63,18 @@ export interface setupValues {
   totalGuessAllowed: number;
   randomizedHints: synonyms;
 }
+
+type iSetState<T> = (value: SetStateAction<T>) => void;
+
+export type IonGetHint = (
+  lst_of_random_synonyms: synonyms,
+  setSynos: iSetState<synonyms>,
+  setMyLives: iSetState<number>,
+  setGameState: iSetState<boolean>,
+  myLives: number,
+  offsetDate: number,
+  secretWord: string,
+  winState: boolean,
+  guessLst: userGuessLst[],
+  synos: synonyms
+) => void;
