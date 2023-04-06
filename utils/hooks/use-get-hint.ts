@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { IonGetHint } from "../types/projectTypes";
-import { newRandomHint } from "../hooks/useGetHint";
+import { remove_hint_from_lst } from "../helpers/generate-random-hint";
 import { saveGameStateToLocalStorage } from "../helpers/saveGame";
 import gameStateFunc from "../helpers/gameStat";
 
@@ -20,7 +20,7 @@ const useGetHint = () => {
     ) => {
       // pick a random hint and then check if the set has the hint
       // if the hint exists in the set then pick a new hints
-      const newRandomHints = newRandomHint(lst_of_random_synonyms);
+      const newRandomHints = remove_hint_from_lst(lst_of_random_synonyms);
 
       if (!newRandomHints) return;
 
