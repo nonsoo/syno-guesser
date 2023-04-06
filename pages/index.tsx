@@ -1,6 +1,5 @@
 import type { NextPage, GetServerSideProps } from "next";
-import { useState, useEffect, useMemo } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { useState, useEffect } from "react";
 
 import { BsBookHalf } from "react-icons/bs";
 
@@ -11,27 +10,22 @@ import {
   StoredGameStatistics,
   userGuessLst,
   synonyms,
-  setupValues,
   triggerWord,
 } from "../utils/types/projectTypes";
 import wordSet from "../utils/helpers/createWordSet";
 import useAlert from "../utils/hooks/useAlert";
-import { newRandomHint } from "../utils/hooks/useGetHint";
+
 import UseGetAllSynonyms from "../utils/hooks/useGetAllSynonyms";
 import UseGetTriggerWord from "../utils/hooks/useGetTriggerWords";
 import UsePromiseResolver from "../utils/hooks/usePromiseResolver";
 import useOnClickOutside from "../utils/hooks/useOnClickOutsite";
-import randomizeHint from "../utils/helpers/randomizeHints";
 
 import {
   loadGameStateFromLocalStorage,
-  saveGameStateToLocalStorage,
   removeGameStateFromLocalStorage,
   loadGameStats,
 } from "../utils/helpers/saveGame";
 import getWordOftheDay, { getOffsetDay } from "../utils/helpers/newDay";
-import gameStateFunc from "../utils/helpers/gameStat";
-import setSynBackgroundCol from "../utils/helpers/setSynBackgroundCol";
 
 import HeadMeta from "../Components/headTags/HeadMeta";
 import EndGame from "../Components/EndGame";
@@ -42,6 +36,10 @@ import MyLives from "../Components/myLives";
 import GameStat from "../Components/gameStats";
 import HowToPlay from "../Components/Modals/instructionModal";
 
+import useGetHint from "../utils/hooks/use-get-hint";
+import useOnGuess from "../utils/hooks/use-on-guess";
+import useSetupValues from "../utils/hooks/use-setup-values";
+import get_initial_synonyms_lst from "../utils/helpers/get-initial-synonyms-lst";
 interface Props {
   synonyms: synonyms;
   wordOfDay: string;
@@ -49,34 +47,10 @@ interface Props {
 }
 
 const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
-  const setUpValues: setupValues = useMemo(() => {
-    const todaysDate = new Date();
-    const offsetDate = getOffsetDay(todaysDate);
-    const totalGuessAllowed: number = 6;
-
-    const newRandomHints = synonyms.filter((synonym) => {
-      if (
-        synonym != synonyms[0] &&
-        synonym != synonyms[Math.floor(synonyms.length / 2)] &&
-        synonym != synonyms[synonyms.length - 1]
-      )
-        return [synonym];
-    });
-
-    const randomizedHints = randomizeHint(newRandomHints);
-
-    return { offsetDate, totalGuessAllowed, randomizedHints };
-  }, [synonyms]);
-
+  const setUpValues = useSetupValues(synonyms);
   const [myGuess, setMyGuess] = useState<string>("");
-  const [synos, setSynos] = useState<synonyms>(
-    synonyms.length > 3
-      ? [
-          synonyms[0],
-          synonyms[Math.floor(synonyms.length / 2)],
-          synonyms[synonyms.length - 1],
-        ]
-      : [...synonyms]
+  const [synos, setSynos] = useState<synonyms>(() =>
+    get_initial_synonyms_lst(synonyms)
   );
   const [secretWord, setSecretWord] = useState<string>(wordOfDay);
   const [winState, setWinState] = useState<boolean>(false);
@@ -88,6 +62,9 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
   const [myGameStats, setMyGameStats] = useState<StoredGameStatistics | null>(
     null
   );
+
+  const { onGetHint } = useGetHint();
+  const { onGuess } = useOnGuess();
 
   const refNode = useOnClickOutside(() => setShowInstruct(false));
 
@@ -117,110 +94,41 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
     }
   }, []);
 
-  const onGetHint = () => {
-    // pick a random hint and then check if the set has the hint
-    // if the hint exists in the set then pick a new hints
-    const newRandomHints = newRandomHint(setUpValues.randomizedHints);
-
-    if (!newRandomHints) return;
-
-    setSynos((prevState) => [...prevState, newRandomHints]);
-    setMyLives((prev) => prev - 1);
-
-    if (myLives === 1) {
-      setGameState(true);
-      saveGameStateToLocalStorage({
-        secretWord: secretWord,
-        winState: winState,
-        myGuesses: guessLst,
-        synonyms: synos,
-        gameState: true,
-        myLives: myLives - 1,
-        dayOfPlay: setUpValues.offsetDate,
-      });
-      gameStateFunc(setUpValues.offsetDate, false);
-    }
+  const trigger_Get_Hint = () => {
+    onGetHint(
+      setUpValues.randomizedHints,
+      setSynos,
+      setMyLives,
+      setGameState,
+      myLives,
+      setUpValues.offsetDate,
+      secretWord,
+      winState,
+      guessLst,
+      synos
+    );
   };
 
-  const onGuess = (e: any) => {
-    e.preventDefault();
-
-    //first check if the guess is empty or in the list of guesses
-    if (myGuess === "") return;
-
-    // check if the guess is in the word lst
-    if (
-      !wordSet.has(myGuess.toLowerCase()) &&
-      !trgWords.includes(myGuess.toLowerCase()) &&
-      !synonyms.includes(myGuess.toLowerCase())
-    ) {
-      setMyGuess("");
-      setShowAlert();
-      return;
-    }
-
-    // check if guess is correct or not so that we can set the background color
-    const synonymBackgroudColVar = setSynBackgroundCol(
+  const trigger_On_Guess = (e: any) => {
+    onGuess(
+      e,
       myGuess,
+      wordSet,
       trgWords,
       synonyms,
-      secretWord
+      secretWord,
+      winState,
+      myLives,
+      guessLst,
+      synos,
+      setUpValues.offsetDate,
+      setMyGuess,
+      setGameState,
+      setWinState,
+      setGuessLst,
+      setMyLives,
+      setShowAlert
     );
-
-    // if above checks pass then check the number of guesses has
-    // reached the limit
-    // if not check if the guess is equal to the secret word and add it to
-    // the list of guesses.
-    if (myLives === 1) {
-      setGameState(true);
-      saveGameStateToLocalStorage({
-        secretWord: secretWord,
-        winState: winState,
-        myGuesses: [
-          ...guessLst,
-          { id: uuidv4(), word: myGuess, statusColour: synonymBackgroudColVar },
-        ],
-        synonyms: synos,
-        gameState: true,
-        myLives: myLives - 1,
-        dayOfPlay: setUpValues.offsetDate,
-      });
-      gameStateFunc(setUpValues.offsetDate, false);
-    }
-
-    if (myGuess.toLowerCase() === secretWord) {
-      setWinState(true);
-      setGameState(true);
-      saveGameStateToLocalStorage({
-        secretWord: secretWord,
-        winState: true,
-        myGuesses: [
-          ...guessLst,
-          { id: uuidv4(), word: myGuess, statusColour: synonymBackgroudColVar },
-        ],
-        synonyms: synos,
-        gameState: true,
-        myLives: myLives,
-        dayOfPlay: setUpValues.offsetDate,
-      });
-
-      setGuessLst((prevLst) => [
-        ...prevLst,
-        {
-          id: uuidv4(),
-          word: myGuess,
-          statusColour: synonymBackgroudColVar,
-        },
-      ]);
-      gameStateFunc(setUpValues.offsetDate, true);
-    } else {
-      setGuessLst((prevLst) => [
-        ...prevLst,
-        { id: uuidv4(), word: myGuess, statusColour: synonymBackgroudColVar },
-      ]);
-      setMyGuess("");
-      setMyLives((prev) => prev - 1);
-    }
   };
 
   return (
@@ -273,7 +181,7 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
             </div>
             <form
               className={styles.guessingForm}
-              onSubmit={onGuess}
+              onSubmit={trigger_On_Guess}
               data-testid="formSubmit"
             >
               <label htmlFor="myGuess" className={styles.guessingLabel}>
@@ -294,7 +202,7 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
 
               <button
                 className={styles.Hints_btn}
-                onClick={() => onGetHint()}
+                onClick={trigger_Get_Hint}
                 disabled={
                   setUpValues.randomizedHints.length === 0 ? true : false
                 }
