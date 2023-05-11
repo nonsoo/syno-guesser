@@ -1,9 +1,9 @@
-import type { NextPage, GetServerSideProps } from "next";
-import { useState, useEffect } from "react";
+import type { NextPage, GetServerSideProps } from 'next';
+import { useState, useEffect } from 'react';
 
-import { BsBookHalf } from "react-icons/bs";
+import { BsBookHalf, BsBookmarkHeart } from 'react-icons/bs';
 
-import styles from "../styles/Home.module.css";
+import styles from '../styles/Home.module.css';
 
 import {
   resData,
@@ -11,34 +11,35 @@ import {
   userGuessLst,
   synonyms,
   triggerWord,
-} from "../utils/types/projectTypes";
-import wordSet from "../utils/helpers/createWordSet";
-import useAlert from "../utils/hooks/useAlert";
+} from '../utils/types/projectTypes';
+import wordSet from '../utils/helpers/createWordSet';
+import useAlert from '../utils/hooks/useAlert';
 
-import UseGetAllSynonyms from "../utils/hooks/useGetAllSynonyms";
-import UseGetTriggerWord from "../utils/hooks/useGetTriggerWords";
-import UsePromiseResolver from "../utils/hooks/usePromiseResolver";
-import useOnClickOutside from "../utils/hooks/useOnClickOutsite";
-import useGetHint from "../utils/hooks/use-get-hint";
-import useOnGuess from "../utils/hooks/use-on-guess";
-import useSetupValues from "../utils/hooks/use-setup-values";
-import get_initial_synonyms_lst from "../utils/helpers/get-initial-synonyms-lst";
+import UseGetAllSynonyms from '../utils/hooks/useGetAllSynonyms';
+import UseGetTriggerWord from '../utils/hooks/useGetTriggerWords';
+import UsePromiseResolver from '../utils/hooks/usePromiseResolver';
+import useOnClickOutside from '../utils/hooks/useOnClickOutsite';
+import useGetHint from '../utils/hooks/use-get-hint';
+import useOnGuess from '../utils/hooks/use-on-guess';
+import useSetupValues from '../utils/hooks/use-setup-values';
+import get_initial_synonyms_lst from '../utils/helpers/get-initial-synonyms-lst';
 
 import {
   loadGameStateFromLocalStorage,
   removeGameStateFromLocalStorage,
   loadGameStats,
-} from "../utils/helpers/saveGame";
-import getWordOftheDay, { getOffsetDay } from "../utils/helpers/newDay";
+} from '../utils/helpers/saveGame';
+import getWordOftheDay, { getOffsetDay } from '../utils/helpers/newDay';
 
-import HeadMeta from "../Components/headTags/HeadMeta";
-import EndGame from "../Components/EndGame";
-import InstructionModal from "../Components/Instruc";
-import Alert from "../Components/Alert";
-import Synonyms from "../Components/Synonyms";
-import MyLives from "../Components/myLives";
-import GameStat from "../Components/gameStats";
-import HowToPlay from "../Components/Modals/instructionModal";
+import HeadMeta from '../Components/headTags/HeadMeta';
+import EndGame from '../Components/EndGame';
+import InstructionModal from '../Components/Instruc';
+import Alert from '../Components/Alert';
+import Synonyms from '../Components/Synonyms';
+import MyLives from '../Components/myLives';
+import GameStat from '../Components/gameStats';
+import HowToPlay from '../Components/Modals/instructionModal';
+import Bookmarks from '../Components/Modals/bookmarksModal';
 
 interface Props {
   synonyms: synonyms;
@@ -48,7 +49,7 @@ interface Props {
 
 const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
   const setUpValues = useSetupValues(synonyms);
-  const [myGuess, setMyGuess] = useState<string>("");
+  const [myGuess, setMyGuess] = useState<string>('');
   const [synos, setSynos] = useState<synonyms>(() =>
     get_initial_synonyms_lst(synonyms)
   );
@@ -58,6 +59,7 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
   const [myLives, setMyLives] = useState(setUpValues.totalGuessAllowed);
   const [guessLst, setGuessLst] = useState<userGuessLst[]>([]);
   const [showInstruct, setShowInstruct] = useState<boolean>(true);
+  const [showBookmarks, setShowBookmarks] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useAlert(2500);
   const [myGameStats, setMyGameStats] = useState<StoredGameStatistics | null>(
     null
@@ -67,6 +69,7 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
   const { onGuess } = useOnGuess();
 
   const refNode = useOnClickOutside(() => setShowInstruct(false));
+  const refBookmarks = useOnClickOutside(() => setShowBookmarks(false));
 
   useEffect(() => {
     const myGameStatsZ = loadGameStats();
@@ -90,6 +93,7 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
         setGameState(localSavedState.gameState);
         setMyLives(localSavedState.myLives);
         setShowInstruct(false);
+        setShowBookmarks(false);
       }
     }
   }, []);
@@ -137,9 +141,13 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
 
       <header className={styles.HeaderCon}>
         <h1 className={styles.HeaderTitle}>Clueless Words</h1>
+        <BsBookmarkHeart
+          className={styles.HeaderIcon}
+          onClick={() => setShowBookmarks(prev => !prev)}
+        />
         <BsBookHalf
           className={styles.HeaderIcon}
-          onClick={() => setShowInstruct((prev) => !prev)}
+          onClick={() => setShowInstruct(prev => !prev)}
         />
       </header>
 
@@ -165,12 +173,12 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
             <Synonyms synos={synos} />
 
             <section className={styles.GuessedWords}>
-              {guessLst.map((word) => (
+              {guessLst.map(word => (
                 <p
                   key={word.id}
                   className={styles.GuessedWords__word}
                   style={{ backgroundColor: word.statusColour }}
-                  data-testid="GuessedWord"
+                  data-testid='GuessedWord'
                 >
                   {word.word}
                 </p>
@@ -182,18 +190,18 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
             <form
               className={styles.guessingForm}
               onSubmit={trigger_On_Guess}
-              data-testid="formSubmit"
+              data-testid='formSubmit'
             >
-              <label htmlFor="myGuess" className={styles.guessingLabel}>
+              <label htmlFor='myGuess' className={styles.guessingLabel}>
                 Enter a word
               </label>
               <input
-                type="text"
+                type='text'
                 value={myGuess}
                 maxLength={20}
-                id="myGuess"
+                id='myGuess'
                 className={styles.guessingForm__text_field}
-                onChange={(e) => setMyGuess(e.target.value)}
+                onChange={e => setMyGuess(e.target.value)}
                 autoFocus={true}
               />
             </form>
@@ -227,6 +235,15 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
           <HowToPlay />
         </InstructionModal>
       )}
+
+      {showBookmarks && (
+        <InstructionModal
+          onToggle={() => setShowBookmarks(false)}
+          ref={refBookmarks}
+        >
+          <Bookmarks />
+        </InstructionModal>
+      )}
     </div>
   );
 };
@@ -235,15 +252,15 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59"
+    'Cache-Control',
+    'public, s-maxage=10, stale-while-revalidate=59'
   );
   const wordOfDay = getWordOftheDay();
 
   try {
     const resData = await UsePromiseResolver(wordOfDay);
 
-    if (typeof resData[0][0] === "string") {
+    if (typeof resData[0][0] === 'string') {
       const synonyms: string[] = [];
       let trgWords: string[] = [];
 
@@ -259,7 +276,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
     const resp: resData[] = resData[0];
     const trgWordResp: triggerWord[] = resData[1];
 
-    const cleanData = resp.filter((obj) => obj?.meta?.id === wordOfDay);
+    const cleanData = resp.filter(obj => obj?.meta?.id === wordOfDay);
 
     const synonyms = UseGetAllSynonyms(cleanData);
 
