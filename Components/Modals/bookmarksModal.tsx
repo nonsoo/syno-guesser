@@ -1,5 +1,7 @@
 import styles from '../../styles/Bookmarks.module.css';
 
+import { IoClose } from 'react-icons/io5';
+
 const bookmarks = [
   {
     id: 1,
@@ -22,10 +24,10 @@ const bookmarkModal = () => {
   return (
     <>
       <p className={styles.Modal__Title}>Bookmarks</p>
-      <ul>
+      <ul className={styles.bookmarkList}>
         {bookmarks.map(bookmark => (
           <li key={bookmark.id}>
-            <button
+            <div
               className={styles.bookmarkAccordion}
               onClick={e => {
                 e.currentTarget.classList.toggle('active');
@@ -41,7 +43,13 @@ const bookmarkModal = () => {
               }}
             >
               {bookmark.word}
-            </button>
+              <IoClose
+                onClick={event => {
+                  event.stopPropagation();
+                  console.log('delete');
+                }}
+              />
+            </div>
             <div className={styles.bookmarkPanel}>
               <p>{bookmark.synonyms.join(', ')}.</p>
             </div>
