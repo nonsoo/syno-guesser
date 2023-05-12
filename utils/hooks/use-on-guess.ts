@@ -1,10 +1,12 @@
 import { IonGuess, Iis_guess_in_word_lst_func } from "../types/projectTypes";
 import { useCallback } from "react";
-
 import { v4 as uuidv4 } from "uuid";
 import setSynBackgroundCol from "../helpers/setSynBackgroundCol";
 import { saveGameStateToLocalStorage } from "../helpers/saveGame";
 import gameStateFunc from "../helpers/gameStat";
+import firestore from "../../firebase"
+import { doc, setDoc, getDoc, onSnapshot, loadBundle } from "firebase/firestore";
+
 
 const useOnGuess = () => {
   const is_guess_in_word_lst: Iis_guess_in_word_lst_func = useCallback(
@@ -82,6 +84,13 @@ const useOnGuess = () => {
           myLives: myLives - 1,
           dayOfPlay: offsetDate,
         });
+
+        // saveToFirebase({
+        //   trgWords,
+        //   winState: false,
+        //   secretWord,
+        //   synos
+        // })
         gameStateFunc(offsetDate, false);
       }
 
@@ -104,6 +113,13 @@ const useOnGuess = () => {
           myLives: myLives,
           dayOfPlay: offsetDate,
         });
+
+        // saveToFirebase({
+        //   trgWords,
+        //   winState: true,
+        //   secretWord,
+        //   synos
+        // })
 
         setGuessLst((prevLst) => [
           ...prevLst,
@@ -128,5 +144,34 @@ const useOnGuess = () => {
 
   return { onGuess };
 };
+
+
+// const saveToFirebase = async (data: any) => {
+//   const wordsRef = doc(firestore, "words", `${data.secretWord}`);
+//   const docSnap = await getDoc(wordsRef);
+//     if (!docSnap.exists()) {
+//       await setDoc(wordsRef, {
+//         content: {
+//           triggerWords: data.trgWords,
+//           secretWord: data.secretWord,
+//           synonyms: data.synos,
+//           wins: data.winState ? 1 : 0,
+//           losses: data.winState ? 0 : 1
+//         },
+//       })  
+//     } else {
+//       onSnapshot(wordsRef, async (snap) => {
+//         const snapData = snap.data()?.content
+
+//         const updatedData = {
+//           ...snapData,
+//           ...(data.winState ? { wins: snapData.wins +1 } : {losses: snapData.losses + 1})
+//         }
+//         await setDoc(wordsRef, {
+//           content: updatedData
+//         })     
+//       })
+//     }
+// }
 
 export default useOnGuess;
