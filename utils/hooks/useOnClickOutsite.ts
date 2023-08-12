@@ -3,6 +3,11 @@ import { useRef, useEffect } from "react";
 type handlerFunc = () => void;
 const useOnClickOutside = (handler: handlerFunc) => {
   const refNode = useRef<HTMLElement>(null);
+  const saved_callback = useRef(handler);
+
+  useEffect(() => {
+    saved_callback.current = handler;
+  }, [handler]);
 
   useEffect(() => {
     const listener = (event: Event) => {
