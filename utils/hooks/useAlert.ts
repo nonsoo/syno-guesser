@@ -10,7 +10,7 @@ const useAlert: useAlertType = (timeOut = 3000) => {
   }, []);
 
   useEffect(() => {
-    let timer: NodeJS.Timer;
+    let timer: NodeJS.Timeout;
     if (result) {
       timer = setTimeout(() => setResult(false), timeOut);
     }
