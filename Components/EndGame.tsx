@@ -53,18 +53,19 @@ const EndGame: FC<endgameProps> = ({
           ))}
         </div>
         <Countdown />
-        <button
-          className={styles.shareScore}
-          onClick={() => copyFn(share_sheet)}
-        >
-          Share my score
-        </button>
-
-        {result && (
-          <div className={styles.AlertCon}>
-            <Alert notification="Copied" />
-          </div>
-        )}
+        <div className={styles.shareBtn__con}>
+          <button
+            className={styles.shareScore}
+            onClick={() => copyFn(share_sheet)}
+          >
+            Share my score
+          </button>
+          {result && (
+            <div className={styles.AlertCon}>
+              <Alert notification="Copied" />
+            </div>
+          )}
+        </div>
       </section>
     </>
   );
