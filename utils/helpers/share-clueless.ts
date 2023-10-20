@@ -42,7 +42,7 @@ export const share_clueless = () => {
   if (game.synonyms.length === 0)
     return `Clueless #${
       game.dayOfPlay + 1
-    } \n${string_colours}\nhttps://cluelesswords.com`;
+    } ${share_lock_pen} \n${string_colours}\nhttps://cluelesswords.com`;
 
   return `Clueless #${
     game.dayOfPlay + 1
