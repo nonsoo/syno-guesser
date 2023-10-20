@@ -1,12 +1,17 @@
 import { useState, useCallback, useEffect } from "react";
 
-import type { useAlertType } from "../types/hookTypes";
-
-const useAlert: useAlertType = (timeOut = 3000) => {
+const useCopyToClipboard = (
+  timeOut = 3000
+): [boolean, (copyText: string) => Promise<void>] => {
   const [result, setResult] = useState(false);
 
-  const alertFn = useCallback(() => {
-    setResult(true);
+  const copyFn = useCallback(async (copyText: string) => {
+    try {
+      await navigator.clipboard.writeText(copyText);
+      setResult(true);
+    } catch {
+      setResult(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -21,7 +26,7 @@ const useAlert: useAlertType = (timeOut = 3000) => {
     };
   }, [timeOut, result]);
 
-  return [result, alertFn];
+  return [result, copyFn];
 };
 
-export default useAlert;
+export default useCopyToClipboard;
