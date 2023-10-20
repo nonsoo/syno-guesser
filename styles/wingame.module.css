@@ -102,6 +102,13 @@
   margin: 2rem auto;
 }
 
+.shareBtn__con {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
 .shareScore {
   margin-inline: auto;
   border: none;
