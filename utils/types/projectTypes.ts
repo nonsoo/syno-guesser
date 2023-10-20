@@ -34,8 +34,10 @@ export interface triggerWord {
 export interface userGuessLst {
   id: string;
   word: string;
-  statusColour: string;
+  statusColour: "hsl(111, 32%, 38%)" | "hsl(0, 84%, 68%)";
 }
+
+export type statusColour = "hsl(111, 32%, 38%)" | "hsl(0, 84%, 68%)";
 
 export interface StoredGameState {
   secretWord: string;

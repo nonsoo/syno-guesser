@@ -5,12 +5,20 @@ import { endgameProps } from "../utils/types/projectTypes";
 
 import Countdown from "../Components/Countdown";
 
+import { share_clueless } from "../utils/helpers/share-clueless";
+import useCopyToClipboard from "../utils/hooks/use-copy-to-clipboard";
+import Alert from "./Alert";
+
 const EndGame: FC<endgameProps> = ({
   secretWord,
   winState,
   myGuesses,
   children,
 }) => {
+  const share_sheet = share_clueless();
+
+  const [result, copyFn] = useCopyToClipboard();
+
   return (
     <>
       {winState ? (
@@ -45,6 +53,18 @@ const EndGame: FC<endgameProps> = ({
           ))}
         </div>
         <Countdown />
+        <button
+          className={styles.shareScore}
+          onClick={() => copyFn(share_sheet)}
+        >
+          Share my score
+        </button>
+
+        {result && (
+          <div className={styles.AlertCon}>
+            <Alert notification="Copied" />
+          </div>
+        )}
       </section>
     </>
   );
