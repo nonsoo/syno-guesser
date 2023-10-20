@@ -3,6 +3,7 @@ import {
   share_red_box,
   share_green_box,
   share_green_win_box,
+  share_lock_pen,
 } from "../constants/consts";
 
 import { loadGameStateFromLocalStorage } from "./saveGame";
@@ -38,7 +39,12 @@ export const share_clueless = () => {
   if (!game) return "";
   const string_colours = generate_boxes(game.myGuesses, game.winState);
 
-  return `Cluesless #${
+  if (game.synonyms.length === 0)
+    return `Clueless #${
+      game.dayOfPlay + 1
+    } \n${string_colours}\nhttps://cluelesswords.com`;
+
+  return `Clueless #${
     game.dayOfPlay + 1
   } \n${string_colours}\nhttps://cluelesswords.com`;
 };

@@ -9,3 +9,4 @@ export const SOCIAL_IMG_URL_DEFAULT =
 export const share_red_box = "🟥";
 export const share_green_box = "🟩";
 export const share_green_win_box = "✅";
+export const share_lock_pen = "🔏";
