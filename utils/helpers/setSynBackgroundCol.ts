@@ -1,12 +1,12 @@
-import { synonyms } from "../types/projectTypes";
+import { synonyms, statusColour } from "../types/projectTypes";
 
 const setSynBackgroundCol = (
   myGuess: string,
   trgWords: string[],
   synonyms: synonyms,
   secretWord: string
-) => {
-  let synonymBackgroudColVar: string;
+): statusColour => {
+  let synonymBackgroudColVar: statusColour;
 
   if (
     trgWords.includes(myGuess.toLowerCase()) ||

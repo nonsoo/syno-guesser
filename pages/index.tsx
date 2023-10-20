@@ -177,7 +177,7 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
               ))}
             </section>
             <div className={styles.AlertContainer}>
-              {showAlert && <Alert />}
+              {showAlert && <Alert notification="Not in word list" />}
             </div>
             <form
               className={styles.guessingForm}
