@@ -11,6 +11,8 @@ import {
 
 const nunito = Nunito({ subsets: ["latin"] });
 
+import GameProvider from "../utils/context/GameContext";
+
 export const meta: Metadata = {
   title: METADATA_TITLE,
   description: METADATA_DESCRIPTION,
@@ -83,7 +85,8 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" />
       </head>
       <body className={`layoutDiv ${nunito.className}`}>
-        {children}
+        <GameProvider>{children}</GameProvider>
+
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID}`}
           strategy="lazyOnload"
