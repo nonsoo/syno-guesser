@@ -1,4 +1,5 @@
 import styles from "../styles/Home.module.css";
+import Game from "./components/Game";
 
 import { getWordOfTheDay } from "./server-helpers/getWord";
 
@@ -14,7 +15,8 @@ const RootPage = async () => {
           <BsBookHalf className={styles.HeaderIcon} />
         </button>
       </header>
-      <main className={styles.GuesserCon}></main>
+
+      <Game synonyms={synonyms} trgWords={trgWords} wordOfDay={wordOfDay} />
     </div>
   );
 };

@@ -21,7 +21,9 @@ export const getWordOfTheDay = async () => {
       }
 
       return {
-        props: { synonyms, wordOfDay, trgWords },
+        synonyms,
+        wordOfDay,
+        trgWords,
       };
     }
 
