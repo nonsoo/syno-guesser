@@ -10,7 +10,9 @@ const RootPage = async () => {
     <div className={styles.mainContent}>
       <header className={styles.HeaderCon}>
         <h1 className={styles.HeaderTitle}>Clueless Words</h1>
-        <BsBookHalf className={styles.HeaderIcon} />
+        <button popoverTarget="instructionModal">
+          <BsBookHalf className={styles.HeaderIcon} />
+        </button>
       </header>
       <main className={styles.GuesserCon}></main>
     </div>

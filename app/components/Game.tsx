@@ -1,52 +1,45 @@
-import type { NextPage, GetServerSideProps } from "next";
+"use client";
+
 import { useState, useEffect } from "react";
 
-import { BsBookHalf } from "react-icons/bs";
+import styles from "@/styles/Home.module.css";
 
-import styles from "../styles/Home.module.css";
+import wordSet from "@/utils/helpers/createWordSet";
+import useAlert from "@/utils/hooks/useAlert";
 
-import {
-  resData,
-  StoredGameStatistics,
-  userGuessLst,
-  synonyms,
-  triggerWord,
-} from "../utils/types/projectTypes";
-import wordSet from "../utils/helpers/createWordSet";
-import useAlert from "../utils/hooks/useAlert";
-
-import UseGetAllSynonyms from "../utils/hooks/useGetAllSynonyms";
-import UseGetTriggerWord from "../utils/hooks/useGetTriggerWords";
-import UsePromiseResolver from "../utils/hooks/usePromiseResolver";
-import useOnClickOutside from "../utils/hooks/useOnClickOutsite";
-import useGetHint from "../utils/hooks/use-get-hint";
-import useOnGuess from "../utils/hooks/use-on-guess";
-import useSetupValues from "../utils/hooks/use-setup-values";
-import get_initial_synonyms_lst from "../utils/helpers/get-initial-synonyms-lst";
+import useOnClickOutside from "@/utils/hooks/useOnClickOutsite";
+import useGetHint from "@/utils/hooks/use-get-hint";
+import useOnGuess from "@/utils/hooks/use-on-guess";
+import useSetupValues from "@/utils/hooks/use-setup-values";
+import get_initial_synonyms_lst from "@/utils/helpers/get-initial-synonyms-lst";
 
 import {
   loadGameStateFromLocalStorage,
   removeGameStateFromLocalStorage,
   loadGameStats,
-} from "../utils/helpers/saveGame";
-import getWordOftheDay, { getOffsetDay } from "../utils/helpers/newDay";
+} from "@/utils/helpers/saveGame";
+import { getOffsetDay } from "@/utils/helpers/newDay";
 
-import HeadMeta from "../Components/headTags/HeadMeta";
-import EndGame from "../Components/EndGame";
-import InstructionModal from "../Components/Instruc";
-import Alert from "../Components/Alert";
-import Synonyms from "../Components/Synonyms";
-import MyLives from "../Components/myLives";
-import GameStat from "../Components/gameStats";
-import HowToPlay from "../Components/Modals/instructionModal";
+import EndGame from "@/Components/EndGame";
+import InstructionModal from "@/Components/Instruc";
+import Alert from "@/Components/Alert";
+import Synonyms from "@/Components/Synonyms";
+import MyLives from "@/Components/myLives";
+import GameStat from "@/Components/gameStats";
+import HowToPlay from "@/Components/Modals/instructionModal";
+import {
+  StoredGameStatistics,
+  synonyms,
+  userGuessLst,
+} from "@/utils/types/projectTypes";
 
-interface Props {
-  synonyms: synonyms;
+interface GameProps {
+  synonyms: string[];
   wordOfDay: string;
   trgWords: string[];
 }
 
-const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
+const Game = ({ synonyms, trgWords, wordOfDay }: GameProps) => {
   const setUpValues = useSetupValues(synonyms);
   const [myGuess, setMyGuess] = useState<string>("");
   const [synos, setSynos] = useState<synonyms>(() =>
@@ -130,19 +123,8 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
       setShowAlert
     );
   };
-
   return (
-    <div className={styles.mainContent}>
-      <HeadMeta />
-
-      <header className={styles.HeaderCon}>
-        <h1 className={styles.HeaderTitle}>Clueless Words</h1>
-        <BsBookHalf
-          className={styles.HeaderIcon}
-          onClick={() => setShowInstruct((prev) => !prev)}
-        />
-      </header>
-
+    <>
       <main className={styles.GuesserCon}>
         {gameState ? (
           <>
@@ -213,7 +195,6 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
           </>
         )}
       </main>
-
       {synonyms.length === 0 && (
         <p className={styles.Disclamer}>
           Looks like the secret word today does not have any synonyms. You can
@@ -227,53 +208,8 @@ const Home: NextPage<Props> = ({ synonyms, wordOfDay, trgWords }) => {
           <HowToPlay />
         </InstructionModal>
       )}
-    </div>
+    </>
   );
 };
 
-export default Home;
-
-export const getServerSideProps: GetServerSideProps = async ({ res }) => {
-  res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59"
-  );
-  const wordOfDay = getWordOftheDay();
-
-  try {
-    const resData = await UsePromiseResolver(wordOfDay);
-
-    if (typeof resData[0][0] === "string") {
-      const synonyms: string[] = [];
-      let trgWords: string[] = [];
-
-      if (resData[1].length != 0) {
-        trgWords = UseGetTriggerWord(resData[1]);
-      }
-
-      return {
-        props: { synonyms, wordOfDay, trgWords },
-      };
-    }
-
-    const resp: resData[] = resData[0];
-    const trgWordResp: triggerWord[] = resData[1];
-
-    const cleanData = resp.filter((obj) => obj?.meta?.id === wordOfDay);
-
-    const synonyms = UseGetAllSynonyms(cleanData);
-
-    const trgWords = UseGetTriggerWord(trgWordResp);
-
-    return {
-      props: { synonyms, wordOfDay, trgWords },
-    };
-  } catch {
-    const synonyms: string[] = [];
-    const trgWords: string[] = [];
-
-    return {
-      props: { synonyms, wordOfDay, trgWords },
-    };
-  }
-};
+export default Game;
