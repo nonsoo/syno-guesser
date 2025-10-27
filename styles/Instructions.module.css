@@ -1,18 +1,5 @@
-.ModalBackground {
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  background-color: rgba(0, 0, 0, 0.2);
-
-  width: 100%;
-  min-height: 100vh;
-  padding: 2em;
-  z-index: 5555;
-}
-
 .Modal {
-  margin: 0 auto;
+  margin: 5em auto;
   max-width: 700px;
   min-width: 300px;
 
@@ -21,13 +8,21 @@
 
   padding: 1.25em;
 
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-
   animation-name: showModal;
   animation-duration: 0.75s;
   animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+
+  border: none;
+
+  &:popover-open {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+
+  &::backdrop {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
 }
 
 .Modal__closeBtn {

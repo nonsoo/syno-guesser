@@ -7,7 +7,6 @@ import styles from "@/styles/Home.module.css";
 import wordSet from "@/utils/helpers/createWordSet";
 import useAlert from "@/utils/hooks/useAlert";
 
-import useOnClickOutside from "@/utils/hooks/useOnClickOutsite";
 import useGetHint from "@/utils/hooks/use-get-hint";
 import useOnGuess from "@/utils/hooks/use-on-guess";
 import useSetupValues from "@/utils/hooks/use-setup-values";
@@ -21,12 +20,12 @@ import {
 import { getOffsetDay } from "@/utils/helpers/newDay";
 
 import EndGame from "@/Components/EndGame";
-import InstructionModal from "@/Components/Instruc";
+
 import Alert from "@/Components/Alert";
 import Synonyms from "@/Components/Synonyms";
 import MyLives from "@/Components/myLives";
 import GameStat from "@/Components/gameStats";
-import HowToPlay from "@/Components/Modals/instructionModal";
+
 import {
   StoredGameStatistics,
   synonyms,
@@ -50,7 +49,6 @@ const Game = ({ synonyms, trgWords, wordOfDay }: GameProps) => {
   const [gameState, setGameState] = useState<boolean>(false);
   const [myLives, setMyLives] = useState(setUpValues.totalGuessAllowed);
   const [guessLst, setGuessLst] = useState<userGuessLst[]>([]);
-  const [showInstruct, setShowInstruct] = useState<boolean>(true);
   const [showAlert, setShowAlert] = useAlert(2500);
   const [myGameStats, setMyGameStats] = useState<StoredGameStatistics | null>(
     null
@@ -58,8 +56,6 @@ const Game = ({ synonyms, trgWords, wordOfDay }: GameProps) => {
 
   const { onGetHint } = useGetHint();
   const { onGuess } = useOnGuess();
-
-  const refNode = useOnClickOutside(() => setShowInstruct(false));
 
   useEffect(() => {
     const myGameStatsZ = loadGameStats();
@@ -82,7 +78,6 @@ const Game = ({ synonyms, trgWords, wordOfDay }: GameProps) => {
         setSynos(localSavedState.synonyms);
         setGameState(localSavedState.gameState);
         setMyLives(localSavedState.myLives);
-        setShowInstruct(false);
       }
     }
   }, []);
@@ -201,12 +196,6 @@ const Game = ({ synonyms, trgWords, wordOfDay }: GameProps) => {
           try your luck to guess the word unaided or come back tomorrow for a
           new word.
         </p>
-      )}
-
-      {showInstruct && (
-        <InstructionModal onToggle={() => setShowInstruct(false)} ref={refNode}>
-          <HowToPlay />
-        </InstructionModal>
       )}
     </>
   );

@@ -1,9 +1,11 @@
+import { INSTRUCTION_MODAL_ID } from "@/utils/constants/id-constants";
 import styles from "../styles/Home.module.css";
 import Game from "./components/Game";
 
 import { getWordOfTheDay } from "./server-helpers/getWord";
 
 import { BsBookHalf } from "react-icons/bs";
+import Instructions from "@/Components/Modals/Instructions/Instructions";
 
 const RootPage = async () => {
   const { synonyms, wordOfDay, trgWords } = await getWordOfTheDay();
@@ -11,11 +13,15 @@ const RootPage = async () => {
     <div className={styles.mainContent}>
       <header className={styles.HeaderCon}>
         <h1 className={styles.HeaderTitle}>Clueless Words</h1>
-        <button popoverTarget="instructionModal">
+        <button
+          popoverTarget={INSTRUCTION_MODAL_ID}
+          popoverTargetAction="toggle"
+        >
           <BsBookHalf className={styles.HeaderIcon} />
         </button>
       </header>
 
+      <Instructions />
       <Game synonyms={synonyms} trgWords={trgWords} wordOfDay={wordOfDay} />
     </div>
   );
