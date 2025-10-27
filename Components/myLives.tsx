@@ -1,12 +1,12 @@
-import { FC, memo } from "react";
+import { memo } from "react";
 
-import styles from "../styles/Home.module.css";
+import styles from "@/styles/Home.module.css";
 
-interface Props {
+interface MyLivesProps {
   numLives: number;
 }
 
-const myLives: FC<Props> = ({ numLives }) => {
+const myLives = ({ numLives }: MyLivesProps) => {
   return (
     <div className={styles.Hints__LivesCon}>
       {[...Array(numLives)].map((e, index) => (

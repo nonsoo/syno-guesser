@@ -1,13 +1,13 @@
-import { IonGuess, Iis_guess_in_word_lst_func } from "../types/projectTypes";
 import { useCallback } from "react";
-
 import { v4 as uuidv4 } from "uuid";
-import setSynBackgroundCol from "../helpers/setSynBackgroundCol";
-import { saveGameStateToLocalStorage } from "../helpers/saveGame";
+
 import gameStateFunc from "../helpers/gameStat";
+import { saveGameStateToLocalStorage } from "../helpers/saveGame";
+import setSynBackgroundCol from "../helpers/setSynBackgroundCol";
+import { IonGuess, FindInArray } from "../types/projectTypes";
 
 const useOnGuess = () => {
-  const is_guess_in_word_lst: Iis_guess_in_word_lst_func = useCallback(
+  const is_guess_in_word_lst: FindInArray = useCallback(
     (wordSet, myGuess, trgWords, synonyms) => {
       if (
         !wordSet.has(myGuess.toLowerCase()) &&

@@ -1,12 +1,14 @@
-import { FC, memo } from "react";
-import styles from "../styles/Home.module.css";
-import { synonyms } from "../utils/types/projectTypes";
+import type { Synonyms } from "@/utils/types/projectTypes";
 
-interface Props {
-  synos: synonyms;
+import { memo } from "react";
+
+import styles from "@/styles/Home.module.css";
+
+interface SynonymsProps {
+  synos: Synonyms;
 }
 
-const Synonyms: FC<Props> = ({ synos }) => {
+const SynonymsComp = ({ synos }: SynonymsProps) => {
   return (
     <section className={styles.syno}>
       {synos.map((syno, index) => (
@@ -18,4 +20,4 @@ const Synonyms: FC<Props> = ({ synos }) => {
   );
 };
 
-export default memo(Synonyms);
+export default memo(SynonymsComp);

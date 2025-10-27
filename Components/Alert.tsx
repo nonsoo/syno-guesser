@@ -1,6 +1,6 @@
-import styles from "../styles/Alert.module.css";
-
 import { MdOutlineErrorOutline } from "react-icons/md";
+
+import styles from "@/styles/Alert.module.css";
 
 interface Props {
   notification: string;
