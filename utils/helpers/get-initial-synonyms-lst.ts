@@ -1,5 +1,5 @@
-import { synonyms } from "../types/projectTypes";
-const get_initial_synonyms_lst = (synonyms: synonyms) => {
+import type { Synonyms } from "../types/projectTypes";
+const get_initial_synonyms_lst = (synonyms: Synonyms) => {
   return synonyms.length > 3
     ? [
         synonyms[0],

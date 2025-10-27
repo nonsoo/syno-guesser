@@ -1,14 +1,14 @@
-import { memo } from "react";
+import type { Synonyms } from "@/utils/types/projectTypes";
 
-import { synonyms } from "@/utils/types/projectTypes";
+import { memo } from "react";
 
 import styles from "@/styles/Home.module.css";
 
 interface SynonymsProps {
-  synos: synonyms;
+  synos: Synonyms;
 }
 
-const Synonyms = ({ synos }: SynonymsProps) => {
+const SynonymsComp = ({ synos }: SynonymsProps) => {
   return (
     <section className={styles.syno}>
       {synos.map((syno, index) => (
@@ -20,4 +20,4 @@ const Synonyms = ({ synos }: SynonymsProps) => {
   );
 };
 
-export default memo(Synonyms);
+export default memo(SynonymsComp);

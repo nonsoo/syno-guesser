@@ -1,10 +1,11 @@
+import type { ResData, TriggerWord } from "@/utils/types/projectTypes";
+
 import { cacheLife, cacheTag } from "next/cache";
 
 import getWordOftheDay from "@/utils/helpers/newDay";
 import UseGetAllSynonyms from "@/utils/hooks/useGetAllSynonyms";
 import UseGetTriggerWord from "@/utils/hooks/useGetTriggerWords";
 import UsePromiseResolver from "@/utils/hooks/usePromiseResolver";
-import { resData, triggerWord } from "@/utils/types/projectTypes";
 
 export const getWordOfTheDay = async () => {
   "use cache";
@@ -31,8 +32,8 @@ export const getWordOfTheDay = async () => {
       };
     }
 
-    const resp: resData[] = resData[0];
-    const trgWordResp: triggerWord[] = resData[1];
+    const resp: ResData[] = resData[0];
+    const trgWordResp: TriggerWord[] = resData[1];
 
     const cleanData = resp.filter((obj) => obj?.meta?.id === wordOfDay);
 

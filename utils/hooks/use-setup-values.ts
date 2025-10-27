@@ -1,10 +1,11 @@
+import type { Synonyms, SetupValues } from "../types/projectTypes";
+
 import { useMemo } from "react";
 
 import randomizeHint from "../helpers/randomizeHints";
-import { synonyms, setupValues } from "../types/projectTypes";
 
-const useSetupValues = (synonyms: synonyms) => {
-  const setUpValues: setupValues = useMemo(() => {
+const useSetupValues = (synonyms: Synonyms) => {
+  const setUpValues: SetupValues = useMemo(() => {
     const totalGuessAllowed: number = 6;
 
     const newRandomHints = synonyms.filter((synonym) => {

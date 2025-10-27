@@ -1,13 +1,14 @@
+import type { UserGuessLst } from "../types/projectTypes";
+
 import {
   shareGreenBox,
   shareRedBox,
   shareGreenWinBox,
   shareLockPen,
 } from "../constants/consts";
-import { userGuessLst } from "../types/projectTypes";
 import { loadGameStateFromLocalStorage } from "./saveGame";
 
-const generate_boxes = (guess_lst: userGuessLst[], win_state: boolean) => {
+const generate_boxes = (guess_lst: UserGuessLst[], win_state: boolean) => {
   let squareColours = "";
 
   guess_lst.forEach((guess) => {
