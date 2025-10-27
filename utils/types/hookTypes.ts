@@ -1,1 +1,1 @@
-export type useAlertType = (timeOut?: number) => [boolean, () => void];
+export type UseAlertType = (timeOut?: number) => [boolean, () => void];

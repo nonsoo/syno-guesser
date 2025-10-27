@@ -1,7 +1,8 @@
 import "@/styles/layout.css";
+import type { Metadata, Viewport } from "next";
+
 import { Nunito } from "next/font/google";
 import Script from "next/script";
-import type { Metadata, Viewport } from "next";
 
 import {
   METADATA_TITLE,

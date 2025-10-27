@@ -1,5 +1,3 @@
-import { FC } from "react";
-
 import styles from "@/styles/gameStats.module.css";
 
 interface GameStatsProps {

@@ -1,6 +1,8 @@
 import { memo } from "react";
-import styles from "@/styles/Home.module.css";
+
 import { synonyms } from "@/utils/types/projectTypes";
+
+import styles from "@/styles/Home.module.css";
 
 interface SynonymsProps {
   synos: synonyms;

@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 
-type handlerFunc = () => void;
-const useOnClickOutside = (handler: handlerFunc) => {
+type HandlerFunc = () => void;
+const useOnClickOutside = (handler: HandlerFunc) => {
   const refNode = useRef<HTMLElement>(null);
   const saved_callback = useRef(handler);
 

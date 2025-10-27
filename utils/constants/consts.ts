@@ -11,7 +11,7 @@ export const METADATA_DESCRIPTION =
 export const METADATA_SOCIAL_IMG_URL =
   BASE_URL + "/favicon/android-chrome-512x512.png";
 
-export const share_red_box = "🟥";
-export const share_green_box = "🟩";
-export const share_green_win_box = "✅";
-export const share_lock_pen = "🔏";
+export const shareRedBox = "🟥";
+export const shareGreenBox = "🟩";
+export const shareGreenWinBox = "✅";
+export const shareLockPen = "🔏";

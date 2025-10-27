@@ -1,20 +1,19 @@
-import styles from "@/styles/wingame.module.css";
-
-import { endgameProps } from "@/utils/types/projectTypes";
-
 import Countdown from "@/Components/Countdown";
-
-import { share_clueless } from "@/utils/helpers/share-clueless";
+import { shareClueless } from "@/utils/helpers/share-clueless";
 import useCopyToClipboard from "@/utils/hooks/use-copy-to-clipboard";
+import { EndgameProps } from "@/utils/types/projectTypes";
+
 import Alert from "./Alert";
+
+import styles from "@/styles/wingame.module.css";
 
 const EndGame = ({
   secretWord,
   winState,
   myGuesses,
   children,
-}: endgameProps) => {
-  const share_sheet = share_clueless();
+}: EndgameProps) => {
+  const shareSheet = shareClueless();
 
   const [result, copyFn] = useCopyToClipboard();
 
@@ -55,7 +54,7 @@ const EndGame = ({
         <div className={styles.shareBtn__con}>
           <button
             className={styles.shareScore}
-            onClick={() => copyFn(share_sheet)}
+            onClick={() => copyFn(shareSheet)}
           >
             Share my score
           </button>

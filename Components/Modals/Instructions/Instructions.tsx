@@ -1,7 +1,8 @@
-import { INSTRUCTION_MODAL_ID } from "@/utils/constants/id-constants";
-import styles from "@/styles/Instructions.module.css";
-
 import { X } from "lucide-react";
+
+import { INSTRUCTION_MODAL_ID } from "@/utils/constants/id-constants";
+
+import styles from "@/styles/Instructions.module.css";
 
 const Instructions = () => {
   return (

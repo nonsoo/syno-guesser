@@ -1,11 +1,10 @@
-import { resData, triggerWord } from "@/utils/types/projectTypes";
 import { cacheLife, cacheTag } from "next/cache";
 
+import getWordOftheDay from "@/utils/helpers/newDay";
 import UseGetAllSynonyms from "@/utils/hooks/useGetAllSynonyms";
 import UseGetTriggerWord from "@/utils/hooks/useGetTriggerWords";
 import UsePromiseResolver from "@/utils/hooks/usePromiseResolver";
-
-import getWordOftheDay from "@/utils/helpers/newDay";
+import { resData, triggerWord } from "@/utils/types/projectTypes";
 
 export const getWordOfTheDay = async () => {
   "use cache";
@@ -20,7 +19,7 @@ export const getWordOfTheDay = async () => {
       const synonyms: string[] = [];
       let trgWords: string[] = [];
 
-      if (resData[1].length != 0) {
+      if (resData[1].length !== 0) {
         trgWords = UseGetTriggerWord(resData[1]);
       }
 
@@ -42,7 +41,7 @@ export const getWordOfTheDay = async () => {
     const trgWords = UseGetTriggerWord(trgWordResp);
 
     return { synonyms, wordOfDay, trgWords, offsetDate };
-  } catch (e) {
+  } catch {
     const synonyms: string[] = [];
     const trgWords: string[] = [];
 

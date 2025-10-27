@@ -1,4 +1,5 @@
 import { FC } from "react";
+
 import styles from "../../styles/Instructions.module.css";
 
 const instructionModal: FC = () => {

@@ -1,35 +1,31 @@
 "use client";
 
+import type {
+  StoredGameStatistics,
+  Synonyms,
+  UserGuessLst,
+} from "@/utils/types/projectTypes";
+
 import { useState, useEffect, Suspense } from "react";
 
-import styles from "@/styles/Home.module.css";
-
+import Alert from "@/Components/Alert";
+import EndGame from "@/Components/EndGame";
+import GameStat from "@/Components/gameStats";
+import MyLives from "@/Components/myLives";
+import SynonymsComponent from "@/Components/Synonyms";
 import wordSet from "@/utils/helpers/createWordSet";
-import useAlert from "@/utils/hooks/useAlert";
-
-import useGetHint from "@/utils/hooks/use-get-hint";
-import useOnGuess from "@/utils/hooks/use-on-guess";
-import useSetupValues from "@/utils/hooks/use-setup-values";
 import get_initial_synonyms_lst from "@/utils/helpers/get-initial-synonyms-lst";
-
 import {
   loadGameStateFromLocalStorage,
   removeGameStateFromLocalStorage,
   loadGameStats,
 } from "@/utils/helpers/saveGame";
+import useGetHint from "@/utils/hooks/use-get-hint";
+import useOnGuess from "@/utils/hooks/use-on-guess";
+import useSetupValues from "@/utils/hooks/use-setup-values";
+import useAlert from "@/utils/hooks/useAlert";
 
-import EndGame from "@/Components/EndGame";
-
-import Alert from "@/Components/Alert";
-import Synonyms from "@/Components/Synonyms";
-import MyLives from "@/Components/myLives";
-import GameStat from "@/Components/gameStats";
-
-import {
-  StoredGameStatistics,
-  synonyms,
-  userGuessLst,
-} from "@/utils/types/projectTypes";
+import styles from "@/styles/Home.module.css";
 
 interface GameProps {
   synonyms: string[];
@@ -41,14 +37,14 @@ interface GameProps {
 const Game = ({ synonyms, trgWords, wordOfDay, offsetDate }: GameProps) => {
   const setUpValues = useSetupValues(synonyms);
   const [myGuess, setMyGuess] = useState<string>("");
-  const [synos, setSynos] = useState<synonyms>(() =>
+  const [synos, setSynos] = useState<Synonyms>(() =>
     get_initial_synonyms_lst(synonyms)
   );
   const [secretWord, setSecretWord] = useState<string>(wordOfDay);
   const [winState, setWinState] = useState<boolean>(false);
   const [gameState, setGameState] = useState<boolean>(false);
   const [myLives, setMyLives] = useState(setUpValues.totalGuessAllowed);
-  const [guessLst, setGuessLst] = useState<userGuessLst[]>([]);
+  const [guessLst, setGuessLst] = useState<UserGuessLst[]>([]);
   const [showAlert, setShowAlert] = useAlert(2500);
   const [myGameStats, setMyGameStats] = useState<StoredGameStatistics | null>(
     null
@@ -95,6 +91,7 @@ const Game = ({ synonyms, trgWords, wordOfDay, offsetDate }: GameProps) => {
     );
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const trigger_On_Guess = (e: any) => {
     onGuess(
       e,
@@ -126,7 +123,7 @@ const Game = ({ synonyms, trgWords, wordOfDay, offsetDate }: GameProps) => {
               winState={winState}
               myGuesses={guessLst}
             >
-              <Synonyms synos={synos} />
+              <SynonymsComponent synos={synos} />
               <MyLives numLives={myLives} />
             </EndGame>
             <GameStat
@@ -137,7 +134,7 @@ const Game = ({ synonyms, trgWords, wordOfDay, offsetDate }: GameProps) => {
           </>
         ) : (
           <>
-            <Synonyms synos={synos} />
+            <SynonymsComponent synos={synos} />
 
             <section className={styles.GuessedWords}>
               {guessLst.map((word) => (
