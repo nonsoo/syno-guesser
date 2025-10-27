@@ -1,13 +1,10 @@
 import { useMemo } from "react";
-import { getOffsetDay } from "../helpers/newDay";
 import randomizeHint from "../helpers/randomizeHints";
 
 import { synonyms, setupValues } from "../types/projectTypes";
 
 const useSetupValues = (synonyms: synonyms) => {
   const setUpValues: setupValues = useMemo(() => {
-    const todaysDate = new Date();
-    const offsetDate = getOffsetDay(todaysDate);
     const totalGuessAllowed: number = 6;
 
     const newRandomHints = synonyms.filter((synonym) => {
@@ -21,7 +18,7 @@ const useSetupValues = (synonyms: synonyms) => {
 
     const randomizedHints = randomizeHint(newRandomHints);
 
-    return { offsetDate, totalGuessAllowed, randomizedHints };
+    return { totalGuessAllowed, randomizedHints };
   }, [synonyms]);
 
   return setUpValues;

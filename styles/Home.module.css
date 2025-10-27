@@ -25,6 +25,13 @@
   /* flex: 1; */
 }
 
+.HeaderBtn {
+  border: none;
+  background: none;
+
+  cursor: pointer;
+}
+
 .HeaderIcon {
   font-size: 1.5rem;
 

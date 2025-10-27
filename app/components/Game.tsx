@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 
 import styles from "@/styles/Home.module.css";
 
@@ -17,7 +17,6 @@ import {
   removeGameStateFromLocalStorage,
   loadGameStats,
 } from "@/utils/helpers/saveGame";
-import { getOffsetDay } from "@/utils/helpers/newDay";
 
 import EndGame from "@/Components/EndGame";
 
@@ -36,9 +35,10 @@ interface GameProps {
   synonyms: string[];
   wordOfDay: string;
   trgWords: string[];
+  offsetDate: number;
 }
 
-const Game = ({ synonyms, trgWords, wordOfDay }: GameProps) => {
+const Game = ({ synonyms, trgWords, wordOfDay, offsetDate }: GameProps) => {
   const setUpValues = useSetupValues(synonyms);
   const [myGuess, setMyGuess] = useState<string>("");
   const [synos, setSynos] = useState<synonyms>(() =>
@@ -66,8 +66,6 @@ const Game = ({ synonyms, trgWords, wordOfDay }: GameProps) => {
 
   useEffect(() => {
     const localSavedState = loadGameStateFromLocalStorage();
-    const checkDate = new Date();
-    const offsetDate = getOffsetDay(checkDate);
     if (localSavedState) {
       if (offsetDate !== localSavedState.dayOfPlay) {
         removeGameStateFromLocalStorage();
@@ -89,7 +87,7 @@ const Game = ({ synonyms, trgWords, wordOfDay }: GameProps) => {
       setMyLives,
       setGameState,
       myLives,
-      setUpValues.offsetDate,
+      offsetDate,
       secretWord,
       winState,
       guessLst,
@@ -109,7 +107,7 @@ const Game = ({ synonyms, trgWords, wordOfDay }: GameProps) => {
       myLives,
       guessLst,
       synos,
-      setUpValues.offsetDate,
+      offsetDate,
       setMyGuess,
       setGameState,
       setWinState,
@@ -177,15 +175,15 @@ const Game = ({ synonyms, trgWords, wordOfDay }: GameProps) => {
             <section className={styles.Hints}>
               <MyLives numLives={myLives} />
 
-              <button
-                className={styles.Hints_btn}
-                onClick={trigger_Get_Hint}
-                disabled={
-                  setUpValues.randomizedHints.length === 0 ? true : false
-                }
-              >
-                New Hint
-              </button>
+              <Suspense>
+                <button
+                  className={styles.Hints_btn}
+                  onClick={trigger_Get_Hint}
+                  disabled={setUpValues.randomizedHints.length === 0}
+                >
+                  New Hint
+                </button>
+              </Suspense>
             </section>
           </>
         )}

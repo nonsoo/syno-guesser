@@ -61,7 +61,6 @@ export interface BookmarkWord {
 }
 
 export interface setupValues {
-  offsetDate: number;
   totalGuessAllowed: number;
   randomizedHints: synonyms;
 }

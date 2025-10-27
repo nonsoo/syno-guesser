@@ -1,7 +1,7 @@
 import "../styles/layout.css";
 import { Nunito } from "next/font/google";
 import Script from "next/script";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 import {
   METADATA_TITLE,
@@ -30,7 +30,7 @@ export const meta: Metadata = {
   manifest: "/manifest.json",
 };
 
-export const viewport = {
+export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,

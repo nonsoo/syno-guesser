@@ -1,6 +1,8 @@
 import { INSTRUCTION_MODAL_ID } from "@/utils/constants/id-constants";
 import styles from "@/styles/Instructions.module.css";
 
+import { X } from "lucide-react";
+
 const Instructions = () => {
   return (
     <section className={styles.Modal} id={INSTRUCTION_MODAL_ID} popover="auto">
@@ -9,7 +11,7 @@ const Instructions = () => {
         popoverTarget={INSTRUCTION_MODAL_ID}
         popoverTargetAction="hide"
       >
-        Close
+        <X size={30} />
       </button>
 
       <p className={styles.Modal__Title}>How to play</p>

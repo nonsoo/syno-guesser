@@ -17,7 +17,12 @@
   &:popover-open {
     display: flex;
     flex-direction: column;
-    gap: 1em;
+
+    position: fixed;
+    inset: 0;
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
   }
 
   &::backdrop {
@@ -27,15 +32,18 @@
 
 .Modal__closeBtn {
   align-self: flex-end;
-
   font-size: 2rem;
   cursor: pointer;
+
+  border: none;
+  background: none;
 }
 
 .Modal__Title {
   font-size: 1.5rem;
   text-align: center;
   font-weight: var(--fw-sec);
+  margin-bottom: 1em;
 }
 
 .ModalTextCon {

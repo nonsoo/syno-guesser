@@ -7,7 +7,7 @@ import UsePromiseResolver from "../../utils/hooks/usePromiseResolver";
 import getWordOftheDay from "../../utils/helpers/newDay";
 
 export const getWordOfTheDay = async () => {
-  const wordOfDay = getWordOftheDay();
+  const { wordOfDay, offsetDate } = getWordOftheDay();
 
   try {
     const resData = await UsePromiseResolver(wordOfDay);
@@ -24,6 +24,7 @@ export const getWordOfTheDay = async () => {
         synonyms,
         wordOfDay,
         trgWords,
+        offsetDate,
       };
     }
 
@@ -36,7 +37,7 @@ export const getWordOfTheDay = async () => {
 
     const trgWords = UseGetTriggerWord(trgWordResp);
 
-    return { synonyms, wordOfDay, trgWords };
+    return { synonyms, wordOfDay, trgWords, offsetDate };
   } catch (e) {
     const synonyms: string[] = [];
     const trgWords: string[] = [];
@@ -45,6 +46,7 @@ export const getWordOfTheDay = async () => {
       synonyms,
       wordOfDay,
       trgWords,
+      offsetDate,
     };
   }
 };
