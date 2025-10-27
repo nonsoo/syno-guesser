@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   reactCompiler: true,
   poweredByHeader: false,
+  cacheComponents: true,
 };
 
 export default nextConfig;

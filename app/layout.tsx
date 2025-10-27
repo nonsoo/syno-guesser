@@ -1,4 +1,4 @@
-import "../styles/layout.css";
+import "@/styles/layout.css";
 import { Nunito } from "next/font/google";
 import Script from "next/script";
 import type { Metadata, Viewport } from "next";
@@ -7,11 +7,11 @@ import {
   METADATA_TITLE,
   METADATA_DESCRIPTION,
   METADATA_SOCIAL_IMG_URL,
-} from "../utils/constants/consts";
+} from "@/utils/constants/consts";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
-import GameProvider from "../utils/context/GameContext";
+import GameProvider from "@/utils/context/GameContext";
 
 export const meta: Metadata = {
   title: METADATA_TITLE,

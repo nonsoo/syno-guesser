@@ -1,4 +1,4 @@
-import styles from "../styles/Alert.module.css";
+import styles from "@/styles/Alert.module.css";
 
 import { MdOutlineErrorOutline } from "react-icons/md";
 

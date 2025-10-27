@@ -1,20 +1,19 @@
-import { FC } from "react";
-import styles from "../styles/wingame.module.css";
+import styles from "@/styles/wingame.module.css";
 
-import { endgameProps } from "../utils/types/projectTypes";
+import { endgameProps } from "@/utils/types/projectTypes";
 
-import Countdown from "../Components/Countdown";
+import Countdown from "@/Components/Countdown";
 
-import { share_clueless } from "../utils/helpers/share-clueless";
-import useCopyToClipboard from "../utils/hooks/use-copy-to-clipboard";
+import { share_clueless } from "@/utils/helpers/share-clueless";
+import useCopyToClipboard from "@/utils/hooks/use-copy-to-clipboard";
 import Alert from "./Alert";
 
-const EndGame: FC<endgameProps> = ({
+const EndGame = ({
   secretWord,
   winState,
   myGuesses,
   children,
-}) => {
+}: endgameProps) => {
   const share_sheet = share_clueless();
 
   const [result, copyFn] = useCopyToClipboard();

@@ -1,12 +1,16 @@
-import { resData, triggerWord } from "../../utils/types/projectTypes";
+import { resData, triggerWord } from "@/utils/types/projectTypes";
+import { cacheLife, cacheTag } from "next/cache";
 
-import UseGetAllSynonyms from "../../utils/hooks/useGetAllSynonyms";
-import UseGetTriggerWord from "../../utils/hooks/useGetTriggerWords";
-import UsePromiseResolver from "../../utils/hooks/usePromiseResolver";
+import UseGetAllSynonyms from "@/utils/hooks/useGetAllSynonyms";
+import UseGetTriggerWord from "@/utils/hooks/useGetTriggerWords";
+import UsePromiseResolver from "@/utils/hooks/usePromiseResolver";
 
-import getWordOftheDay from "../../utils/helpers/newDay";
+import getWordOftheDay from "@/utils/helpers/newDay";
 
 export const getWordOfTheDay = async () => {
+  "use cache";
+  cacheLife("hours");
+  cacheTag("word-of-the-day");
   const { wordOfDay, offsetDate } = getWordOftheDay();
 
   try {
