@@ -1,0 +1,56 @@
+import type { ResData, TriggerWord } from "@/utils/types/projectTypes";
+
+import { cacheLife, cacheTag } from "next/cache";
+
+import getWordOftheDay from "@/utils/helpers/newDay";
+import UseGetAllSynonyms from "@/utils/hooks/useGetAllSynonyms";
+import UseGetTriggerWord from "@/utils/hooks/useGetTriggerWords";
+import UsePromiseResolver from "@/utils/hooks/usePromiseResolver";
+
+export const getWordOfTheDay = async () => {
+  "use cache";
+  cacheLife("hours");
+  cacheTag("word-of-the-day");
+  const { wordOfDay, offsetDate } = getWordOftheDay();
+
+  try {
+    const resData = await UsePromiseResolver(wordOfDay);
+
+    if (typeof resData[0][0] === "string") {
+      const synonyms: string[] = [];
+      let trgWords: string[] = [];
+
+      if (resData[1].length !== 0) {
+        trgWords = UseGetTriggerWord(resData[1]);
+      }
+
+      return {
+        synonyms,
+        wordOfDay,
+        trgWords,
+        offsetDate,
+      };
+    }
+
+    const resp: ResData[] = resData[0];
+    const trgWordResp: TriggerWord[] = resData[1];
+
+    const cleanData = resp.filter((obj) => obj?.meta?.id === wordOfDay);
+
+    const synonyms = UseGetAllSynonyms(cleanData);
+
+    const trgWords = UseGetTriggerWord(trgWordResp);
+
+    return { synonyms, wordOfDay, trgWords, offsetDate };
+  } catch {
+    const synonyms: string[] = [];
+    const trgWords: string[] = [];
+
+    return {
+      synonyms,
+      wordOfDay,
+      trgWords,
+      offsetDate,
+    };
+  }
+};

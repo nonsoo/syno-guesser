@@ -25,6 +25,13 @@
   /* flex: 1; */
 }
 
+.HeaderBtn {
+  border: none;
+  background: none;
+
+  cursor: pointer;
+}
+
 .HeaderIcon {
   font-size: 1.5rem;
 
@@ -218,5 +225,9 @@
 @media (prefers-color-scheme: dark) {
   .syno__item {
     background-color: var(--col-background-prmy);
+  }
+
+  .HeaderBtnIcon {
+    color: var(--col-text-prmy);
   }
 }

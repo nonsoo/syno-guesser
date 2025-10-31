@@ -1,14 +1,15 @@
 import { ReactNode, SetStateAction } from "react";
-export interface endgameProps {
+export interface EndgameProps {
   secretWord: string;
   winState: boolean;
-  myGuesses: userGuessLst[];
+  myGuesses: UserGuessLst[];
   children: ReactNode;
 }
 
-export type synonyms = string[];
+export type Synonyms = string[];
 
-export interface resData {
+export interface ResData {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   def: any;
   fl: string;
   hwi: { hw: string };
@@ -17,7 +18,7 @@ export interface resData {
     uuid: string;
     src: string;
     stems: string[];
-    syns: synonyms[];
+    syns: Synonyms[];
     target: {
       tsrc: string;
       tuuid: string;
@@ -26,24 +27,24 @@ export interface resData {
   shortdef: string[];
 }
 
-export interface triggerWord {
+export interface TriggerWord {
   word: string;
   score: number;
 }
 
-export interface userGuessLst {
+export interface UserGuessLst {
   id: string;
   word: string;
   statusColour: "hsl(111, 32%, 38%)" | "hsl(0, 84%, 68%)";
 }
 
-export type statusColour = "hsl(111, 32%, 38%)" | "hsl(0, 84%, 68%)";
+export type StatusColour = "hsl(111, 32%, 38%)" | "hsl(0, 84%, 68%)";
 
 export interface StoredGameState {
   secretWord: string;
   winState: boolean;
   gameState: boolean;
-  myGuesses: userGuessLst[];
+  myGuesses: UserGuessLst[];
   synonyms: string[];
   myLives: number;
   dayOfPlay: number;
@@ -57,53 +58,53 @@ export interface StoredGameStatistics {
 
 export interface BookmarkWord {
   secretWord: string;
-  synonyms: synonyms;
+  synonyms: Synonyms;
 }
 
-export interface setupValues {
-  offsetDate: number;
+export interface SetupValues {
   totalGuessAllowed: number;
-  randomizedHints: synonyms;
+  randomizedHints: Synonyms;
 }
 
-type iSetState<T> = (value: SetStateAction<T>) => void;
+type SetState<T> = (value: SetStateAction<T>) => void;
 
 export type IonGetHint = (
-  lst_of_random_synonyms: synonyms,
-  setSynos: iSetState<synonyms>,
-  setMyLives: iSetState<number>,
-  setGameState: iSetState<boolean>,
+  lst_of_random_Synonyms: Synonyms,
+  setSynos: SetState<Synonyms>,
+  setMyLives: SetState<number>,
+  setGameState: SetState<boolean>,
   myLives: number,
   offsetDate: number,
   secretWord: string,
   winState: boolean,
-  guessLst: userGuessLst[],
-  synos: synonyms
+  guessLst: UserGuessLst[],
+  synos: Synonyms
 ) => void;
 
 export type IonGuess = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   e: any,
   myGuess: string,
   wordSet: Set<string>,
   trgWords: string[],
-  synonyms: synonyms,
+  synonyms: Synonyms,
   secretWord: string,
   winState: boolean,
   myLives: number,
-  guessLst: userGuessLst[],
-  synos: synonyms,
+  guessLst: UserGuessLst[],
+  synos: Synonyms,
   offsetDate: number,
-  setMyGuess: iSetState<string>,
-  setGameState: iSetState<boolean>,
-  setWinState: iSetState<boolean>,
-  setGuessLst: iSetState<userGuessLst[]>,
-  setMyLives: iSetState<number>,
+  setMyGuess: SetState<string>,
+  setGameState: SetState<boolean>,
+  setWinState: SetState<boolean>,
+  setGuessLst: SetState<UserGuessLst[]>,
+  setMyLives: SetState<number>,
   setShowAlert: () => void
 ) => void;
 
-export type Iis_guess_in_word_lst_func = (
+export type FindInArray = (
   wordSet: Set<string>,
   myGuess: string,
   trgWords: string[],
-  synonyms: synonyms
+  synonyms: Synonyms
 ) => boolean;

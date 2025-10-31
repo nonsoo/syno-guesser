@@ -1,8 +1,9 @@
 import { useCallback } from "react";
-import { IonGetHint } from "../types/projectTypes";
+
+import gameStateFunc from "../helpers/gameStat";
 import { remove_hint_from_lst } from "../helpers/generate-random-hint";
 import { saveGameStateToLocalStorage } from "../helpers/saveGame";
-import gameStateFunc from "../helpers/gameStat";
+import { IonGetHint } from "../types/projectTypes";
 
 const useGetHint = () => {
   const onGetHint: IonGetHint = useCallback(

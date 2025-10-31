@@ -1,4 +1,5 @@
-import { synonyms } from "../types/projectTypes";
+import type { Synonyms } from "../types/projectTypes";
+
 export const generate_RandomHint = (hintSet: Set<number>, lenLst: number) => {
   let randomHint: number = 0;
   let counter: number = 0;
@@ -15,6 +16,6 @@ export const generate_RandomHint = (hintSet: Set<number>, lenLst: number) => {
   return randomHint;
 };
 
-export const remove_hint_from_lst = (synonymsLstRandom: synonyms) => {
+export const remove_hint_from_lst = (synonymsLstRandom: Synonyms) => {
   return synonymsLstRandom.pop();
 };

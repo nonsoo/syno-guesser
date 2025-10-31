@@ -1,4 +1,4 @@
-import { resData } from "../types/projectTypes";
+import type { ResData } from "../types/projectTypes";
 
 const getSynonyms = <T>(lst: T[][]): T[] => {
   const newArray: T[] = [];
@@ -13,7 +13,7 @@ const removeDuplicates = (lst: string[]) => {
   return Array.from(newSet);
 };
 
-const useGetAllSynonyms = (lst: resData[]) => {
+const useGetAllSynonyms = (lst: ResData[]) => {
   const newLst = lst.map((point) => getSynonyms(point.meta.syns));
 
   const synonyms = getSynonyms(newLst);

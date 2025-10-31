@@ -1,10 +1,11 @@
-import { FC, useMemo } from "react";
 import { startOfTomorrow } from "date-fns";
-import useCountdown from "../utils/hooks/useCountdown";
+import { useMemo } from "react";
 
-import styles from "../styles/wingame.module.css";
+import useCountdown from "@/utils/hooks/useCountdown";
 
-const Countdown: FC = () => {
+import styles from "@/styles/wingame.module.css";
+
+const Countdown = () => {
   const tomorrow = useMemo(() => startOfTomorrow().toUTCString(), []);
   const [, hours, minutes, seconds] = useCountdown(tomorrow);
 

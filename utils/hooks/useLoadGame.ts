@@ -1,31 +1,16 @@
 import { useEffect, SetStateAction } from "react";
 
-import {
-  loadGameStateFromLocalStorage,
-  saveGameStateToLocalStorage,
-  removeGameStateFromLocalStorage,
-  loadGameStats,
-} from "../helpers/saveGame";
+import { loadGameStats } from "../helpers/saveGame";
+import { StoredGameStatistics } from "../types/projectTypes";
 
-import {
-  resData,
-  StoredGameStatistics,
-  userGuessLst,
-  synonyms,
-  setupValues,
-  triggerWord,
-} from "../types/projectTypes";
+type SetState<T> = (value: SetStateAction<T>) => void;
 
-import { getOffsetDay } from "../helpers/newDay";
-
-type iSetState<T> = (value: SetStateAction<T>) => void;
-
-type IuseLoadGame = (
-  setMyGameStats: iSetState<StoredGameStatistics>,
+type UseLoadGame = (
+  setMyGameStats: SetState<StoredGameStatistics>,
   gameState: boolean
 ) => void;
 
-const useLoadGame: IuseLoadGame = (setMyGameStats, gameState) => {
+const useLoadGame: UseLoadGame = (setMyGameStats, gameState) => {
   useEffect(() => {
     const myGameStatsZ = loadGameStats();
     if (myGameStatsZ) {

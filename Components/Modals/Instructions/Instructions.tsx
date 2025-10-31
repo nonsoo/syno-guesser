@@ -1,9 +1,20 @@
-import { FC } from "react";
-import styles from "../../styles/Instructions.module.css";
+import { X } from "lucide-react";
 
-const instructionModal: FC = () => {
+import { INSTRUCTION_MODAL_ID } from "@/utils/constants/id-constants";
+
+import styles from "@/styles/Instructions.module.css";
+
+const Instructions = () => {
   return (
-    <>
+    <section className={styles.Modal} id={INSTRUCTION_MODAL_ID} popover="auto">
+      <button
+        className={styles.Modal__closeBtn}
+        popoverTarget={INSTRUCTION_MODAL_ID}
+        popoverTargetAction="hide"
+      >
+        <X size={30} />
+      </button>
+
       <p className={styles.Modal__Title}>How to play</p>
       <div className={styles.ModalTextCon}>
         <p className={styles.Modal__Text}>
@@ -51,8 +62,8 @@ const instructionModal: FC = () => {
           A new set of clueless words will be available each day!
         </p>
       </div>
-    </>
+    </section>
   );
 };
 
-export default instructionModal;
+export default Instructions;

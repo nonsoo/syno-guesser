@@ -1,14 +1,16 @@
-import { FC } from "react";
+import styles from "@/styles/gameStats.module.css";
 
-import styles from "../styles/gameStats.module.css";
-
-interface Props {
+interface GameStatsProps {
   gamesPlayed: number[] | undefined;
   winStreak: number | undefined;
   maxWinStreak: number | undefined;
 }
 
-const GameStats: FC<Props> = ({ gamesPlayed, winStreak, maxWinStreak }) => {
+const GameStats = ({
+  gamesPlayed,
+  winStreak,
+  maxWinStreak,
+}: GameStatsProps) => {
   return (
     <section className={styles.gameStatCon}>
       <div className={styles.gameStat}>
