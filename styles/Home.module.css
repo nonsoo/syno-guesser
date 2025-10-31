@@ -226,4 +226,8 @@
   .syno__item {
     background-color: var(--col-background-prmy);
   }
+
+  .HeaderBtnIcon {
+    color: var(--col-text-prmy);
+  }
 }
