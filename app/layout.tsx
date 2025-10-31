@@ -14,22 +14,23 @@ const nunito = Nunito({ subsets: ["latin"] });
 
 import GameProvider from "@/utils/context/GameContext";
 
-export const meta: Metadata = {
-  title: METADATA_TITLE,
-  description: METADATA_DESCRIPTION,
-  openGraph: {
+export async function generateMetadata() {
+  return {
     title: METADATA_TITLE,
     description: METADATA_DESCRIPTION,
-    images: METADATA_SOCIAL_IMG_URL,
-  },
-  twitter: {
-    title: METADATA_TITLE,
-    description: METADATA_DESCRIPTION,
-    images: METADATA_SOCIAL_IMG_URL,
-  },
-
-  manifest: "/manifest.json",
-};
+    openGraph: {
+      title: METADATA_TITLE,
+      description: METADATA_DESCRIPTION,
+      images: METADATA_SOCIAL_IMG_URL,
+    },
+    twitter: {
+      title: METADATA_TITLE,
+      description: METADATA_DESCRIPTION,
+      images: METADATA_SOCIAL_IMG_URL,
+    },
+    manifest: "/manifest.json",
+  };
+}
 
 export const viewport: Viewport = {
   width: "device-width",
