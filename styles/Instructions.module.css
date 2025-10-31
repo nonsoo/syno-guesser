@@ -156,6 +156,9 @@
 }
 
 @media (prefers-color-scheme: dark) {
+  .Modal {
+    color: var(--col-text-prmy);
+  }
   .syno__item {
     background-color: var(--col-background-sec);
   }
@@ -167,5 +170,9 @@
 
   .secretWord_Word {
     background-color: hsl(0, 0%, 16%);
+  }
+
+  .Modal__closeBtn {
+    color: var(--col-text-prmy);
   }
 }

@@ -20,7 +20,7 @@ const RootPage = async () => {
           popoverTargetAction="toggle"
           className={styles.HeaderBtn}
         >
-          <BookA size={30} />
+          <BookA size={30} className={styles.HeaderBtnIcon} />
         </button>
       </header>
 
