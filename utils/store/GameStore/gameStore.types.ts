@@ -1,0 +1,32 @@
+import { Synonyms, UserGuessLst } from "@/utils/types/projectTypes";
+
+export interface GameState {
+  wordOfDay: string;
+  gameState: {
+    status: "in-progress" | "ended";
+    winState: "win" | "lose" | "none";
+    dayOfPlay: number;
+  };
+  myLives: number;
+  guessLst: UserGuessLst[];
+  synonyms: Synonyms;
+  availableHints: Synonyms;
+}
+
+export interface GameActions {
+  getHint: () => void;
+  onGuess: ({
+    myGuess,
+    triggerWords,
+  }: {
+    myGuess: string;
+    triggerWords: string[];
+  }) => void;
+}
+
+export interface GameProps {
+  synonyms: string[];
+  wordOfDay: string;
+  trgWords: string[];
+  offsetDate: number;
+}

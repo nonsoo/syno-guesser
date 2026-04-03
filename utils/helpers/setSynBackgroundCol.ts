@@ -4,21 +4,12 @@ const setSynBackgroundCol = (
   myGuess: string,
   trgWords: string[],
   synonyms: Synonyms,
-  secretWord: string
-): StatusColour => {
-  let synonymBackgroudColVar: StatusColour;
-
-  if (
-    trgWords.includes(myGuess.toLowerCase()) ||
-    synonyms.includes(myGuess.toLowerCase()) ||
-    myGuess.toLowerCase() === secretWord.toLowerCase()
-  ) {
-    synonymBackgroudColVar = "hsl(111, 32%, 38%)";
-  } else {
-    synonymBackgroudColVar = "hsl(0, 84%, 68%)";
-  }
-
-  return synonymBackgroudColVar;
-};
+  secretWord: string,
+): StatusColour =>
+  trgWords.includes(myGuess.toLowerCase()) ||
+  synonyms.includes(myGuess.toLowerCase()) ||
+  myGuess.toLowerCase() === secretWord.toLowerCase()
+    ? "hsl(111, 32%, 38%)"
+    : "hsl(0, 84%, 68%)";
 
 export default setSynBackgroundCol;
