@@ -7,11 +7,11 @@ import styles from "@/styles/Home.module.css";
 import { INSTRUCTION_MODAL_ID } from "@/utils/constants/id-constants";
 
 import Game from "./components/Game";
-import { getWordOfTheDay } from "./server-helpers/getWord";
 import GameProvider from "@/utils/context/GameContext";
+import { setupGame } from "./server-helpers/setupGame";
 
 const RootPage = async () => {
-  const { synonyms, wordOfDay, trgWords, offsetDate } = await getWordOfTheDay();
+  const { initialState, triggerWords } = await setupGame();
 
   return (
     <div className={styles.mainContent}>
@@ -29,11 +29,10 @@ const RootPage = async () => {
       <Instructions />
       <Suspense>
         <GameProvider
-          offsetDate={offsetDate}
-          synonymsOfDay={synonyms}
-          wordOfDay={wordOfDay}
+          offsetDate={initialState.gameState.dayOfPlay}
+          initialState={initialState}
         >
-          <Game triggerWords={trgWords} />
+          <Game triggerWords={triggerWords} />
         </GameProvider>
       </Suspense>
     </div>

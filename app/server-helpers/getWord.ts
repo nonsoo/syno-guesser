@@ -8,9 +8,6 @@ import UseGetTriggerWord from "@/utils/hooks/useGetTriggerWords";
 import UsePromiseResolver from "@/utils/hooks/usePromiseResolver";
 
 export const getWordOfTheDay = async () => {
-  "use cache";
-  cacheLife("hours");
-  cacheTag("word-of-the-day");
   const { wordOfDay, offsetDate } = getWordOftheDay();
 
   try {

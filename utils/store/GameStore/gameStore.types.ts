@@ -27,7 +27,5 @@ export interface GameActions {
 }
 
 export interface GameProps {
-  synonyms: string[];
-  wordOfDay: string;
-  offsetDate: number;
+  initialState: GameState;
 }

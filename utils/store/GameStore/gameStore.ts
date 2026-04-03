@@ -5,30 +5,7 @@ import get_initial_synonyms_lst from "../../helpers/get-initial-synonyms-lst";
 import randomizeHint from "../../helpers/randomizeHints";
 import { generateStatusColour, isGuessInWordLst } from "./gameStore.helpers";
 
-export const createGameStore = ({
-  synonyms,
-  wordOfDay,
-  offsetDate,
-}: GameProps) => {
-  const initialSynonyms = get_initial_synonyms_lst(synonyms);
-  const availableHints = randomizeHint(
-    synonyms.filter((synonym) => !initialSynonyms.includes(synonym)),
-  );
-
-  const initialState: GameState = {
-    wordOfDay: wordOfDay.trim().toLowerCase(),
-    availableHints,
-
-    myLives: 6,
-    guessLst: [],
-    synonyms: initialSynonyms,
-    gameState: {
-      status: "in-progress",
-      winState: "none",
-      dayOfPlay: offsetDate,
-    },
-  };
-
+export const createGameStore = ({ initialState }: GameProps) => {
   const GameStore = createStore<GameState & GameActions>((set) => ({
     ...initialState,
     getHint: () => {
@@ -37,7 +14,7 @@ export const createGameStore = ({
           return state; // No hints available or no lives left
         }
 
-        const newHint = availableHints[0];
+        const newHint = state.availableHints[0];
         const newAvailableHints = state.availableHints.slice(1);
 
         return {
