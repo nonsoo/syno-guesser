@@ -33,11 +33,11 @@ const GameProvider = ({
   initialState,
   hasAccount,
 }: Props) => {
+  const gameStatisticsStore = createGameStatisticsStore(hasAccount, offsetDate);
   const gameStore = createGameStore({
     initialState,
+    gameStatisticsStore,
   });
-
-  const gameStatisticsStore = createGameStatisticsStore(hasAccount, offsetDate);
 
   const hydrateGameStoreEvent = useEffectEvent(() => {
     const storedState = localStorage.getItem(GAME_STATISTICS_STORE_KEY);

@@ -1,4 +1,5 @@
 import { Synonyms, UserGuessLst } from "@/utils/types/projectTypes";
+import { createGameStatisticsStore } from "../GameStatisticsStore/GameStatisticsStore";
 
 export interface GameState {
   wordOfDay: string;
@@ -28,4 +29,5 @@ export interface GameActions {
 
 export interface GameProps {
   initialState: GameState;
+  gameStatisticsStore: ReturnType<typeof createGameStatisticsStore>;
 }

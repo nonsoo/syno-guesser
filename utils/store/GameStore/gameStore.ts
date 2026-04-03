@@ -6,7 +6,10 @@ import { generateStatusColour, isGuessInWordLst } from "./gameStore.helpers";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { GAME_STORE_KEY } from "@/utils/constants/id-constants";
 
-export const createGameStore = ({ initialState }: GameProps) => {
+export const createGameStore = ({
+  initialState,
+  gameStatisticsStore,
+}: GameProps) => {
   const GameStore = createStore<GameState & GameActions>()(
     persist(
       (set) => ({
@@ -15,6 +18,16 @@ export const createGameStore = ({ initialState }: GameProps) => {
           set((state) => {
             if (state.availableHints.length === 0 || state.myLives <= 0) {
               return state; // No hints available or no lives left
+            }
+
+            if (state.myLives <= 0) {
+              if (gameStatisticsStore) {
+                const setGameStatistics =
+                  gameStatisticsStore.getState().setGameStatistics;
+                setGameStatistics(false, state.gameState.dayOfPlay);
+              }
+
+              return state;
             }
 
             const newHint = state.availableHints[0];
@@ -41,26 +54,34 @@ export const createGameStore = ({ initialState }: GameProps) => {
               return state; // Game already ended or empty guess
             }
 
-            const guessInWordLst = isGuessInWordLst(
+            const guessNotInWordLst = isGuessInWordLst(
               validatedGuess,
+              state.wordOfDay,
               state.availableHints,
               state.synonyms,
               triggerWords,
             );
 
-            if (!guessInWordLst) {
+            if (guessNotInWordLst) {
               action();
               return state;
             }
 
             const synonymBackgroudColour = generateStatusColour(
               validatedGuess,
+              state.synonyms,
               triggerWords,
               state.availableHints,
               state.wordOfDay,
             );
 
             if (validatedGuess === state.wordOfDay) {
+              if (gameStatisticsStore) {
+                const setGameStatistics =
+                  gameStatisticsStore.getState().setGameStatistics;
+                setGameStatistics(false, state.gameState.dayOfPlay);
+              }
+
               return {
                 guessLst: [
                   ...state.guessLst,
@@ -76,6 +97,14 @@ export const createGameStore = ({ initialState }: GameProps) => {
                   winState: "win",
                 },
               };
+            }
+
+            if (state.myLives - 1 <= 0) {
+              if (gameStatisticsStore) {
+                const setGameStatistics =
+                  gameStatisticsStore.getState().setGameStatistics;
+                setGameStatistics(false, state.gameState.dayOfPlay);
+              }
             }
 
             return {
