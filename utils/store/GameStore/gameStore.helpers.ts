@@ -6,9 +6,9 @@ export const isGuessInWordLst = (
   synonyms: Synonyms,
   triggerWords: string[],
 ) =>
-  !availableHints.includes(guess.toLowerCase()) &&
-  !triggerWords.includes(guess.toLowerCase()) &&
-  !synonyms.includes(guess.toLowerCase());
+  availableHints.includes(guess.toLowerCase()) &&
+  triggerWords.includes(guess.toLowerCase()) &&
+  synonyms.includes(guess.toLowerCase());
 
 export const generateStatusColour = (
   myGuess: string,

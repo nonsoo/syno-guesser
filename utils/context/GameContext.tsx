@@ -21,7 +21,7 @@ const GameProvider = ({ children, offsetDate, initialState }: Props) => {
   const gameStore = createGameStore({
     initialState,
   });
-  const gameStatisticsStore = createGameStatisticsStore(false, offsetDate);
+  const gameStatisticsStore = createGameStatisticsStore(true, offsetDate);
 
   return (
     <GameContext value={{ gameStatisticsStore, gameStore }}>

@@ -43,7 +43,7 @@ const Game = ({ triggerWords }: GameProps) => {
   return (
     <>
       <main className={styles.GuesserCon}>
-        {gameState ? (
+        {gameState.status === "ended" ? (
           <>
             <EndGame
               secretWord={secretWord}
