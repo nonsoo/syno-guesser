@@ -1,5 +1,7 @@
 import type { UserGuessLst } from "../types/projectTypes";
 
+import { StoreApi } from "zustand";
+
 import {
   shareGreenBox,
   shareRedBox,
@@ -7,7 +9,6 @@ import {
   shareLockPen,
 } from "../constants/consts";
 import { GameActions, GameState } from "../store/GameStore/gameStore.types";
-import { StoreApi } from "zustand";
 
 const generate_boxes = (guess_lst: UserGuessLst[], win_state: boolean) => {
   let squareColours = "";

@@ -1,8 +1,7 @@
-import { createStore } from "zustand";
 import type { GameActions, GameProps, GameState } from "./gameStore.types";
 
-import get_initial_synonyms_lst from "../../helpers/get-initial-synonyms-lst";
-import randomizeHint from "../../helpers/randomizeHints";
+import { createStore } from "zustand";
+
 import { generateStatusColour, isGuessInWordLst } from "./gameStore.helpers";
 
 export const createGameStore = ({ initialState }: GameProps) => {

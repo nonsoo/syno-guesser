@@ -2,17 +2,16 @@
 
 import { startTransition } from "react";
 
+import { useStore } from "zustand";
+
 import Alert from "@/Components/Alert";
 import EndGame from "@/Components/EndGame";
 import GameStat from "@/Components/gameStats";
 import MyLives from "@/Components/myLives";
 import SynonymsComponent from "@/Components/Synonyms";
 import styles from "@/styles/Home.module.css";
-
-import useAlert from "@/utils/hooks/useAlert";
-
-import { useStore } from "zustand";
 import { GetGameContext } from "@/utils/context/GameContext";
+import useAlert from "@/utils/hooks/useAlert";
 
 interface GameProps {
   triggerWords: string[];

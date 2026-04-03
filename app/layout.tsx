@@ -11,8 +11,6 @@ import {
 
 const nunito = Nunito({ subsets: ["latin"] });
 
-import GameProvider from "@/utils/context/GameContext";
-
 export async function generateMetadata() {
   return {
     title: METADATA_TITLE,

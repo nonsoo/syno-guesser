@@ -5,9 +5,9 @@ import { BookA } from "lucide-react";
 import Instructions from "@/Components/Modals/Instructions/Instructions";
 import styles from "@/styles/Home.module.css";
 import { INSTRUCTION_MODAL_ID } from "@/utils/constants/id-constants";
+import GameProvider from "@/utils/context/GameContext";
 
 import Game from "./components/Game";
-import GameProvider from "@/utils/context/GameContext";
 import { setupGame } from "./server-helpers/setupGame";
 
 const RootPage = async () => {

@@ -1,8 +1,9 @@
 "use client";
 
 import { createContext, ReactNode, use } from "react";
-import { createGameStore } from "../store/GameStore/gameStore";
+
 import { createGameStatisticsStore } from "../store/GameStatisticsStore/GameStatisticsStore";
+import { createGameStore } from "../store/GameStore/gameStore";
 import { GameState } from "../store/GameStore/gameStore.types";
 
 interface Props {

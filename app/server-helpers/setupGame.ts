@@ -1,8 +1,10 @@
 import { cacheLife, cacheTag } from "next/cache";
-import { getWordOfTheDay } from "./getWord";
+
 import get_initial_synonyms_lst from "@/utils/helpers/get-initial-synonyms-lst";
-import { GameState } from "@/utils/store/GameStore/gameStore.types";
 import randomizeHint from "@/utils/helpers/randomizeHints";
+import { GameState } from "@/utils/store/GameStore/gameStore.types";
+
+import { getWordOfTheDay } from "./getWord";
 
 export const setupGame = async () => {
   "use cache";

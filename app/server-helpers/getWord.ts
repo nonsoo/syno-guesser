@@ -1,7 +1,5 @@
 import type { ResData, TriggerWord } from "@/utils/types/projectTypes";
 
-import { cacheLife, cacheTag } from "next/cache";
-
 import getWordOftheDay from "@/utils/helpers/newDay";
 import UseGetAllSynonyms from "@/utils/hooks/useGetAllSynonyms";
 import UseGetTriggerWord from "@/utils/hooks/useGetTriggerWords";
