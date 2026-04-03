@@ -78,7 +78,7 @@ export type IonGetHint = (
   secretWord: string,
   winState: boolean,
   guessLst: UserGuessLst[],
-  synos: Synonyms
+  synos: Synonyms,
 ) => void;
 
 export type IonGuess = (
@@ -99,12 +99,12 @@ export type IonGuess = (
   setWinState: SetState<boolean>,
   setGuessLst: SetState<UserGuessLst[]>,
   setMyLives: SetState<number>,
-  setShowAlert: () => void
+  setShowAlert: () => void,
 ) => void;
 
 export type FindInArray = (
   wordSet: Set<string>,
   myGuess: string,
   trgWords: string[],
-  synonyms: Synonyms
+  synonyms: Synonyms,
 ) => boolean;

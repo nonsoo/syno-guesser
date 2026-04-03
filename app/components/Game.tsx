@@ -11,17 +11,16 @@ import styles from "@/styles/Home.module.css";
 
 import useAlert from "@/utils/hooks/useAlert";
 
-import { createGameStatisticsStore } from "@/utils/store/GameStatisticsStore/GameStatisticsStore";
-import { createGameStore } from "@/utils/store/GameStore/gameStore";
 import { useStore } from "zustand";
+import { GetGameContext } from "@/utils/context/GameContext";
 
 interface GameProps {
-  gameStore: ReturnType<typeof createGameStore>;
-  gameStatisticsStore: ReturnType<typeof createGameStatisticsStore>;
   triggerWords: string[];
 }
 
-const Game = ({ gameStatisticsStore, gameStore, triggerWords }: GameProps) => {
+const Game = ({ triggerWords }: GameProps) => {
+  const { gameStatisticsStore, gameStore } = GetGameContext();
+
   const myLives = useStore(gameStore, (state) => state.myLives);
   const guessLst = useStore(gameStore, (state) => state.guessLst);
   const synonyms = useStore(gameStore, (state) => state.synonyms);

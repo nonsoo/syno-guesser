@@ -86,7 +86,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" />
       </head>
       <body className={`layoutDiv ${nunito.className}`}>
-        <GameProvider>{children}</GameProvider>
+        {children}
 
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID}`}

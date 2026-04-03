@@ -1,29 +1,39 @@
 "use client";
 
-import {
-  createContext,
-  useState,
-  Dispatch,
-  SetStateAction,
-  ReactNode,
-  use,
-} from "react";
+import { createContext, ReactNode, use } from "react";
+import { createGameStore } from "../store/GameStore/gameStore";
+import { createGameStatisticsStore } from "../store/GameStatisticsStore/GameStatisticsStore";
 
 interface Props {
   children: ReactNode;
+  synonymsOfDay: string[];
+  wordOfDay: string;
+  offsetDate: number;
 }
 interface GameContext {
-  gameState: boolean;
-  setGameState: Dispatch<SetStateAction<boolean>>;
+  gameStore: ReturnType<typeof createGameStore>;
+  gameStatisticsStore: ReturnType<typeof createGameStatisticsStore>;
 }
 
 const GameContext = createContext<GameContext | null>(null);
 
-const GameProvider = ({ children }: Props) => {
-  const [gameState, setGameState] = useState(false);
+const GameProvider = ({
+  children,
+  offsetDate,
+  synonymsOfDay,
+  wordOfDay,
+}: Props) => {
+  const gameStore = createGameStore({
+    synonyms: synonymsOfDay,
+    wordOfDay,
+    offsetDate,
+  });
+  const gameStatisticsStore = createGameStatisticsStore(false, offsetDate);
 
   return (
-    <GameContext value={{ gameState, setGameState }}>{children}</GameContext>
+    <GameContext value={{ gameStatisticsStore, gameStore }}>
+      {children}
+    </GameContext>
   );
 };
 

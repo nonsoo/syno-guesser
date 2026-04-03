@@ -8,19 +8,11 @@ import { INSTRUCTION_MODAL_ID } from "@/utils/constants/id-constants";
 
 import Game from "./components/Game";
 import { getWordOfTheDay } from "./server-helpers/getWord";
-import { createGameStore } from "@/utils/store/GameStore/gameStore";
-import { createGameStatisticsStore } from "@/utils/store/GameStatisticsStore/GameStatisticsStore";
+import GameProvider from "@/utils/context/GameContext";
 
 const RootPage = async () => {
   const { synonyms, wordOfDay, trgWords, offsetDate } = await getWordOfTheDay();
 
-  const gameStore = createGameStore({
-    synonyms,
-    wordOfDay,
-    trgWords,
-    offsetDate,
-  });
-  const gameStatisticsStore = createGameStatisticsStore(false, offsetDate);
   return (
     <div className={styles.mainContent}>
       <header className={styles.HeaderCon}>
@@ -36,11 +28,13 @@ const RootPage = async () => {
 
       <Instructions />
       <Suspense>
-        <Game
-          gameStore={gameStore}
-          gameStatisticsStore={gameStatisticsStore}
-          triggerWords={trgWords}
-        />
+        <GameProvider
+          offsetDate={offsetDate}
+          synonymsOfDay={synonyms}
+          wordOfDay={wordOfDay}
+        >
+          <Game triggerWords={trgWords} />
+        </GameProvider>
       </Suspense>
     </div>
   );

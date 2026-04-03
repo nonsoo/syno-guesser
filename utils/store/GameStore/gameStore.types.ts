@@ -29,6 +29,5 @@ export interface GameActions {
 export interface GameProps {
   synonyms: string[];
   wordOfDay: string;
-  trgWords: string[];
   offsetDate: number;
 }

@@ -6,7 +6,8 @@ import {
   shareGreenWinBox,
   shareLockPen,
 } from "../constants/consts";
-import { loadGameStateFromLocalStorage } from "./saveGame";
+import { GameActions, GameState } from "../store/GameStore/gameStore.types";
+import { StoreApi } from "zustand";
 
 const generate_boxes = (guess_lst: UserGuessLst[], win_state: boolean) => {
   let squareColours = "";
@@ -33,18 +34,19 @@ const generate_boxes = (guess_lst: UserGuessLst[], win_state: boolean) => {
   return squareColours;
 };
 
-export const shareClueless = () => {
-  const game = loadGameStateFromLocalStorage();
+export const shareClueless = (gameStore: StoreApi<GameState & GameActions>) => {
+  const guessLst = gameStore.getState().guessLst;
+  const winState = gameStore.getState().gameState.winState === "win";
 
-  if (!game) return "";
-  const stringColours = generate_boxes(game.myGuesses, game.winState);
+  const stringColours = generate_boxes(guessLst, winState);
 
-  if (game.synonyms.length === 0)
+  const dayOfPlay = gameStore.getState().gameState.dayOfPlay;
+  const synonyms = gameStore.getState().synonyms;
+
+  if (synonyms.length === 0)
     return `Clueless #${
-      game.dayOfPlay + 1
+      dayOfPlay
     } ${shareLockPen} \n${stringColours}\nhttps://cluelesswords.com`;
 
-  return `Clueless #${
-    game.dayOfPlay + 1
-  } \n${stringColours}\nhttps://cluelesswords.com`;
+  return `Clueless #${dayOfPlay} \n${stringColours}\nhttps://cluelesswords.com`;
 };

@@ -5,6 +5,7 @@ import useCopyToClipboard from "@/utils/hooks/use-copy-to-clipboard";
 import { EndgameProps } from "@/utils/types/projectTypes";
 
 import Alert from "./Alert";
+import { GetGameContext } from "@/utils/context/GameContext";
 
 const EndGame = ({
   secretWord,
@@ -12,7 +13,8 @@ const EndGame = ({
   myGuesses,
   children,
 }: EndgameProps) => {
-  const shareSheet = shareClueless();
+  const { gameStore } = GetGameContext();
+  const shareSheet = shareClueless(gameStore);
 
   const [result, copyFn] = useCopyToClipboard();
 
