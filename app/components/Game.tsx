@@ -13,6 +13,7 @@ import EndGame from "@/Components/EndGame";
 import GameStat from "@/Components/gameStats";
 import MyLives from "@/Components/myLives";
 import SynonymsComponent from "@/Components/Synonyms";
+import styles from "@/styles/Home.module.css";
 import wordSet from "@/utils/helpers/createWordSet";
 import get_initial_synonyms_lst from "@/utils/helpers/get-initial-synonyms-lst";
 import {
@@ -24,8 +25,6 @@ import useGetHint from "@/utils/hooks/use-get-hint";
 import useOnGuess from "@/utils/hooks/use-on-guess";
 import useSetupValues from "@/utils/hooks/use-setup-values";
 import useAlert from "@/utils/hooks/useAlert";
-
-import styles from "@/styles/Home.module.css";
 
 interface GameProps {
   synonyms: string[];

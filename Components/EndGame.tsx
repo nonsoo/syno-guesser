@@ -1,11 +1,10 @@
 import Countdown from "@/Components/Countdown";
+import styles from "@/styles/wingame.module.css";
 import { shareClueless } from "@/utils/helpers/share-clueless";
 import useCopyToClipboard from "@/utils/hooks/use-copy-to-clipboard";
 import { EndgameProps } from "@/utils/types/projectTypes";
 
 import Alert from "./Alert";
-
-import styles from "@/styles/wingame.module.css";
 
 const EndGame = ({
   secretWord,
