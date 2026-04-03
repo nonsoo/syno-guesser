@@ -1,13 +1,13 @@
-import { BookA } from "lucide-react";
 import { Suspense } from "react";
 
+import { BookA } from "lucide-react";
+
 import Instructions from "@/Components/Modals/Instructions/Instructions";
+import styles from "@/styles/Home.module.css";
 import { INSTRUCTION_MODAL_ID } from "@/utils/constants/id-constants";
 
 import Game from "./components/Game";
 import { getWordOfTheDay } from "./server-helpers/getWord";
-
-import styles from "@/styles/Home.module.css";
 
 const RootPage = async () => {
   const { synonyms, wordOfDay, trgWords, offsetDate } = await getWordOfTheDay();
