@@ -1,9 +1,9 @@
 import styles from "@/styles/gameStats.module.css";
 
 interface GameStatsProps {
-  gamesPlayed: number | undefined;
-  winStreak: number | undefined;
-  maxWinStreak: number | undefined;
+  gamesPlayed: number | null;
+  winStreak: number | null;
+  maxWinStreak: number | null;
 }
 
 const GameStats = ({

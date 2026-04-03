@@ -29,13 +29,15 @@ const Game = ({ triggerWords }: GameProps) => {
   const onGuess = useStore(gameStore, (state) => state.onGuess);
   const getHint = useStore(gameStore, (state) => state.getHint);
 
-  const myGameStats = gameStatisticsStore
-    ? useStore(gameStatisticsStore, (state) => ({
-        gamesPlayed: state.gamesPlayed,
-        winStreak: state.winStreak,
-        maxWinStreak: state.maxWinStreak,
-      }))
-    : null;
+  const gamesPlayed =
+    gameStatisticsStore &&
+    useStore(gameStatisticsStore, (state) => state.gamesPlayed);
+  const winStreak =
+    gameStatisticsStore &&
+    useStore(gameStatisticsStore, (state) => state.winStreak);
+  const maxWinStreak =
+    gameStatisticsStore &&
+    useStore(gameStatisticsStore, (state) => state.maxWinStreak);
 
   const [showAlert, triggerAlert] = useAlert();
 
@@ -53,9 +55,9 @@ const Game = ({ triggerWords }: GameProps) => {
               <MyLives numLives={myLives} />
             </EndGame>
             <GameStat
-              gamesPlayed={myGameStats?.gamesPlayed}
-              winStreak={myGameStats?.winStreak}
-              maxWinStreak={myGameStats?.maxWinStreak}
+              gamesPlayed={gamesPlayed}
+              winStreak={winStreak}
+              maxWinStreak={maxWinStreak}
             />
           </>
         ) : (
