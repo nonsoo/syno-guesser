@@ -3,7 +3,7 @@ import type { GameActions, GameProps, GameState } from "./gameStore.types";
 
 import get_initial_synonyms_lst from "../../helpers/get-initial-synonyms-lst";
 import randomizeHint from "../../helpers/randomizeHints";
-import { isGuessInWordLst } from "./gameStore.helpers";
+import { generateStatusColour, isGuessInWordLst } from "./gameStore.helpers";
 
 export const createGameStore = ({
   synonyms,
@@ -53,7 +53,7 @@ export const createGameStore = ({
         };
       });
     },
-    onGuess: ({ myGuess, triggerWords }) => {
+    onGuess: ({ myGuess, triggerWords, action }) => {
       const validatedGuess = myGuess.trim().toLowerCase();
       set((state) => {
         if (state.gameState.status === "ended" || validatedGuess === "") {
@@ -62,15 +62,22 @@ export const createGameStore = ({
 
         const guessInWordLst = isGuessInWordLst(
           validatedGuess,
-          wordOfDay,
           state.availableHints,
           state.synonyms,
           triggerWords,
         );
 
-        const synonymBackgroudColVar = guessInWordLst
-          ? "hsl(111, 32%, 38%)"
-          : "hsl(0, 84%, 68%)";
+        if (!guessInWordLst) {
+          action();
+          return state;
+        }
+
+        const synonymBackgroudColour = generateStatusColour(
+          validatedGuess,
+          triggerWords,
+          state.availableHints,
+          state.wordOfDay,
+        );
 
         if (validatedGuess === state.wordOfDay) {
           return {
@@ -79,7 +86,7 @@ export const createGameStore = ({
               {
                 id: crypto.randomUUID(),
                 word: myGuess,
-                statusColour: synonymBackgroudColVar,
+                statusColour: synonymBackgroudColour,
               },
             ],
             gameState: {
@@ -96,7 +103,7 @@ export const createGameStore = ({
             {
               id: crypto.randomUUID(),
               word: myGuess,
-              statusColour: synonymBackgroudColVar,
+              statusColour: synonymBackgroudColour,
             },
           ],
           myLives: state.myLives - 1,

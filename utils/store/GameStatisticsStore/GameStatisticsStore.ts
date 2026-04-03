@@ -1,16 +1,9 @@
 import { createStore } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-
-interface GameStatisticsState {
-  lastOffSetDate: number;
-  gamesPlayed: number;
-  winStreak: number;
-  maxWinStreak: number;
-}
-
-interface GameStatisticsActions {
-  setGameStatistics: (hasWon: boolean, offsetDate: number) => void;
-}
+import {
+  GameStatisticsActions,
+  GameStatisticsState,
+} from "./GameStatisticsStore.types";
 
 export const createGameStatisticsStore = (
   hasAccount = false,

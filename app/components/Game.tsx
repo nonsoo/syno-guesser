@@ -1,12 +1,6 @@
 "use client";
 
-import type {
-  StoredGameStatistics,
-  Synonyms,
-  UserGuessLst,
-} from "@/utils/types/projectTypes";
-
-import { useState, useEffect, Suspense } from "react";
+import { startTransition } from "react";
 
 import Alert from "@/Components/Alert";
 import EndGame from "@/Components/EndGame";
@@ -14,104 +8,39 @@ import GameStat from "@/Components/gameStats";
 import MyLives from "@/Components/myLives";
 import SynonymsComponent from "@/Components/Synonyms";
 import styles from "@/styles/Home.module.css";
-import wordSet from "@/utils/helpers/createWordSet";
-import get_initial_synonyms_lst from "@/utils/helpers/get-initial-synonyms-lst";
-import {
-  loadGameStateFromLocalStorage,
-  removeGameStateFromLocalStorage,
-  loadGameStats,
-} from "@/utils/helpers/saveGame";
-import useGetHint from "@/utils/hooks/use-get-hint";
-import useOnGuess from "@/utils/hooks/use-on-guess";
-import useSetupValues from "@/utils/hooks/use-setup-values";
+
 import useAlert from "@/utils/hooks/useAlert";
 
+import { createGameStatisticsStore } from "@/utils/store/GameStatisticsStore/GameStatisticsStore";
+import { createGameStore } from "@/utils/store/GameStore/gameStore";
+import { useStore } from "zustand";
+
 interface GameProps {
-  synonyms: string[];
-  wordOfDay: string;
-  trgWords: string[];
-  offsetDate: number;
+  gameStore: ReturnType<typeof createGameStore>;
+  gameStatisticsStore: ReturnType<typeof createGameStatisticsStore>;
+  triggerWords: string[];
 }
 
-const Game = ({ synonyms, trgWords, wordOfDay, offsetDate }: GameProps) => {
-  const setUpValues = useSetupValues(synonyms);
-  const [myGuess, setMyGuess] = useState<string>("");
-  const [synos, setSynos] = useState<Synonyms>(() =>
-    get_initial_synonyms_lst(synonyms)
-  );
-  const [secretWord, setSecretWord] = useState<string>(wordOfDay);
-  const [winState, setWinState] = useState<boolean>(false);
-  const [gameState, setGameState] = useState<boolean>(false);
-  const [myLives, setMyLives] = useState(setUpValues.totalGuessAllowed);
-  const [guessLst, setGuessLst] = useState<UserGuessLst[]>([]);
-  const [showAlert, setShowAlert] = useAlert(2500);
-  const [myGameStats, setMyGameStats] = useState<StoredGameStatistics | null>(
-    null
-  );
+const Game = ({ gameStatisticsStore, gameStore, triggerWords }: GameProps) => {
+  const myLives = useStore(gameStore, (state) => state.myLives);
+  const guessLst = useStore(gameStore, (state) => state.guessLst);
+  const synonyms = useStore(gameStore, (state) => state.synonyms);
+  const secretWord = useStore(gameStore, (state) => state.wordOfDay);
+  const gameState = useStore(gameStore, (state) => state.gameState);
+  const availableHints = useStore(gameStore, (state) => state.availableHints);
+  const onGuess = useStore(gameStore, (state) => state.onGuess);
+  const getHint = useStore(gameStore, (state) => state.getHint);
 
-  const { onGetHint } = useGetHint();
-  const { onGuess } = useOnGuess();
+  const myGameStats = gameStatisticsStore
+    ? useStore(gameStatisticsStore, (state) => ({
+        gamesPlayed: state.gamesPlayed,
+        winStreak: state.winStreak,
+        maxWinStreak: state.maxWinStreak,
+      }))
+    : null;
 
-  useEffect(() => {
-    const myGameStatsZ = loadGameStats();
-    if (myGameStatsZ) {
-      setMyGameStats(myGameStatsZ);
-    }
-  }, [gameState]);
+  const [showAlert, triggerAlert] = useAlert();
 
-  useEffect(() => {
-    const localSavedState = loadGameStateFromLocalStorage();
-    if (localSavedState) {
-      if (offsetDate !== localSavedState.dayOfPlay) {
-        removeGameStateFromLocalStorage();
-      } else {
-        setSecretWord(localSavedState.secretWord);
-        setWinState(localSavedState.winState);
-        setGuessLst(localSavedState.myGuesses);
-        setSynos(localSavedState.synonyms);
-        setGameState(localSavedState.gameState);
-        setMyLives(localSavedState.myLives);
-      }
-    }
-  }, []);
-
-  const trigger_Get_Hint = () => {
-    onGetHint(
-      setUpValues.randomizedHints,
-      setSynos,
-      setMyLives,
-      setGameState,
-      myLives,
-      offsetDate,
-      secretWord,
-      winState,
-      guessLst,
-      synos
-    );
-  };
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const trigger_On_Guess = (e: any) => {
-    onGuess(
-      e,
-      myGuess,
-      wordSet,
-      trgWords,
-      synonyms,
-      secretWord,
-      winState,
-      myLives,
-      guessLst,
-      synos,
-      offsetDate,
-      setMyGuess,
-      setGameState,
-      setWinState,
-      setGuessLst,
-      setMyLives,
-      setShowAlert
-    );
-  };
   return (
     <>
       <main className={styles.GuesserCon}>
@@ -119,10 +48,10 @@ const Game = ({ synonyms, trgWords, wordOfDay, offsetDate }: GameProps) => {
           <>
             <EndGame
               secretWord={secretWord}
-              winState={winState}
+              winState={gameState.winState === "win"}
               myGuesses={guessLst}
             >
-              <SynonymsComponent synos={synos} />
+              <SynonymsComponent synos={synonyms} />
               <MyLives numLives={myLives} />
             </EndGame>
             <GameStat
@@ -133,7 +62,7 @@ const Game = ({ synonyms, trgWords, wordOfDay, offsetDate }: GameProps) => {
           </>
         ) : (
           <>
-            <SynonymsComponent synos={synos} />
+            <SynonymsComponent synos={synonyms} />
 
             <section className={styles.GuessedWords}>
               {guessLst.map((word) => (
@@ -152,7 +81,10 @@ const Game = ({ synonyms, trgWords, wordOfDay, offsetDate }: GameProps) => {
             </div>
             <form
               className={styles.guessingForm}
-              onSubmit={trigger_On_Guess}
+              action={(data: FormData) => {
+                const myGuess = data.get("myGuess") as string;
+                onGuess({ myGuess, triggerWords, action: triggerAlert });
+              }}
               data-testid="formSubmit"
             >
               <label htmlFor="myGuess" className={styles.guessingLabel}>
@@ -160,31 +92,28 @@ const Game = ({ synonyms, trgWords, wordOfDay, offsetDate }: GameProps) => {
               </label>
               <input
                 type="text"
-                value={myGuess}
                 maxLength={20}
                 id="myGuess"
+                name="myGuess"
                 className={styles.guessingForm__text_field}
-                onChange={(e) => setMyGuess(e.target.value)}
                 autoFocus={true}
               />
             </form>
             <section className={styles.Hints}>
               <MyLives numLives={myLives} />
 
-              <Suspense>
-                <button
-                  className={styles.Hints_btn}
-                  onClick={trigger_Get_Hint}
-                  disabled={setUpValues.randomizedHints.length === 0}
-                >
-                  New Hint
-                </button>
-              </Suspense>
+              <button
+                className={styles.Hints_btn}
+                onClick={() => startTransition(getHint)}
+                disabled={availableHints.length === 0}
+              >
+                New Hint
+              </button>
             </section>
           </>
         )}
       </main>
-      {synonyms.length === 0 && (
+      {availableHints.length === 0 && (
         <p className={styles.Disclamer}>
           Looks like the secret word today does not have any synonyms. You can
           try your luck to guess the word unaided or come back tomorrow for a

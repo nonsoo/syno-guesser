@@ -1,7 +1,7 @@
 import styles from "@/styles/gameStats.module.css";
 
 interface GameStatsProps {
-  gamesPlayed: number[] | undefined;
+  gamesPlayed: number | undefined;
   winStreak: number | undefined;
   maxWinStreak: number | undefined;
 }
@@ -14,7 +14,7 @@ const GameStats = ({
   return (
     <section className={styles.gameStatCon}>
       <div className={styles.gameStat}>
-        <p className={styles.gameStat__Stat}>{gamesPlayed?.length}</p>
+        <p className={styles.gameStat__Stat}>{gamesPlayed}</p>
         <p className={styles.gameStat_Title}>Games Played</p>
       </div>
       <div className={styles.gameStat}>

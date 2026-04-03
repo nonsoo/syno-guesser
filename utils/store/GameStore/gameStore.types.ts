@@ -18,9 +18,11 @@ export interface GameActions {
   onGuess: ({
     myGuess,
     triggerWords,
+    action,
   }: {
     myGuess: string;
     triggerWords: string[];
+    action: () => void;
   }) => void;
 }
 
