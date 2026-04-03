@@ -32,15 +32,14 @@ const RootPage = async () => {
       </header>
 
       <Instructions />
-      <Suspense>
-        <GameProvider
-          offsetDate={initialState.gameState.dayOfPlay}
-          initialState={initialState}
-          hasAccount={false}
-        >
-          <Game triggerWords={triggerWords} />
-        </GameProvider>
-      </Suspense>
+
+      <GameProvider
+        offsetDate={initialState.gameState.dayOfPlay}
+        initialState={initialState}
+        hasAccount={false}
+      >
+        <Game triggerWords={triggerWords} />
+      </GameProvider>
     </div>
   );
 };
