@@ -1,10 +1,18 @@
 "use client";
 
-import { createContext, ReactNode, use } from "react";
+import {
+  createContext,
+  ReactNode,
+  use,
+  useEffect,
+  useEffectEvent,
+} from "react";
 
 import { createGameStatisticsStore } from "../store/GameStatisticsStore/GameStatisticsStore";
 import { createGameStore } from "../store/GameStore/gameStore";
 import { GameState } from "../store/GameStore/gameStore.types";
+import { GAME_STATISTICS_STORE_KEY } from "../constants/id-constants";
+import { GameStatisticsState } from "../store/GameStatisticsStore/GameStatisticsStore.types";
 
 interface Props {
   children: ReactNode;
@@ -28,7 +36,24 @@ const GameProvider = ({
   const gameStore = createGameStore({
     initialState,
   });
+
   const gameStatisticsStore = createGameStatisticsStore(hasAccount, offsetDate);
+
+  const hydrateGameStoreEvent = useEffectEvent(() => {
+    const storedState = localStorage.getItem(GAME_STATISTICS_STORE_KEY);
+
+    if (!storedState) return;
+
+    const parsedState = JSON.parse(storedState) as GameStatisticsState;
+
+    if (parsedState.lastOffSetDate === offsetDate) {
+      gameStore.persist.rehydrate();
+    }
+  });
+
+  useEffect(() => {
+    hydrateGameStoreEvent();
+  }, []);
 
   return (
     <GameContext value={{ gameStatisticsStore, gameStore }}>

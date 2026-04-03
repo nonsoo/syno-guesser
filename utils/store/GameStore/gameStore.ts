@@ -3,96 +3,109 @@ import type { GameActions, GameProps, GameState } from "./gameStore.types";
 import { createStore } from "zustand";
 
 import { generateStatusColour, isGuessInWordLst } from "./gameStore.helpers";
+import { createJSONStorage, persist } from "zustand/middleware";
+import { GAME_STORE_KEY } from "@/utils/constants/id-constants";
 
 export const createGameStore = ({ initialState }: GameProps) => {
-  const GameStore = createStore<GameState & GameActions>((set) => ({
-    ...initialState,
-    getHint: () => {
-      set((state) => {
-        if (state.availableHints.length === 0 || state.myLives <= 0) {
-          return state; // No hints available or no lives left
-        }
+  const GameStore = createStore<GameState & GameActions>()(
+    persist(
+      (set) => ({
+        ...initialState,
+        getHint: () => {
+          set((state) => {
+            if (state.availableHints.length === 0 || state.myLives <= 0) {
+              return state; // No hints available or no lives left
+            }
 
-        const newHint = state.availableHints[0];
-        const newAvailableHints = state.availableHints.slice(1);
+            const newHint = state.availableHints[0];
+            const newAvailableHints = state.availableHints.slice(1);
 
-        return {
-          synonyms: [...state.synonyms, newHint],
-          availableHints: newAvailableHints,
-          myLives: state.myLives - 1,
-          gameState: {
-            ...state.gameState,
-            status: state.myLives - 1 <= 0 ? "ended" : state.gameState.status,
-            winState:
-              state.myLives - 1 <= 0 ? "lose" : state.gameState.winState,
-          },
-        };
-      });
-    },
-    onGuess: ({ myGuess, triggerWords, action }) => {
-      const validatedGuess = myGuess.trim().toLowerCase();
-      set((state) => {
-        if (state.gameState.status === "ended" || validatedGuess === "") {
-          return state; // Game already ended or empty guess
-        }
-
-        const guessInWordLst = isGuessInWordLst(
-          validatedGuess,
-          state.availableHints,
-          state.synonyms,
-          triggerWords,
-        );
-
-        if (!guessInWordLst) {
-          action();
-          return state;
-        }
-
-        const synonymBackgroudColour = generateStatusColour(
-          validatedGuess,
-          triggerWords,
-          state.availableHints,
-          state.wordOfDay,
-        );
-
-        if (validatedGuess === state.wordOfDay) {
-          return {
-            guessLst: [
-              ...state.guessLst,
-              {
-                id: crypto.randomUUID(),
-                word: myGuess,
-                statusColour: synonymBackgroudColour,
+            return {
+              synonyms: [...state.synonyms, newHint],
+              availableHints: newAvailableHints,
+              myLives: state.myLives - 1,
+              gameState: {
+                ...state.gameState,
+                status:
+                  state.myLives - 1 <= 0 ? "ended" : state.gameState.status,
+                winState:
+                  state.myLives - 1 <= 0 ? "lose" : state.gameState.winState,
               },
-            ],
-            gameState: {
-              ...state.gameState,
-              status: "ended",
-              winState: "win",
-            },
-          };
-        }
+            };
+          });
+        },
+        onGuess: ({ myGuess, triggerWords, action }) => {
+          const validatedGuess = myGuess.trim().toLowerCase();
+          set((state) => {
+            if (state.gameState.status === "ended" || validatedGuess === "") {
+              return state; // Game already ended or empty guess
+            }
 
-        return {
-          guessLst: [
-            ...state.guessLst,
-            {
-              id: crypto.randomUUID(),
-              word: myGuess,
-              statusColour: synonymBackgroudColour,
-            },
-          ],
-          myLives: state.myLives - 1,
-          gameState: {
-            ...state.gameState,
-            status: state.myLives - 1 <= 0 ? "ended" : state.gameState.status,
-            winState:
-              state.myLives - 1 <= 0 ? "lose" : state.gameState.winState,
-          },
-        };
-      });
-    },
-  }));
+            const guessInWordLst = isGuessInWordLst(
+              validatedGuess,
+              state.availableHints,
+              state.synonyms,
+              triggerWords,
+            );
+
+            if (!guessInWordLst) {
+              action();
+              return state;
+            }
+
+            const synonymBackgroudColour = generateStatusColour(
+              validatedGuess,
+              triggerWords,
+              state.availableHints,
+              state.wordOfDay,
+            );
+
+            if (validatedGuess === state.wordOfDay) {
+              return {
+                guessLst: [
+                  ...state.guessLst,
+                  {
+                    id: crypto.randomUUID(),
+                    word: myGuess,
+                    statusColour: synonymBackgroudColour,
+                  },
+                ],
+                gameState: {
+                  ...state.gameState,
+                  status: "ended",
+                  winState: "win",
+                },
+              };
+            }
+
+            return {
+              guessLst: [
+                ...state.guessLst,
+                {
+                  id: crypto.randomUUID(),
+                  word: myGuess,
+                  statusColour: synonymBackgroudColour,
+                },
+              ],
+              myLives: state.myLives - 1,
+              gameState: {
+                ...state.gameState,
+                status:
+                  state.myLives - 1 <= 0 ? "ended" : state.gameState.status,
+                winState:
+                  state.myLives - 1 <= 0 ? "lose" : state.gameState.winState,
+              },
+            };
+          });
+        },
+      }),
+      {
+        name: GAME_STORE_KEY,
+        storage: createJSONStorage(() => localStorage),
+        skipHydration: true,
+      },
+    ),
+  );
 
   return GameStore;
 };

@@ -5,6 +5,7 @@ import {
   GameStatisticsActions,
   GameStatisticsState,
 } from "./GameStatisticsStore.types";
+import { GAME_STATISTICS_STORE_KEY } from "@/utils/constants/id-constants";
 
 export const createGameStatisticsStore = (
   hasAccount = false,
@@ -47,7 +48,7 @@ export const createGameStatisticsStore = (
         },
       }),
       {
-        name: "clueless-statistics",
+        name: GAME_STATISTICS_STORE_KEY,
         storage: createJSONStorage(() => localStorage),
       },
     ),
