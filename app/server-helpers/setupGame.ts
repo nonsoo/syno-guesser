@@ -1,5 +1,3 @@
-import { cacheLife, cacheTag } from "next/cache";
-
 import get_initial_synonyms_lst from "@/utils/helpers/get-initial-synonyms-lst";
 import randomizeHint from "@/utils/helpers/randomizeHints";
 import { GameState } from "@/utils/store/GameStore/gameStore.types";
@@ -7,10 +5,6 @@ import { GameState } from "@/utils/store/GameStore/gameStore.types";
 import { getWordOfTheDay } from "./getWord";
 
 export const setupGame = async () => {
-  "use cache";
-  cacheLife("hours");
-  cacheTag("word-of-the-day");
-
   const words = await getWordOfTheDay();
 
   const initialSynonyms = get_initial_synonyms_lst(words.synonyms);

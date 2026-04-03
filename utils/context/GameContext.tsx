@@ -10,6 +10,7 @@ interface Props {
   children: ReactNode;
   initialState: GameState;
   offsetDate: number;
+  hasAccount: boolean;
 }
 interface GameContext {
   gameStore: ReturnType<typeof createGameStore>;
@@ -18,11 +19,16 @@ interface GameContext {
 
 const GameContext = createContext<GameContext | null>(null);
 
-const GameProvider = ({ children, offsetDate, initialState }: Props) => {
+const GameProvider = ({
+  children,
+  offsetDate,
+  initialState,
+  hasAccount,
+}: Props) => {
   const gameStore = createGameStore({
     initialState,
   });
-  const gameStatisticsStore = createGameStatisticsStore(true, offsetDate);
+  const gameStatisticsStore = createGameStatisticsStore(hasAccount, offsetDate);
 
   return (
     <GameContext value={{ gameStatisticsStore, gameStore }}>
