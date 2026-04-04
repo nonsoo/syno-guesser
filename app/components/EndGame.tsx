@@ -5,12 +5,16 @@ import { shareClueless } from "@/utils/helpers/share-clueless";
 import useCopyToClipboard from "@/utils/hooks/use-copy-to-clipboard";
 import { EndgameProps } from "@/utils/types/projectTypes";
 
-import Alert from "./Alert";
+import Alert from "../../Components/Alert";
+import GameStats from "../../Components/gameStats";
 
 const EndGame = ({
   secretWord,
   winState,
   myGuesses,
+  gamesPlayed,
+  maxWinStreak,
+  winStreak,
   children,
 }: EndgameProps) => {
   const { gameStore } = GetGameContext();
@@ -66,6 +70,11 @@ const EndGame = ({
           )}
         </div>
       </section>
+      <GameStats
+        gamesPlayed={gamesPlayed}
+        winStreak={winStreak}
+        maxWinStreak={maxWinStreak}
+      />
     </>
   );
 };

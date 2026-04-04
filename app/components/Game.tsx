@@ -4,9 +4,8 @@ import { startTransition } from "react";
 
 import { useStore } from "zustand";
 
+import EndGame from "@/app/components/EndGame";
 import Alert from "@/Components/Alert";
-import EndGame from "@/Components/EndGame";
-import GameStat from "@/Components/gameStats";
 import MyLives from "@/Components/myLives";
 import SynonymsComponent from "@/Components/Synonyms";
 import styles from "@/styles/Home.module.css";
@@ -45,21 +44,17 @@ const Game = ({ triggerWords }: GameProps) => {
     <>
       <main className={styles.GuesserCon}>
         {gameState.status === "ended" ? (
-          <>
-            <EndGame
-              secretWord={secretWord}
-              winState={gameState.winState === "win"}
-              myGuesses={guessLst}
-            >
-              <SynonymsComponent synos={synonyms} />
-              <MyLives numLives={myLives} />
-            </EndGame>
-            <GameStat
-              gamesPlayed={gamesPlayed}
-              winStreak={winStreak}
-              maxWinStreak={maxWinStreak}
-            />
-          </>
+          <EndGame
+            secretWord={secretWord}
+            winState={gameState.winState === "win"}
+            myGuesses={guessLst}
+            gamesPlayed={gamesPlayed}
+            winStreak={winStreak}
+            maxWinStreak={maxWinStreak}
+          >
+            <SynonymsComponent synos={synonyms} />
+            <MyLives numLives={myLives} />
+          </EndGame>
         ) : (
           <>
             <SynonymsComponent synos={synonyms} />

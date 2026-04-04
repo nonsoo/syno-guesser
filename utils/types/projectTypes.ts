@@ -3,6 +3,9 @@ export interface EndgameProps {
   secretWord: string;
   winState: boolean;
   myGuesses: UserGuessLst[];
+  gamesPlayed: number | null;
+  winStreak: number | null;
+  maxWinStreak: number | null;
   children: ReactNode;
 }
 
