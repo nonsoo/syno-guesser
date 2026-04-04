@@ -8,10 +8,10 @@ import {
   useEffectEvent,
 } from "react";
 
+import { GAME_STORE_KEY } from "../constants/id-constants";
 import { createGameStatisticsStore } from "../store/GameStatisticsStore/GameStatisticsStore";
 import { createGameStore } from "../store/GameStore/gameStore";
 import { GameState } from "../store/GameStore/gameStore.types";
-import { GAME_STORE_KEY } from "../constants/id-constants";
 
 interface Props {
   children: ReactNode;

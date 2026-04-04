@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import { cacheLife, cacheTag } from "next/cache";
 
 import { BookA } from "lucide-react";
 
@@ -9,7 +9,6 @@ import GameProvider from "@/utils/context/GameContext";
 
 import Game from "./components/Game";
 import { setupGame } from "./server-helpers/setupGame";
-import { cacheLife, cacheTag } from "next/cache";
 
 const RootPage = async () => {
   "use cache";

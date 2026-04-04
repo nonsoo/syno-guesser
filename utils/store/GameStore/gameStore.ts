@@ -1,10 +1,11 @@
 import type { GameActions, GameProps, GameState } from "./gameStore.types";
 
 import { createStore } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
+
+import { GAME_STORE_KEY } from "@/utils/constants/id-constants";
 
 import { generateStatusColour, isGuessInWordLst } from "./gameStore.helpers";
-import { createJSONStorage, persist } from "zustand/middleware";
-import { GAME_STORE_KEY } from "@/utils/constants/id-constants";
 
 export const createGameStore = ({
   initialState,

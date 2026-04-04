@@ -1,4 +1,5 @@
 import { Synonyms, UserGuessLst } from "@/utils/types/projectTypes";
+
 import { createGameStatisticsStore } from "../GameStatisticsStore/GameStatisticsStore";
 
 export interface GameState {

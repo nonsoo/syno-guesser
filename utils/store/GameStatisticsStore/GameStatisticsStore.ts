@@ -1,11 +1,12 @@
 import { createStore } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
+import { GAME_STATISTICS_STORE_KEY } from "@/utils/constants/id-constants";
+
 import {
   GameStatisticsActions,
   GameStatisticsState,
 } from "./GameStatisticsStore.types";
-import { GAME_STATISTICS_STORE_KEY } from "@/utils/constants/id-constants";
 
 export const createGameStatisticsStore = (
   hasAccount = false,
