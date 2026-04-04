@@ -11,7 +11,9 @@ export const getOffsetDay = (currDate: Date): number => {
   return convertToDaysNumber;
 };
 
-const getTodaysWord = (): { wordOfDay: string; offsetDate: number } => {
+const getTodaysWord = (
+  date: Date,
+): { wordOfDay: string; offsetDate: number } => {
   // calculate todays date in days and then have an offest value
   // The day are going to be used in index the wordLst, therefore,
   // everyday a new word is going to be selected from the word list
@@ -22,8 +24,7 @@ const getTodaysWord = (): { wordOfDay: string; offsetDate: number } => {
   // and then index the word lst for that specific index to get the
   // word for the day and then return that from this function
 
-  const todaysDate = new Date();
-  const indexArray = getOffsetDay(todaysDate);
+  const indexArray = getOffsetDay(date) % WordLst.length;
 
   const wordOfDay = WordLst[indexArray];
 

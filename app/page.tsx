@@ -15,7 +15,9 @@ const RootPage = async () => {
   cacheLife("hours");
   cacheTag("word-of-the-day");
 
-  const { initialState, triggerWords } = await setupGame();
+  const today = new Date();
+
+  const { initialState, triggerWords } = await setupGame(today);
 
   return (
     <div className={styles.mainContent}>

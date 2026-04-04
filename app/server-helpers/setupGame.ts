@@ -4,8 +4,8 @@ import { GameState } from "@/utils/store/GameStore/gameStore.types";
 
 import { getWordOfTheDay } from "./getWord";
 
-export const setupGame = async () => {
-  const words = await getWordOfTheDay();
+export const setupGame = async (date: Date) => {
+  const words = await getWordOfTheDay(date);
 
   const initialSynonyms = get_initial_synonyms_lst(words.synonyms);
   const availableHints = randomizeHint(
