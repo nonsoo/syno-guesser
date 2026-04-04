@@ -57,7 +57,6 @@ export const createGameStore = ({
 
             const guessNotInWordLst = isGuessInWordLst(
               validatedGuess,
-              state.wordOfDay,
               state.availableHints,
               state.synonyms,
               triggerWords,
