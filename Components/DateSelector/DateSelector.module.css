@@ -1,0 +1,15 @@
+.day-picker-chevron {
+  fill: light-dark(
+    hsl(from var(--col-acc-four) h s 10% / 0.7),
+    hsl(from var(--col-background-sec) h s 60% / 0.8)
+  );
+}
+
+.day-picker-selected {
+  outline: 2px solid
+    light-dark(
+      hsl(from var(--col-acc-four) h s 10% / 0.7),
+      hsl(from var(--col-background-sec) h s 60% / 0.8)
+    );
+  border-radius: 50%;
+}

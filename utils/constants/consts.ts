@@ -15,3 +15,5 @@ export const shareRedBox = "🟥";
 export const shareGreenBox = "🟩";
 export const shareGreenWinBox = "✅";
 export const shareLockPen = "🔏";
+
+export const BASELINE_DATE = new Date("July 19, 2022 04:00:00 UTC");

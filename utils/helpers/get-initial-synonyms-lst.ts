@@ -1,5 +1,6 @@
 import type { Synonyms } from "../types/projectTypes";
-const get_initial_synonyms_lst = (synonyms: Synonyms) => {
+
+const generateInitialSynonymsList = (synonyms: Synonyms) => {
   return synonyms.length > 3
     ? [
         synonyms[0],
@@ -9,4 +10,4 @@ const get_initial_synonyms_lst = (synonyms: Synonyms) => {
     : [...synonyms];
 };
 
-export default get_initial_synonyms_lst;
+export default generateInitialSynonymsList;

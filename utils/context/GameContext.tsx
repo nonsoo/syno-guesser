@@ -48,7 +48,10 @@ const GameProvider = ({
       version: number;
     };
 
-    if (parsedState.state.gameState?.dayOfPlay === offsetDate) {
+    if (
+      !initialState.archivedGame &&
+      parsedState.state.gameState?.dayOfPlay === offsetDate
+    ) {
       gameStore.persist.rehydrate();
     }
   });

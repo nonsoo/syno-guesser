@@ -1,3 +1,5 @@
+import { StoreApi } from "zustand";
+
 import { Synonyms, UserGuessLst } from "@/utils/types/projectTypes";
 
 import { createGameStatisticsStore } from "../GameStatisticsStore/GameStatisticsStore";
@@ -9,6 +11,7 @@ export interface GameState {
     winState: "win" | "lose" | "none";
     dayOfPlay: number;
   };
+  archivedGame: boolean;
   myLives: number;
   guessLst: UserGuessLst[];
   synonyms: Synonyms;
@@ -32,3 +35,9 @@ export interface GameProps {
   initialState: GameState;
   gameStatisticsStore: ReturnType<typeof createGameStatisticsStore>;
 }
+
+export type GameStore = StoreApi<GameState & GameActions> & {
+  persist: {
+    rehydrate: () => void;
+  };
+};

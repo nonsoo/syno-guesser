@@ -14,9 +14,10 @@ import useAlert from "@/utils/hooks/useAlert";
 
 interface GameProps {
   triggerWords: string[];
+  archivedGame: boolean;
 }
 
-const Game = ({ triggerWords }: GameProps) => {
+const Game = ({ triggerWords, archivedGame }: GameProps) => {
   const { gameStatisticsStore, gameStore } = GetGameContext();
 
   const myLives = useStore(gameStore, (state) => state.myLives);
@@ -50,6 +51,7 @@ const Game = ({ triggerWords }: GameProps) => {
             myGuesses={guessLst}
             gamesPlayed={gamesPlayed}
             winStreak={winStreak}
+            archivedGame={archivedGame}
             maxWinStreak={maxWinStreak}
           >
             <SynonymsComponent synos={synonyms} />

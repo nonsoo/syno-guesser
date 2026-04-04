@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import Countdown from "@/Components/Countdown";
 import styles from "@/styles/wingame.module.css";
 import { GetGameContext } from "@/utils/context/GameContext";
@@ -15,6 +17,7 @@ const EndGame = ({
   gamesPlayed,
   maxWinStreak,
   winStreak,
+  archivedGame,
   children,
 }: EndgameProps) => {
   const { gameStore } = GetGameContext();
@@ -55,26 +58,38 @@ const EndGame = ({
             </p>
           ))}
         </div>
-        <Countdown />
-        <div className={styles.shareBtn__con}>
-          <button
-            className={styles.shareScore}
-            onClick={() => copyFn(shareSheet)}
-          >
-            Share my score
-          </button>
-          {result && (
-            <div className={styles.AlertCon}>
-              <Alert notification="Copied" />
+        {!archivedGame && (
+          <>
+            <Countdown />
+            <div className={styles.shareBtn__con}>
+              <button
+                className={styles.shareScore}
+                onClick={() => copyFn(shareSheet)}
+              >
+                Share my score
+              </button>
+              {result && (
+                <div className={styles.AlertCon}>
+                  <Alert notification="Copied" />
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </>
+        )}
       </section>
-      <GameStats
-        gamesPlayed={gamesPlayed}
-        winStreak={winStreak}
-        maxWinStreak={maxWinStreak}
-      />
+      {!archivedGame && (
+        <GameStats
+          gamesPlayed={gamesPlayed}
+          winStreak={winStreak}
+          maxWinStreak={maxWinStreak}
+        />
+      )}
+
+      {archivedGame && (
+        <Link href="/" className={styles.PlayTodayBtn}>
+          Play todays Game
+        </Link>
+      )}
     </>
   );
 };
