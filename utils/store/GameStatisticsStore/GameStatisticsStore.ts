@@ -29,11 +29,15 @@ export const createGameStatisticsStore = (
         ...initialState,
         setGameStatistics: (hasWon, offsetDate) => {
           set((state) => {
-            const updatedGamesPlayed =
-              state.lastOffSetDate === offsetDate - 1
-                ? state.gamesPlayed + 1
-                : 1;
-            const updatedWinStreak = hasWon ? state.winStreak + 1 : 0;
+            const isConsecutiveDay = state.lastOffSetDate === offsetDate - 1;
+            const updatedGamesPlayed = isConsecutiveDay
+              ? state.gamesPlayed + 1
+              : 1;
+            const updatedWinStreak = hasWon
+              ? isConsecutiveDay
+                ? state.winStreak + 1
+                : 1
+              : 0;
             const updatedMaxWinStreak = Math.max(
               state.maxWinStreak,
               updatedWinStreak,
