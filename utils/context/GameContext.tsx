@@ -11,8 +11,7 @@ import {
 import { createGameStatisticsStore } from "../store/GameStatisticsStore/GameStatisticsStore";
 import { createGameStore } from "../store/GameStore/gameStore";
 import { GameState } from "../store/GameStore/gameStore.types";
-import { GAME_STATISTICS_STORE_KEY } from "../constants/id-constants";
-import { GameStatisticsState } from "../store/GameStatisticsStore/GameStatisticsStore.types";
+import { GAME_STORE_KEY } from "../constants/id-constants";
 
 interface Props {
   children: ReactNode;
@@ -40,13 +39,16 @@ const GameProvider = ({
   });
 
   const hydrateGameStoreEvent = useEffectEvent(() => {
-    const storedState = localStorage.getItem(GAME_STATISTICS_STORE_KEY);
+    const storedState = localStorage.getItem(GAME_STORE_KEY);
 
     if (!storedState) return;
 
-    const parsedState = JSON.parse(storedState) as GameStatisticsState;
+    const parsedState = JSON.parse(storedState) as {
+      state: Partial<GameState>;
+      version: number;
+    };
 
-    if (parsedState.lastOffSetDate === offsetDate) {
+    if (parsedState.state.gameState?.dayOfPlay === offsetDate) {
       gameStore.persist.rehydrate();
     }
   });

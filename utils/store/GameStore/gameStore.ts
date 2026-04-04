@@ -16,8 +16,8 @@ export const createGameStore = ({
         ...initialState,
         getHint: () => {
           set((state) => {
-            if (state.availableHints.length === 0 || state.myLives <= 0) {
-              return state; // No hints available or no lives left
+            if (state.availableHints.length === 0) {
+              return state;
             }
 
             if (state.myLives <= 0) {
@@ -79,7 +79,7 @@ export const createGameStore = ({
               if (gameStatisticsStore) {
                 const setGameStatistics =
                   gameStatisticsStore.getState().setGameStatistics;
-                setGameStatistics(false, state.gameState.dayOfPlay);
+                setGameStatistics(true, state.gameState.dayOfPlay);
               }
 
               return {
@@ -131,6 +131,12 @@ export const createGameStore = ({
       {
         name: GAME_STORE_KEY,
         storage: createJSONStorage(() => localStorage),
+        partialize: (state) => ({
+          guessLst: state.guessLst,
+          synonyms: state.synonyms,
+          myLives: state.myLives,
+          gameState: state.gameState,
+        }),
         skipHydration: true,
       },
     ),
