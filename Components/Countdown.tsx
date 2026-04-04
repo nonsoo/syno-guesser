@@ -7,7 +7,7 @@ import useCountdown from "@/utils/hooks/useCountdown";
 
 const Countdown = () => {
   const tomorrow = useMemo(() => startOfTomorrow().toUTCString(), []);
-  const [, hours, minutes, seconds] = useCountdown(tomorrow);
+  const [hours, minutes, seconds] = useCountdown(tomorrow);
 
   return (
     <p className={styles.countDown}>

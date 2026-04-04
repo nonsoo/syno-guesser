@@ -1,27 +1,28 @@
 import type { ResData, TriggerWord } from "@/utils/types/projectTypes";
 
-import { cacheLife, cacheTag } from "next/cache";
-
+import fetchData from "@/utils/helpers/fetchData";
 import getWordOftheDay from "@/utils/helpers/newDay";
-import UseGetAllSynonyms from "@/utils/hooks/useGetAllSynonyms";
-import UseGetTriggerWord from "@/utils/hooks/useGetTriggerWords";
-import UsePromiseResolver from "@/utils/hooks/usePromiseResolver";
 
-export const getWordOfTheDay = async () => {
-  "use cache";
-  cacheLife("hours");
-  cacheTag("word-of-the-day");
-  const { wordOfDay, offsetDate } = getWordOftheDay();
+export const getWordOfTheDay = async (date: Date) => {
+  const { wordOfDay, offsetDate } = getWordOftheDay(date);
 
   try {
-    const resData = await UsePromiseResolver(wordOfDay);
+    const resData = await Promise.all([
+      fetchData(
+        `https://www.dictionaryapi.com/api/v3/references/thesaurus/json/${wordOfDay}?key=${process.env.DICT_API_KEY}`,
+      ),
+      fetchData(`https://api.datamuse.com/words?rel_trg=${wordOfDay}`),
+    ]);
 
-    if (typeof resData[0][0] === "string") {
+    const synonymsResponse: ResData[] = resData[0];
+    const triggerWordResponse: TriggerWord[] = resData[1];
+
+    if (typeof synonymsResponse[0] === "string") {
       const synonyms: string[] = [];
       let trgWords: string[] = [];
 
-      if (resData[1].length !== 0) {
-        trgWords = UseGetTriggerWord(resData[1]);
+      if (triggerWordResponse.length !== 0) {
+        trgWords = triggerWordResponse.map((trgWord) => trgWord.word);
       }
 
       return {
@@ -32,16 +33,15 @@ export const getWordOfTheDay = async () => {
       };
     }
 
-    const resp: ResData[] = resData[0];
-    const trgWordResp: TriggerWord[] = resData[1];
+    const cleanData = synonymsResponse.filter(
+      (obj) => obj?.meta?.id === wordOfDay,
+    );
 
-    const cleanData = resp.filter((obj) => obj?.meta?.id === wordOfDay);
+    const allSynonyms = cleanData.flatMap((obj) => obj.meta.syns).flat();
+    const uniqueSynonyms = Array.from(new Set(allSynonyms));
+    const trgWords = triggerWordResponse.map((trgWord) => trgWord.word);
 
-    const synonyms = UseGetAllSynonyms(cleanData);
-
-    const trgWords = UseGetTriggerWord(trgWordResp);
-
-    return { synonyms, wordOfDay, trgWords, offsetDate };
+    return { synonyms: uniqueSynonyms, wordOfDay, trgWords, offsetDate };
   } catch {
     const synonyms: string[] = [];
     const trgWords: string[] = [];

@@ -2,11 +2,53 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 import Game from "@/app/components/Game";
+import GameProvider from "@/utils/context/GameContext";
+import { mockGame } from "@/utils/mocks/game.mock";
 
-const stringWords = ["hello", "There", "you", "test", "test1"];
+const stringWords = ["hello", "you", "test"];
 const word: string = "there";
 const trgWordsLst = ["bob", " Apple", "trigger"];
 const offsetDate = 2;
+
+const initialState = {
+  ...mockGame.initialState,
+  wordOfDay: word,
+  synonyms: stringWords,
+  availableHints: ["test1"],
+  guessLst: [],
+  myLives: 6,
+  gameState: {
+    ...mockGame.initialState.gameState,
+    status: "in-progress" as const,
+    winState: "none" as const,
+    dayOfPlay: offsetDate,
+  },
+};
+
+const renderGame = () =>
+  render(
+    <GameProvider
+      initialState={initialState}
+      offsetDate={offsetDate}
+      hasAccount={false}
+    >
+      <Game triggerWords={trgWordsLst} />
+    </GameProvider>,
+  );
+
+const renderGameWithNoHints = () =>
+  render(
+    <GameProvider
+      initialState={{
+        ...initialState,
+        availableHints: [],
+      }}
+      offsetDate={offsetDate}
+      hasAccount={false}
+    >
+      <Game triggerWords={trgWordsLst} />
+    </GameProvider>,
+  );
 
 describe("Test the application for Functionality", () => {
   describe("testing the game", () => {
@@ -14,19 +56,12 @@ describe("Test the application for Functionality", () => {
       window.localStorage.clear();
     });
     it("should allow user to submit a guess", () => {
-      render(
-        <Game
-          synonyms={stringWords}
-          wordOfDay={word}
-          trgWords={trgWordsLst}
-          offsetDate={offsetDate}
-        />
-      );
+      renderGame();
 
       const guessInput = screen.getByRole("textbox");
       const form = screen.getByTestId("formSubmit");
       fireEvent.change(guessInput, {
-        target: { value: "university" },
+        target: { value: "apple" },
       });
 
       fireEvent.submit(form);
@@ -37,14 +72,7 @@ describe("Test the application for Functionality", () => {
     });
 
     it("should show the user a new synonym when the new hint btn is pressed", () => {
-      render(
-        <Game
-          synonyms={stringWords}
-          wordOfDay={word}
-          trgWords={trgWordsLst}
-          offsetDate={offsetDate}
-        />
-      );
+      renderGame();
 
       const newHint = screen.getByRole("button", { name: "New Hint" });
 
@@ -55,15 +83,26 @@ describe("Test the application for Functionality", () => {
       expect(synosLst.length).toEqual(4);
     });
 
-    it("should show the not in word list prompt when a user enters a word that is not in the word list", () => {
-      render(
-        <Game
-          synonyms={stringWords}
-          wordOfDay={word}
-          trgWords={trgWordsLst}
-          offsetDate={offsetDate}
-        />
+    it("should disable the New Hint button when no hints remain", () => {
+      renderGameWithNoHints();
+
+      const newHint = screen.getByRole("button", { name: "New Hint" });
+
+      expect(newHint).toBeDisabled();
+    });
+
+    it("should show a no-hints disclaimer when no available hints remain", () => {
+      renderGameWithNoHints();
+
+      const disclaimer = screen.getByText(
+        /Looks like the secret word today does not have any synonyms/i,
       );
+
+      expect(disclaimer).toBeVisible();
+    });
+
+    it("should show the not in word list prompt when a user enters a word that is not in the word list", () => {
+      renderGame();
 
       const guessInput = screen.getByRole("textbox");
       const form = screen.getByTestId("formSubmit");
@@ -79,14 +118,7 @@ describe("Test the application for Functionality", () => {
     });
 
     it("should show the user that they have won the game", () => {
-      render(
-        <Game
-          synonyms={stringWords}
-          wordOfDay={word}
-          trgWords={trgWordsLst}
-          offsetDate={offsetDate}
-        />
-      );
+      renderGame();
 
       const guessInput = screen.getByRole("textbox");
       const form = screen.getByTestId("formSubmit");
@@ -102,21 +134,14 @@ describe("Test the application for Functionality", () => {
     });
 
     it("should show if the user has lost the game", () => {
-      render(
-        <Game
-          synonyms={stringWords}
-          wordOfDay={word}
-          trgWords={trgWordsLst}
-          offsetDate={offsetDate}
-        />
-      );
+      renderGame();
 
       const guessInput = screen.getByRole("textbox");
       const form = screen.getByTestId("formSubmit");
 
       for (let i = 0; i < 6; i++) {
         fireEvent.change(guessInput, {
-          target: { value: "word" },
+          target: { value: "apple" },
         });
 
         fireEvent.submit(form);
@@ -126,21 +151,14 @@ describe("Test the application for Functionality", () => {
     });
 
     it("should keep track of the number of guesses the user has entered", () => {
-      render(
-        <Game
-          synonyms={stringWords}
-          wordOfDay={word}
-          trgWords={trgWordsLst}
-          offsetDate={offsetDate}
-        />
-      );
+      renderGame();
 
       const guessInput = screen.getByRole("textbox");
       const form = screen.getByTestId("formSubmit");
 
       for (let i = 0; i < 3; i++) {
         fireEvent.change(guessInput, {
-          target: { value: "word" },
+          target: { value: "apple" },
         });
 
         fireEvent.submit(form);
@@ -156,19 +174,12 @@ describe("Test the application for Functionality", () => {
     });
 
     it("should decrease the life by 1 when an incorrect guess is entered", () => {
-      render(
-        <Game
-          synonyms={stringWords}
-          wordOfDay={word}
-          trgWords={trgWordsLst}
-          offsetDate={offsetDate}
-        />
-      );
+      renderGame();
 
       const guessInput = screen.getByRole("textbox");
       const form = screen.getByTestId("formSubmit");
       fireEvent.change(guessInput, {
-        target: { value: "word" },
+        target: { value: "apple" },
       });
 
       fireEvent.submit(form);

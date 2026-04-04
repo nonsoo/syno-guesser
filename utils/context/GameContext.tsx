@@ -2,28 +2,65 @@
 
 import {
   createContext,
-  useState,
-  Dispatch,
-  SetStateAction,
   ReactNode,
   use,
+  useEffect,
+  useEffectEvent,
 } from "react";
+
+import { GAME_STORE_KEY } from "../constants/id-constants";
+import { createGameStatisticsStore } from "../store/GameStatisticsStore/GameStatisticsStore";
+import { createGameStore } from "../store/GameStore/gameStore";
+import { GameState } from "../store/GameStore/gameStore.types";
 
 interface Props {
   children: ReactNode;
+  initialState: GameState;
+  offsetDate: number;
+  hasAccount: boolean;
 }
 interface GameContext {
-  gameState: boolean;
-  setGameState: Dispatch<SetStateAction<boolean>>;
+  gameStore: ReturnType<typeof createGameStore>;
+  gameStatisticsStore: ReturnType<typeof createGameStatisticsStore>;
 }
 
 const GameContext = createContext<GameContext | null>(null);
 
-const GameProvider = ({ children }: Props) => {
-  const [gameState, setGameState] = useState(false);
+const GameProvider = ({
+  children,
+  offsetDate,
+  initialState,
+  hasAccount,
+}: Props) => {
+  const gameStatisticsStore = createGameStatisticsStore(hasAccount, offsetDate);
+  const gameStore = createGameStore({
+    initialState,
+    gameStatisticsStore,
+  });
+
+  const hydrateGameStoreEvent = useEffectEvent(() => {
+    const storedState = localStorage.getItem(GAME_STORE_KEY);
+
+    if (!storedState) return;
+
+    const parsedState = JSON.parse(storedState) as {
+      state: Partial<GameState>;
+      version: number;
+    };
+
+    if (parsedState.state.gameState?.dayOfPlay === offsetDate) {
+      gameStore.persist.rehydrate();
+    }
+  });
+
+  useEffect(() => {
+    hydrateGameStoreEvent();
+  }, []);
 
   return (
-    <GameContext value={{ gameState, setGameState }}>{children}</GameContext>
+    <GameContext value={{ gameStatisticsStore, gameStore }}>
+      {children}
+    </GameContext>
   );
 };
 
