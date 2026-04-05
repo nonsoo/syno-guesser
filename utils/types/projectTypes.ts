@@ -47,3 +47,8 @@ export interface UserGuessLst {
 export type StatusColour = "hsl(111, 32%, 38%)" | "hsl(0, 84%, 68%)";
 
 export type WordListTheme = keyof typeof wordListThemes;
+export type WordListThemes = typeof wordListThemes;
+export type WordListSetMap = Map<
+  keyof WordListThemes,
+  Set<WordListThemes[keyof WordListThemes][number]>
+>;

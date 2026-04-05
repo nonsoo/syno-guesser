@@ -1,4 +1,4 @@
-import { wordListSetMap } from "@/utils/constants/word-lists";
+import { createCachedWordListSetMap } from "@/utils/constants/word-lists";
 import {
   StatusColour,
   Synonyms,
@@ -15,7 +15,7 @@ export const isGuessInWordLst = (
   !availableHints.includes(guess.toLowerCase()) &&
   !triggerWords.includes(guess.toLowerCase()) &&
   !synonyms.includes(guess.toLowerCase()) &&
-  !wordListSetMap.get(theme)?.has(guess.toLowerCase());
+  !createCachedWordListSetMap().get(theme)?.has(guess.toLowerCase());
 
 export const generateStatusColour = (
   guess: string,
