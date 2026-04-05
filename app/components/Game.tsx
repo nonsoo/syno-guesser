@@ -17,7 +17,7 @@ interface GameProps {
 }
 
 const Game = ({ triggerWords }: GameProps) => {
-  const { gameStatisticsStore, gameStore } = GetGameContext();
+  const { gameStatisticsStore, gameStore, theme } = GetGameContext();
 
   const myLives = useStore(gameStore, (state) => state.myLives);
   const guessLst = useStore(gameStore, (state) => state.guessLst);
@@ -80,7 +80,12 @@ const Game = ({ triggerWords }: GameProps) => {
               className={styles.guessingForm}
               action={(data: FormData) => {
                 const myGuess = data.get("myGuess") as string;
-                onGuess({ myGuess, triggerWords, action: triggerAlert });
+                onGuess({
+                  myGuess,
+                  triggerWords,
+                  action: triggerAlert,
+                  theme,
+                });
               }}
               data-testid="formSubmit"
             >

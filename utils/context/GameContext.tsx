@@ -12,16 +12,19 @@ import { GAME_STORE_KEY } from "../constants/id-constants";
 import { createGameStatisticsStore } from "../store/GameStatisticsStore/GameStatisticsStore";
 import { createGameStore } from "../store/GameStore/gameStore";
 import { GameState } from "../store/GameStore/gameStore.types";
+import { WordListTheme } from "../types/projectTypes";
 
 interface Props {
   children: ReactNode;
   initialState: GameState;
   offsetDate: number;
   hasAccount: boolean;
+  theme: WordListTheme;
 }
 interface GameContext {
   gameStore: ReturnType<typeof createGameStore>;
   gameStatisticsStore: ReturnType<typeof createGameStatisticsStore>;
+  theme: WordListTheme;
 }
 
 const GameContext = createContext<GameContext | null>(null);
@@ -31,6 +34,7 @@ const GameProvider = ({
   offsetDate,
   initialState,
   hasAccount,
+  theme,
 }: Props) => {
   const gameStatisticsStore = createGameStatisticsStore(hasAccount, offsetDate);
   const gameStore = createGameStore({
@@ -61,7 +65,7 @@ const GameProvider = ({
   }, []);
 
   return (
-    <GameContext value={{ gameStatisticsStore, gameStore }}>
+    <GameContext value={{ gameStatisticsStore, gameStore, theme }}>
       {children}
     </GameContext>
   );

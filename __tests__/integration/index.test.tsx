@@ -25,12 +25,15 @@ const initialState = {
   },
 };
 
+const theme = "random-list";
+
 const renderGame = () =>
   render(
     <GameProvider
       initialState={initialState}
       offsetDate={offsetDate}
       hasAccount={false}
+      theme={theme}
     >
       <Game triggerWords={trgWordsLst} />
     </GameProvider>,
@@ -45,6 +48,7 @@ const renderGameWithNoHints = () =>
       }}
       offsetDate={offsetDate}
       hasAccount={false}
+      theme={theme}
     >
       <Game triggerWords={trgWordsLst} />
     </GameProvider>,

@@ -1,6 +1,10 @@
 import { StoreApi } from "zustand";
 
-import { Synonyms, UserGuessLst } from "@/utils/types/projectTypes";
+import {
+  Synonyms,
+  UserGuessLst,
+  WordListTheme,
+} from "@/utils/types/projectTypes";
 
 import { createGameStatisticsStore } from "../GameStatisticsStore/GameStatisticsStore";
 
@@ -23,10 +27,12 @@ export interface GameActions {
   onGuess: ({
     myGuess,
     triggerWords,
+    theme,
     action,
   }: {
     myGuess: string;
     triggerWords: string[];
+    theme: WordListTheme;
     action: () => void;
   }) => void;
 }

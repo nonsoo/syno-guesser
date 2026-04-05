@@ -1,16 +1,21 @@
-import { wordListSet } from "@/utils/helpers/createWordSet";
-import { StatusColour, Synonyms } from "@/utils/types/projectTypes";
+import { wordListSetMap } from "@/utils/constants/word-lists";
+import {
+  StatusColour,
+  Synonyms,
+  WordListTheme,
+} from "@/utils/types/projectTypes";
 
 export const isGuessInWordLst = (
   guess: string,
   availableHints: string[],
   synonyms: Synonyms,
   triggerWords: string[],
+  theme: WordListTheme,
 ) =>
   !availableHints.includes(guess.toLowerCase()) &&
   !triggerWords.includes(guess.toLowerCase()) &&
   !synonyms.includes(guess.toLowerCase()) &&
-  !wordListSet.has(guess.toLowerCase());
+  !wordListSetMap.get(theme)?.has(guess.toLowerCase());
 
 export const generateStatusColour = (
   guess: string,
