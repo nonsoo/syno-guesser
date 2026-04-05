@@ -1,17 +1,28 @@
+import type { WordListSetMap, WordListThemes } from "../types/projectTypes";
+
 import WordLst from "../../shufflewordLst.json";
+import { BASELINE_DATE } from "./consts";
 
 const WordLstMap = {
-  "random-list": WordLst,
+  "random-list": { themeList: WordLst, startDate: BASELINE_DATE },
 } as const;
 
 export const wordListThemes = Object.freeze(WordLstMap);
 
-const createWordListSetMap = <T extends Record<string, readonly string[]>>(
-  obj: T,
-): Map<keyof T, Set<T[keyof T][number]>> => {
+const createWordListSetMap = (obj: WordListThemes): WordListSetMap => {
   return new Map(
-    Object.entries(obj).map(([key, value]) => [key, new Set(value)]),
-  ) as Map<keyof T, Set<T[keyof T][number]>>;
+    Object.entries(obj).map(([key, value]) => [
+      key as keyof WordListThemes,
+      new Set(value.themeList),
+    ]),
+  );
 };
 
-export const wordListSetMap = createWordListSetMap(wordListThemes);
+let wordListSetMap: WordListSetMap | null = null;
+
+export const createCachedWordListSetMap = (): WordListSetMap => {
+  if (!wordListSetMap) {
+    wordListSetMap = createWordListSetMap(wordListThemes);
+  }
+  return wordListSetMap;
+};
