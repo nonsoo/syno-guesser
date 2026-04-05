@@ -20,10 +20,7 @@ const RootPage = async () => {
       initialState={initialState}
       hasAccount={false}
     >
-      <Game
-        triggerWords={triggerWords}
-        archivedGame={initialState.archivedGame}
-      />
+      <Game triggerWords={triggerWords} />
     </GameProvider>
   );
 };
