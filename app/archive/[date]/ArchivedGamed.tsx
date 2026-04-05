@@ -29,11 +29,14 @@ const ArchivedGame = async (props: Props) => {
 
   const { initialState, triggerWords } = await setupGame(archivedDate);
 
+  const theme = "random-list";
+
   return (
     <GameProvider
       offsetDate={initialState.gameState.dayOfPlay}
       initialState={initialState}
       hasAccount={false}
+      theme={theme}
     >
       <Game triggerWords={triggerWords} />
     </GameProvider>

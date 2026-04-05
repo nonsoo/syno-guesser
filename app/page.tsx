@@ -14,11 +14,14 @@ const RootPage = async () => {
 
   const { initialState, triggerWords } = await setupGame(today);
 
+  const theme = "random-list";
+
   return (
     <GameProvider
       offsetDate={initialState.gameState.dayOfPlay}
       initialState={initialState}
       hasAccount={false}
+      theme={theme}
     >
       <Game triggerWords={triggerWords} />
     </GameProvider>

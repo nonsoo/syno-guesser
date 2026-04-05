@@ -52,7 +52,7 @@ const createGameStoreCreator =
         };
       });
     },
-    onGuess: ({ myGuess, triggerWords, action }) => {
+    onGuess: ({ myGuess, triggerWords, theme, action }) => {
       const validatedGuess = myGuess.trim().toLowerCase();
       set((state) => {
         if (state.gameState.status === "ended" || validatedGuess === "") {
@@ -64,6 +64,7 @@ const createGameStoreCreator =
           state.availableHints,
           state.synonyms,
           triggerWords,
+          theme,
         );
 
         if (guessNotInWordLst) {

@@ -12,6 +12,8 @@ import {
   isGuessInWordLst,
 } from "../../utils/store/GameStore/gameStore.helpers";
 
+const theme = "random-list";
+
 // Create a test-friendly store creator that skips persist middleware
 const createTestGameStore = (initialState: GameState) => {
   return createStore<GameState & GameActions>()((set) => ({
@@ -54,6 +56,7 @@ const createTestGameStore = (initialState: GameState) => {
           state.availableHints,
           state.synonyms,
           triggerWords,
+          theme,
         );
 
         if (guessNotInWordLst) {
@@ -210,6 +213,7 @@ describe("GameStore Actions", () => {
         myGuess: validSynonym,
         triggerWords: mockGame.triggerWords,
         action: actionMock,
+        theme,
       });
 
       const state = gameStore.getState();
@@ -227,6 +231,7 @@ describe("GameStore Actions", () => {
         myGuess: wordOfDay,
         triggerWords: mockGame.triggerWords,
         action: actionMock,
+        theme,
       });
 
       const state = gameStore.getState();
@@ -244,6 +249,7 @@ describe("GameStore Actions", () => {
         myGuess: "apple",
         triggerWords: mockGame.triggerWords,
         action: actionMock,
+        theme,
       });
 
       const state = gameStore.getState();
@@ -261,6 +267,7 @@ describe("GameStore Actions", () => {
         myGuess: `  ${validSynonym.toUpperCase()}  `,
         triggerWords: mockGame.triggerWords,
         action: actionMock,
+        theme,
       });
 
       const state = gameStore.getState();
@@ -276,6 +283,7 @@ describe("GameStore Actions", () => {
         myGuess: "   ",
         triggerWords: mockGame.triggerWords,
         action: actionMock,
+        theme,
       });
 
       const state = gameStore.getState();
@@ -295,6 +303,7 @@ describe("GameStore Actions", () => {
         myGuess: "apple",
         triggerWords: mockGame.triggerWords,
         action: actionMock,
+        theme,
       });
 
       const state = testStore.getState();
@@ -322,6 +331,7 @@ describe("GameStore Actions", () => {
         myGuess: "someword",
         triggerWords: mockGame.triggerWords,
         action: actionMock,
+        theme,
       });
 
       const state = testStore.getState();
@@ -336,6 +346,7 @@ describe("GameStore Actions", () => {
         myGuess: triggerWord,
         triggerWords: mockGame.triggerWords,
         action: actionMock,
+        theme,
       });
 
       const state = gameStore.getState();
@@ -351,6 +362,7 @@ describe("GameStore Actions", () => {
         myGuess: availableHint,
         triggerWords: mockGame.triggerWords,
         action: actionMock,
+        theme,
       });
 
       const state = gameStore.getState();
@@ -365,6 +377,7 @@ describe("GameStore Actions", () => {
         myGuess: "invalidguessnotinanylist",
         triggerWords: mockGame.triggerWords,
         action: actionMock,
+        theme,
       });
 
       expect(actionMock).toHaveBeenCalled();
@@ -381,12 +394,14 @@ describe("GameStore Actions", () => {
         myGuess: guesses[0],
         triggerWords: mockGame.triggerWords,
         action: actionMock,
+        theme,
       });
 
       gameStore.getState().onGuess({
         myGuess: guesses[1],
         triggerWords: mockGame.triggerWords,
         action: actionMock,
+        theme,
       });
 
       const state = gameStore.getState();
@@ -406,12 +421,14 @@ describe("GameStore Actions", () => {
         myGuess: guesses[0],
         triggerWords: mockGame.triggerWords,
         action: actionMock,
+        theme,
       });
 
       gameStore.getState().onGuess({
         myGuess: guesses[1],
         triggerWords: mockGame.triggerWords,
         action: actionMock,
+        theme,
       });
 
       const state = gameStore.getState();
