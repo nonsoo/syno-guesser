@@ -6,6 +6,7 @@ export interface EndgameProps {
   gamesPlayed: number | null;
   winStreak: number | null;
   maxWinStreak: number | null;
+  archivedGame: boolean;
   children: ReactNode;
 }
 

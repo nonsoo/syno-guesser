@@ -125,6 +125,24 @@
 .AlertCon {
   position: relative;
 }
+
+.PlayTodayBtn {
+  display: inline-block;
+  width: 100%;
+  color: currentColor;
+
+  padding: 0.75em;
+
+  margin-top: 1rem;
+
+  background-color: var(--col-background-prmy);
+  border-radius: 10px;
+
+  text-align: center;
+
+  text-decoration: none;
+}
+
 @keyframes showModal {
   from {
     transform: translateY(50px);

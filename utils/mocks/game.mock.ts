@@ -7,6 +7,7 @@ const mockInitialState: GameState = {
     winState: "none",
     dayOfPlay: 42,
   },
+  archivedGame: false,
   myLives: 6,
   guessLst: [],
   synonyms: ["cheerful", "joyful", "content", "pleased"],

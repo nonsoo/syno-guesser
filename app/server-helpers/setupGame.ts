@@ -1,4 +1,6 @@
-import get_initial_synonyms_lst from "@/utils/helpers/get-initial-synonyms-lst";
+import { isToday } from "date-fns";
+
+import generateInitialSynonymsList from "@/utils/helpers/get-initial-synonyms-lst";
 import randomizeHint from "@/utils/helpers/randomizeHints";
 import { GameState } from "@/utils/store/GameStore/gameStore.types";
 
@@ -7,12 +9,12 @@ import { getWordOfTheDay } from "./getWord";
 export const setupGame = async (date: Date) => {
   const words = await getWordOfTheDay(date);
 
-  const initialSynonyms = get_initial_synonyms_lst(words.synonyms);
+  const initialSynonyms = generateInitialSynonymsList(words.synonyms);
   const availableHints = randomizeHint(
     words.synonyms.filter((synonym) => !initialSynonyms.includes(synonym)),
   );
 
-  const initialState: GameState = {
+  const initialState = {
     wordOfDay: words.wordOfDay.trim().toLowerCase(),
     availableHints,
     myLives: 6,
@@ -23,7 +25,8 @@ export const setupGame = async (date: Date) => {
       winState: "none",
       dayOfPlay: words.offsetDate,
     },
-  };
+    archivedGame: !isToday(date),
+  } satisfies GameState;
 
   return {
     initialState,

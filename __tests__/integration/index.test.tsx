@@ -32,7 +32,7 @@ const renderGame = () =>
       offsetDate={offsetDate}
       hasAccount={false}
     >
-      <Game triggerWords={trgWordsLst} />
+      <Game triggerWords={trgWordsLst} archivedGame={false} />
     </GameProvider>,
   );
 
@@ -46,7 +46,7 @@ const renderGameWithNoHints = () =>
       offsetDate={offsetDate}
       hasAccount={false}
     >
-      <Game triggerWords={trgWordsLst} />
+      <Game triggerWords={trgWordsLst} archivedGame={false} />
     </GameProvider>,
   );
 
