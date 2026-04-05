@@ -1,5 +1,7 @@
-import WordLst from "../../shufflewordLst.json";
+import type { WordListTheme } from "../types/projectTypes";
+
 import { BASELINE_DATE } from "../constants/consts";
+import { wordListThemes } from "../constants/word-lists";
 
 export const getOffsetDay = (currDate: Date): number => {
   const baseLineDay = new Date(BASELINE_DATE);
@@ -14,6 +16,7 @@ export const getOffsetDay = (currDate: Date): number => {
 
 const getTodaysWord = (
   date: Date,
+  theme: WordListTheme,
 ): { wordOfDay: string; offsetDate: number } => {
   // calculate todays date in days and then have an offest value
   // The day are going to be used in index the wordLst, therefore,
@@ -25,9 +28,11 @@ const getTodaysWord = (
   // and then index the word lst for that specific index to get the
   // word for the day and then return that from this function
 
-  const indexArray = getOffsetDay(date) % WordLst.length;
+  const wordLst = wordListThemes[theme];
 
-  const wordOfDay = WordLst[indexArray];
+  const indexArray = getOffsetDay(date) % wordLst.length;
+
+  const wordOfDay = wordLst[indexArray];
 
   return { wordOfDay, offsetDate: indexArray };
 };
