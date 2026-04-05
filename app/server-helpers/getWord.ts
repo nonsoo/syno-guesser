@@ -1,10 +1,14 @@
-import type { ResData, TriggerWord } from "@/utils/types/projectTypes";
+import type {
+  ResData,
+  TriggerWord,
+  WordListTheme,
+} from "@/utils/types/projectTypes";
 
 import fetchData from "@/utils/helpers/fetchData";
 import getWordOftheDay from "@/utils/helpers/newDay";
 
-export const getWordOfTheDay = async (date: Date) => {
-  const { wordOfDay, offsetDate } = getWordOftheDay(date);
+export const getWordOfTheDay = async (date: Date, theme: WordListTheme) => {
+  const { wordOfDay, offsetDate } = getWordOftheDay(date, theme);
 
   try {
     const resData = await Promise.all([

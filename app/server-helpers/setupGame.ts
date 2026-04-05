@@ -1,3 +1,5 @@
+import type { WordListTheme } from "@/utils/types/projectTypes";
+
 import { isToday } from "date-fns";
 
 import generateInitialSynonymsList from "@/utils/helpers/get-initial-synonyms-lst";
@@ -6,8 +8,8 @@ import { GameState } from "@/utils/store/GameStore/gameStore.types";
 
 import { getWordOfTheDay } from "./getWord";
 
-export const setupGame = async (date: Date) => {
-  const words = await getWordOfTheDay(date);
+export const setupGame = async (date: Date, theme?: WordListTheme) => {
+  const words = await getWordOfTheDay(date, theme ?? "random-list");
 
   const initialSynonyms = generateInitialSynonymsList(words.synonyms);
   const availableHints = randomizeHint(

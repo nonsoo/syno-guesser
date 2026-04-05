@@ -14,10 +14,9 @@ import useAlert from "@/utils/hooks/useAlert";
 
 interface GameProps {
   triggerWords: string[];
-  archivedGame: boolean;
 }
 
-const Game = ({ triggerWords, archivedGame }: GameProps) => {
+const Game = ({ triggerWords }: GameProps) => {
   const { gameStatisticsStore, gameStore } = GetGameContext();
 
   const myLives = useStore(gameStore, (state) => state.myLives);
@@ -26,6 +25,7 @@ const Game = ({ triggerWords, archivedGame }: GameProps) => {
   const secretWord = useStore(gameStore, (state) => state.wordOfDay);
   const gameState = useStore(gameStore, (state) => state.gameState);
   const availableHints = useStore(gameStore, (state) => state.availableHints);
+  const archivedGame = useStore(gameStore, (state) => state.archivedGame);
   const onGuess = useStore(gameStore, (state) => state.onGuess);
   const getHint = useStore(gameStore, (state) => state.getHint);
 

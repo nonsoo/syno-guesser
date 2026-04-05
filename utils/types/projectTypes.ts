@@ -1,4 +1,6 @@
 import { ReactNode } from "react";
+
+import { wordListThemes } from "../constants/word-lists";
 export interface EndgameProps {
   secretWord: string;
   winState: boolean;
@@ -43,3 +45,5 @@ export interface UserGuessLst {
 }
 
 export type StatusColour = "hsl(111, 32%, 38%)" | "hsl(0, 84%, 68%)";
+
+export type WordListTheme = keyof typeof wordListThemes;
