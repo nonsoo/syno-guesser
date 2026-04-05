@@ -1,12 +1,11 @@
 import type { WordListTheme } from "../types/projectTypes";
 
-import { BASELINE_DATE } from "../constants/consts";
 import { wordListThemes } from "../constants/word-lists";
 
-export const getOffsetDay = (currDate: Date): number => {
-  const baseLineDay = new Date(BASELINE_DATE);
-
-  const offSet: number = Math.floor(currDate.valueOf() - baseLineDay.valueOf());
+export const getOffsetDay = (baseLineDate: Date, currDate: Date): number => {
+  const offSet: number = Math.floor(
+    currDate.valueOf() - baseLineDate.valueOf(),
+  );
   const toDaysConverter = 24 * 60 * 60 * 1000;
 
   const convertToDaysNumber = Math.abs(Math.floor(offSet / toDaysConverter));
@@ -30,9 +29,10 @@ const getTodaysWord = (
 
   const wordLst = wordListThemes[theme];
 
-  const indexArray = getOffsetDay(date) % wordLst.length;
+  const indexArray =
+    getOffsetDay(wordLst.startDate, date) % wordLst.themeList.length;
 
-  const wordOfDay = wordLst[indexArray];
+  const wordOfDay = wordLst.themeList[indexArray];
 
   return { wordOfDay, offsetDate: indexArray };
 };

@@ -50,5 +50,5 @@ export type WordListTheme = keyof typeof wordListThemes;
 export type WordListThemes = typeof wordListThemes;
 export type WordListSetMap = Map<
   keyof WordListThemes,
-  Set<WordListThemes[keyof WordListThemes][number]>
+  Set<WordListThemes[keyof WordListThemes]["themeList"][number]>
 >;
