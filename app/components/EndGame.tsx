@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import Countdown from "@/Components/Countdown";
 import styles from "@/styles/wingame.module.css";
+import { CLUELESS_ARCHIVE_MODAL_ID } from "@/utils/constants/id-constants";
 import { GetGameContext } from "@/utils/context/GameContext";
 import { shareClueless } from "@/utils/helpers/share-clueless";
 import useCopyToClipboard from "@/utils/hooks/use-copy-to-clipboard";
@@ -86,9 +87,18 @@ const EndGame = ({
       )}
 
       {archivedGame && (
-        <Link href="/" className={styles.PlayTodayBtn}>
-          Play todays Game
-        </Link>
+        <section>
+          <button
+            popoverTarget={CLUELESS_ARCHIVE_MODAL_ID}
+            popoverTargetAction="toggle"
+            className={styles.PlayTodayBtn}
+          >
+            Another Archived Challenge
+          </button>
+          <Link href="/" className={styles.PlayTodayBtn}>
+            Play todays Game
+          </Link>
+        </section>
       )}
     </>
   );
