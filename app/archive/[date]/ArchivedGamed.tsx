@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import { tz } from "@date-fns/tz";
 import { isAfter, isBefore, isValid, startOfDay, parse } from "date-fns";
 
 import { BASELINE_DATE } from "@/utils/constants/consts";
@@ -14,7 +15,9 @@ interface Props {
 
 const ArchivedGame = async (props: Props) => {
   const { date } = await props.params;
-  const archivedDate = parse(date, "yyyy-MM-dd", new Date());
+  const archivedDate = parse(date, "yyyy-MM-dd", new Date(), {
+    in: tz("America/Toronto"),
+  });
   const today = startOfDay(new Date());
   const baselineDate = new Date(BASELINE_DATE);
 
