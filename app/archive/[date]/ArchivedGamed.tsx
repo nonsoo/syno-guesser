@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { isAfter, isBefore, isValid } from "date-fns";
+import { isAfter, isBefore, isValid, startOfDay, parse } from "date-fns";
 
 import { BASELINE_DATE } from "@/utils/constants/consts";
 import GameProvider from "@/utils/context/GameContext";
@@ -14,8 +14,8 @@ interface Props {
 
 const ArchivedGame = async (props: Props) => {
   const { date } = await props.params;
-  const archivedDate = new Date(date);
-  const today = new Date();
+  const archivedDate = parse(date, "yyyy-MM-dd", new Date());
+  const today = startOfDay(new Date());
   const baselineDate = new Date(BASELINE_DATE);
 
   const isValidArchivedDate =
