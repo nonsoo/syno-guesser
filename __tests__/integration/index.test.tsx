@@ -8,7 +8,6 @@ import { mockGame } from "@/utils/mocks/game.mock";
 const stringWords = ["hello", "you", "test"];
 const word: string = "there";
 const trgWordsLst = ["bob", " Apple", "trigger"];
-const offsetDate = 2;
 
 const initialState = {
   ...mockGame.initialState,
@@ -21,7 +20,6 @@ const initialState = {
     ...mockGame.initialState.gameState,
     status: "in-progress" as const,
     winState: "none" as const,
-    dayOfPlay: offsetDate,
   },
 };
 
@@ -29,12 +27,7 @@ const theme = "random-list";
 
 const renderGame = () =>
   render(
-    <GameProvider
-      initialState={initialState}
-      offsetDate={offsetDate}
-      hasAccount={false}
-      theme={theme}
-    >
+    <GameProvider initialState={initialState} hasAccount={false} theme={theme}>
       <Game triggerWords={trgWordsLst} />
     </GameProvider>,
   );
@@ -46,7 +39,6 @@ const renderGameWithNoHints = () =>
         ...initialState,
         availableHints: [],
       }}
-      offsetDate={offsetDate}
       hasAccount={false}
       theme={theme}
     >
