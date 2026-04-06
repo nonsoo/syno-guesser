@@ -1,4 +1,4 @@
-import { Suspense, ViewTransition } from "react";
+import { Suspense } from "react";
 
 import ArchivedGame from "./ArchivedGamed";
 import ArchivedGameLoadingFallback from "./ArchivedGameLoadingFallback";
@@ -9,11 +9,9 @@ interface Props {
 
 const RootPage = async (props: Props) => {
   return (
-    <ViewTransition>
-      <Suspense fallback={<ArchivedGameLoadingFallback />}>
-        <ArchivedGame params={props.params} />
-      </Suspense>
-    </ViewTransition>
+    <Suspense fallback={<ArchivedGameLoadingFallback />}>
+      <ArchivedGame params={props.params} />
+    </Suspense>
   );
 };
 
