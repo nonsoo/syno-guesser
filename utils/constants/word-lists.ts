@@ -1,11 +1,15 @@
-import type { WordListSetMap, WordListThemes } from "../types/projectTypes";
+import type {
+  WordListSetMap,
+  WordListThemeConstant,
+  WordListThemes,
+} from "../types/projectTypes";
 
 import WordLst from "../../shufflewordLst.json";
 import { BASELINE_DATE } from "./consts";
 
 const WordLstMap = {
   "random-list": { themeList: WordLst, startDate: BASELINE_DATE },
-} as const;
+} as const satisfies WordListThemeConstant;
 
 export const wordListThemes = Object.freeze(WordLstMap);
 
