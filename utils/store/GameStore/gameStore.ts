@@ -38,6 +38,7 @@ const createGameStoreCreator =
 
         const newHint = state.availableHints[0];
         const newAvailableHints = state.availableHints.slice(1);
+        const noLivesRemaining = state.myLives - 1 <= 0;
 
         return {
           synonyms: [...state.synonyms, newHint],
@@ -45,9 +46,8 @@ const createGameStoreCreator =
           myLives: state.myLives - 1,
           gameState: {
             ...state.gameState,
-            status: state.myLives - 1 <= 0 ? "ended" : state.gameState.status,
-            winState:
-              state.myLives - 1 <= 0 ? "lose" : state.gameState.winState,
+            status: noLivesRemaining ? "ended" : state.gameState.status,
+            winState: noLivesRemaining ? "lose" : state.gameState.winState,
           },
         };
       });
@@ -56,7 +56,7 @@ const createGameStoreCreator =
       const validatedGuess = myGuess.trim().toLowerCase();
       set((state) => {
         if (state.gameState.status === "ended" || validatedGuess === "") {
-          return state; // Game already ended or empty guess
+          return state;
         }
 
         const guessNotInWordLst = isGuessInWordLst(

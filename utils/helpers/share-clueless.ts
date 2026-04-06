@@ -10,39 +10,28 @@ import {
 } from "../constants/consts";
 import { GameActions, GameState } from "../store/GameStore/gameStore.types";
 
-const generate_boxes = (guess_lst: UserGuessLst[], win_state: boolean) => {
-  let squareColours = "";
+const generateBoxes = (guesses: UserGuessLst[], isWin: boolean) => {
+  const boxes = guesses.map((guess) =>
+    guess.statusColour === "hsl(111, 32%, 38%)" ? shareGreenBox : shareRedBox,
+  );
 
-  guess_lst.forEach((guess) => {
-    if (guess.statusColour === "hsl(111, 32%, 38%)") {
-      // green
-      squareColours += shareGreenBox;
-    } else {
-      //red
-      squareColours += shareRedBox;
-    }
-  });
-
-  if (win_state) {
-    const temp = squareColours.split("");
-    temp.pop();
-    temp.pop();
-    squareColours = temp.join("");
-
-    squareColours += shareGreenWinBox;
+  if (isWin && boxes.length >= 2) {
+    return [...boxes.slice(0, -2), shareGreenWinBox].join("");
   }
 
-  return squareColours;
+  return boxes.join("");
 };
 
 export const shareClueless = (gameStore: StoreApi<GameState & GameActions>) => {
-  const guessLst = gameStore.getState().guessLst;
-  const winState = gameStore.getState().gameState.winState === "win";
+  const {
+    guessLst,
+    synonyms,
+    gameState: { dayOfPlay, winState },
+  } = gameStore.getState();
 
-  const stringColours = generate_boxes(guessLst, winState);
+  const hasWon = winState === "win";
 
-  const dayOfPlay = gameStore.getState().gameState.dayOfPlay;
-  const synonyms = gameStore.getState().synonyms;
+  const stringColours = generateBoxes(guessLst, hasWon);
 
   if (synonyms.length === 0)
     return `Clueless #${

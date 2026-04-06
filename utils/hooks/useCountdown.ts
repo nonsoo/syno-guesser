@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { intervalToDuration } from "date-fns";
 
@@ -16,10 +16,7 @@ const convertValue = (countDown: number) => {
 };
 
 const useCountdown = (targetDate: string) => {
-  const targetTime = useMemo(
-    () => new Date(targetDate).getTime(),
-    [targetDate],
-  );
+  const targetTime = new Date(targetDate).getTime();
 
   const [countDown, setCountDown] = useState(
     Math.max(targetTime - Date.now(), 0),

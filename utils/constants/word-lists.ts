@@ -5,10 +5,12 @@ import type {
 } from "../types/projectTypes";
 
 import WordLst from "../../shufflewordLst.json";
-import { BASELINE_DATE } from "./consts";
 
 const WordLstMap = {
-  "random-list": { themeList: WordLst, startDate: BASELINE_DATE },
+  "random-list": {
+    themeList: WordLst,
+    startDate: new Date("July 19, 2022 04:00:00 UTC"),
+  },
 } as const satisfies WordListThemeConstant;
 
 export const wordListThemes = Object.freeze(WordLstMap);
