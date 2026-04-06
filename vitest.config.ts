@@ -7,13 +7,14 @@ export default defineConfig({
   },
   test: {
     globals: true,
+    pool: "threads",
     projects: [
       {
         test: {
           name: "unit",
           include: ["**/*.test.{ts,tsx}"],
           exclude: ["node_modules", "dist"],
-          environment: "jsdom",
+          environment: "happy-dom",
           css: true,
           setupFiles: ["./utils/config/vitest_setup.ts"],
         },
