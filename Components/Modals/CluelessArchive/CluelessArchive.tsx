@@ -22,7 +22,7 @@ const CluelessArchive = () => {
         <X size={30} />
       </button>
 
-      <p className={styles.Modal__Title}>The Clueless Archive</p>
+      <p className={styles.Modal__Title}>Clueless Archive</p>
       <p className={styles.Modal__Description}>Play through past challenges!</p>
 
       <Suspense>
