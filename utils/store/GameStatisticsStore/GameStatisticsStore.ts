@@ -1,12 +1,14 @@
+import type {
+  GameStatisticsActions,
+  GameStatisticsState,
+} from "./GameStatisticsStore.types";
+
 import { createStore } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 import { GAME_STATISTICS_STORE_KEY } from "@/utils/constants/id-constants";
 
-import {
-  GameStatisticsActions,
-  GameStatisticsState,
-} from "./GameStatisticsStore.types";
+import { generateUpdatedWinStreak } from "./GameStatisticsStore.helpers";
 
 export const createGameStatisticsStore = (
   hasAccount = false,
@@ -33,11 +35,13 @@ export const createGameStatisticsStore = (
             const updatedGamesPlayed = isConsecutiveDay
               ? state.gamesPlayed + 1
               : 1;
-            const updatedWinStreak = hasWon
-              ? isConsecutiveDay
-                ? state.winStreak + 1
-                : 1
-              : 0;
+
+            const updatedWinStreak = generateUpdatedWinStreak(
+              hasWon,
+              isConsecutiveDay,
+              state.winStreak,
+            );
+
             const updatedMaxWinStreak = Math.max(
               state.maxWinStreak,
               updatedWinStreak,
