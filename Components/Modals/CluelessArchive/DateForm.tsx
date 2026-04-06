@@ -7,12 +7,17 @@ import { format, subDays } from "date-fns";
 
 import DateSelector from "@/Components/DateSelector/DateSelector";
 import styles from "@/styles/CluelessArchive.module.css";
-import { BASELINE_DATE } from "@/utils/constants/consts";
 import { CLUELESS_ARCHIVE_MODAL_ID } from "@/utils/constants/id-constants";
+import { wordListThemes } from "@/utils/constants/word-lists";
 import { getRandomDateByDay } from "@/utils/helpers/dates";
+import { WordListTheme } from "@/utils/types/projectTypes";
 
-const DateForm = () => {
-  const fromDate = new Date(BASELINE_DATE);
+interface DataFormProps {
+  theme: WordListTheme;
+}
+
+const DateForm = ({ theme }: DataFormProps) => {
+  const fromDate = wordListThemes[theme].startDate;
   const toDate = new Date();
 
   const defaultDate = subDays(toDate, 1);
