@@ -17,7 +17,6 @@ import { WordListTheme } from "../types/projectTypes";
 interface Props {
   children: ReactNode;
   initialState: GameState;
-  offsetDate: number;
   hasAccount: boolean;
   theme: WordListTheme;
 }
@@ -29,14 +28,9 @@ interface GameContext {
 
 const GameContext = createContext<GameContext | null>(null);
 
-const GameProvider = ({
-  children,
-  offsetDate,
-  initialState,
-  hasAccount,
-  theme,
-}: Props) => {
-  const gameStatisticsStore = createGameStatisticsStore(hasAccount, offsetDate);
+const GameProvider = ({ children, initialState, hasAccount, theme }: Props) => {
+  const dayOfPlay = initialState.gameState.dayOfPlay;
+  const gameStatisticsStore = createGameStatisticsStore(hasAccount, dayOfPlay);
   const gameStore = createGameStore({
     initialState,
     gameStatisticsStore,
@@ -54,7 +48,7 @@ const GameProvider = ({
 
     if (
       !initialState.archivedGame &&
-      parsedState.state.gameState?.dayOfPlay === offsetDate
+      parsedState.state.gameState?.dayOfPlay === dayOfPlay
     ) {
       gameStore.persist.rehydrate();
     }

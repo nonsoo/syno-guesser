@@ -17,12 +17,7 @@ const RootPage = async () => {
   const theme = "random-list";
 
   return (
-    <GameProvider
-      offsetDate={initialState.gameState.dayOfPlay}
-      initialState={initialState}
-      hasAccount={false}
-      theme={theme}
-    >
+    <GameProvider initialState={initialState} hasAccount={false} theme={theme}>
       <Game triggerWords={triggerWords} />
     </GameProvider>
   );
