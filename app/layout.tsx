@@ -1,18 +1,24 @@
 import "@/styles/layout.css";
-import type { Metadata, Viewport } from "next";
-
+import type { Viewport } from "next";
 import { Nunito } from "next/font/google";
 import Script from "next/script";
 
+import { BookA, History } from "lucide-react";
+
+import CluelessArchive from "@/Components/Modals/CluelessArchive/CluelessArchive";
+import Instructions from "@/Components/Modals/Instructions/Instructions";
+import styles from "@/styles/Home.module.css";
 import {
   METADATA_TITLE,
   METADATA_DESCRIPTION,
   METADATA_SOCIAL_IMG_URL,
 } from "@/utils/constants/consts";
+import {
+  CLUELESS_ARCHIVE_MODAL_ID,
+  INSTRUCTION_MODAL_ID,
+} from "@/utils/constants/id-constants";
 
 const nunito = Nunito({ subsets: ["latin"] });
-
-import GameProvider from "@/utils/context/GameContext";
 
 export async function generateMetadata() {
   return {
@@ -87,7 +93,30 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="favicon/apple-touch-icon.png" />
       </head>
       <body className={`layoutDiv ${nunito.className}`}>
-        <GameProvider>{children}</GameProvider>
+        <section className={styles.mainContent}>
+          <header className={styles.HeaderCon}>
+            <h1 className={styles.HeaderTitle}>Clueless Words</h1>
+            <button
+              popoverTarget={INSTRUCTION_MODAL_ID}
+              popoverTargetAction="toggle"
+              className={styles.HeaderBtn}
+            >
+              <BookA size={30} className={styles.HeaderBtnIcon} />
+            </button>
+            <button
+              popoverTarget={CLUELESS_ARCHIVE_MODAL_ID}
+              popoverTargetAction="toggle"
+              className={styles.HeaderBtn}
+            >
+              <History size={30} className={styles.HeaderBtnIcon} />
+            </button>
+          </header>
+
+          <Instructions />
+          <CluelessArchive />
+
+          {children}
+        </section>
 
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID}`}

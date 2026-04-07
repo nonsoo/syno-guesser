@@ -15,6 +15,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1.25em;
 }
 
 .HeaderTitle {
@@ -51,6 +52,11 @@
   border-radius: 10px;
 }
 
+.GuesserCon--loading {
+  width: 600px;
+  aspect-ratio: 1 /1;
+}
+
 .syno {
   display: flex;
   flex-wrap: wrap;
@@ -66,6 +72,12 @@
   box-shadow: var(--box-shadow);
 
   width: max-content;
+}
+
+.syno__item--loading {
+  padding: 1em;
+  width: 100px;
+  height: 1ch;
 }
 
 .GuessedWords {
@@ -134,7 +146,10 @@
   text-transform: uppercase;
   font-weight: var(--fw-sec);
 
-  background-color: var(--col-background-tri);
+  background-color: light-dark(
+    var(--col-background-tri),
+    hsl(from var(--col-background-sec) h s 30% / 0.8)
+  );
 }
 
 .Hints {

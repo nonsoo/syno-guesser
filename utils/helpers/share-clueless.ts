@@ -1,50 +1,42 @@
 import type { UserGuessLst } from "../types/projectTypes";
 
+import { StoreApi } from "zustand";
+
 import {
   shareGreenBox,
   shareRedBox,
   shareGreenWinBox,
   shareLockPen,
 } from "../constants/consts";
-import { loadGameStateFromLocalStorage } from "./saveGame";
+import { GameActions, GameState } from "../store/GameStore/gameStore.types";
 
-const generate_boxes = (guess_lst: UserGuessLst[], win_state: boolean) => {
-  let squareColours = "";
+const generateBoxes = (guesses: UserGuessLst[], isWin: boolean) => {
+  const boxes = guesses.map((guess) =>
+    guess.statusColour === "hsl(111, 32%, 38%)" ? shareGreenBox : shareRedBox,
+  );
 
-  guess_lst.forEach((guess) => {
-    if (guess.statusColour === "hsl(111, 32%, 38%)") {
-      // green
-      squareColours += shareGreenBox;
-    } else {
-      //red
-      squareColours += shareRedBox;
-    }
-  });
-
-  if (win_state) {
-    const temp = squareColours.split("");
-    temp.pop();
-    temp.pop();
-    squareColours = temp.join("");
-
-    squareColours += shareGreenWinBox;
+  if (isWin && boxes.length >= 2) {
+    return [...boxes.slice(0, -2), shareGreenWinBox].join("");
   }
 
-  return squareColours;
+  return boxes.join("");
 };
 
-export const shareClueless = () => {
-  const game = loadGameStateFromLocalStorage();
+export const shareClueless = (gameStore: StoreApi<GameState & GameActions>) => {
+  const {
+    guessLst,
+    synonyms,
+    gameState: { dayOfPlay, winState },
+  } = gameStore.getState();
 
-  if (!game) return "";
-  const stringColours = generate_boxes(game.myGuesses, game.winState);
+  const hasWon = winState === "win";
 
-  if (game.synonyms.length === 0)
+  const stringColours = generateBoxes(guessLst, hasWon);
+
+  if (synonyms.length === 0)
     return `Clueless #${
-      game.dayOfPlay + 1
+      dayOfPlay
     } ${shareLockPen} \n${stringColours}\nhttps://cluelesswords.com`;
 
-  return `Clueless #${
-    game.dayOfPlay + 1
-  } \n${stringColours}\nhttps://cluelesswords.com`;
+  return `Clueless #${dayOfPlay} \n${stringColours}\nhttps://cluelesswords.com`;
 };

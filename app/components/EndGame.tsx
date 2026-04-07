@@ -1,19 +1,28 @@
+import Link from "next/link";
+
 import Countdown from "@/Components/Countdown";
+import styles from "@/styles/wingame.module.css";
+import { CLUELESS_ARCHIVE_MODAL_ID } from "@/utils/constants/id-constants";
+import { GetGameContext } from "@/utils/context/GameContext";
 import { shareClueless } from "@/utils/helpers/share-clueless";
 import useCopyToClipboard from "@/utils/hooks/use-copy-to-clipboard";
 import { EndgameProps } from "@/utils/types/projectTypes";
 
-import Alert from "./Alert";
-
-import styles from "@/styles/wingame.module.css";
+import Alert from "../../Components/Alert";
+import GameStats from "../../Components/gameStats";
 
 const EndGame = ({
   secretWord,
   winState,
   myGuesses,
+  gamesPlayed,
+  maxWinStreak,
+  winStreak,
+  archivedGame,
   children,
 }: EndgameProps) => {
-  const shareSheet = shareClueless();
+  const { gameStore } = GetGameContext();
+  const shareSheet = shareClueless(gameStore);
 
   const [result, copyFn] = useCopyToClipboard();
 
@@ -50,21 +59,47 @@ const EndGame = ({
             </p>
           ))}
         </div>
-        <Countdown />
-        <div className={styles.shareBtn__con}>
-          <button
-            className={styles.shareScore}
-            onClick={() => copyFn(shareSheet)}
-          >
-            Share my score
-          </button>
-          {result && (
-            <div className={styles.AlertCon}>
-              <Alert notification="Copied" />
+        {!archivedGame && (
+          <>
+            <Countdown />
+            <div className={styles.shareBtn__con}>
+              <button
+                className={styles.shareScore}
+                onClick={() => copyFn(shareSheet)}
+              >
+                Share my score
+              </button>
+              {result && (
+                <div className={styles.AlertCon}>
+                  <Alert notification="Copied" />
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </>
+        )}
       </section>
+      {!archivedGame && (
+        <GameStats
+          gamesPlayed={gamesPlayed}
+          winStreak={winStreak}
+          maxWinStreak={maxWinStreak}
+        />
+      )}
+
+      {archivedGame && (
+        <section>
+          <button
+            popoverTarget={CLUELESS_ARCHIVE_MODAL_ID}
+            popoverTargetAction="toggle"
+            className={styles.PlayTodayBtn}
+          >
+            Another Archived Challenge
+          </button>
+          <Link href="/" className={styles.PlayTodayBtn}>
+            Play todays Game
+          </Link>
+        </section>
+      )}
     </>
   );
 };

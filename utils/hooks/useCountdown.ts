@@ -1,42 +1,34 @@
 import { useEffect, useState } from "react";
 
-const convertValue = (countDown: number) => {
-  const days = String(Math.floor(countDown / (1000 * 60 * 60 * 24))).padStart(
-    1,
-    "0"
-  );
-  const hours = String(
-    Math.floor((countDown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-  ).padStart(2, "0");
-  const minutes = String(
-    Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60))
-  ).padStart(2, "0");
-  const seconds = String(Math.floor((countDown % (1000 * 60)) / 1000)).padStart(
-    2,
-    "0"
-  );
+import { intervalToDuration } from "date-fns";
 
-  return [days, hours, minutes, seconds];
+const convertValue = (countDown: number) => {
+  const duration = intervalToDuration({
+    start: 0,
+    end: Math.max(countDown, 0),
+  });
+
+  return [
+    String(duration.hours ?? 0).padStart(2, "0"),
+    String(duration.minutes ?? 0).padStart(2, "0"),
+    String(duration.seconds ?? 0).padStart(2, "0"),
+  ];
 };
 
 const useCountdown = (targetDate: string) => {
-  const countDownDate = new Date(targetDate).getTime();
-  const delta = countDownDate - new Date().getTime();
-  const [countDown, setCountDown] = useState(delta);
+  const targetTime = new Date(targetDate).getTime();
+
+  const [countDown, setCountDown] = useState(
+    Math.max(targetTime - Date.now(), 0),
+  );
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCountDown(countDownDate - new Date().getTime());
+    const interval = window.setInterval(() => {
+      setCountDown(Math.max(targetTime - Date.now(), 0));
     }, 1000);
 
-    const time = convertValue(countDown);
-    const stopTimer = time.every((item) => item === "0");
-    if (stopTimer) {
-      clearInterval(interval);
-    }
-
-    return () => clearInterval(interval);
-  }, [countDownDate, countDown]);
+    return () => window.clearInterval(interval);
+  }, [targetTime]);
 
   return convertValue(countDown);
 };

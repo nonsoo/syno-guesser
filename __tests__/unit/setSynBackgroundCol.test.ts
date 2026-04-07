@@ -1,33 +1,44 @@
-import setSynBackgroundCol from "../../utils/helpers/setSynBackgroundCol";
+import { mockGame } from "@/utils/mocks/game.mock";
+import { generateStatusColour } from "@/utils/store/GameStore/gameStore.helpers";
 
-describe("setSynBackgroundCol", () => {
+describe("generateStatusColour", () => {
   it('should return "hsl(111, 32%, 38%)" if myGuess is included in trgWords or synonyms', () => {
-    const myGuess = "hello";
-    const trgWords = ["hello", "world"];
-    const synonyms = ["hi", "greetings"];
-    const secretWord = "book";
-    expect(setSynBackgroundCol(myGuess, trgWords, synonyms, secretWord)).toBe(
-      "hsl(111, 32%, 38%)"
-    );
+    const guess = "cheerful";
+
+    expect(
+      generateStatusColour(
+        guess,
+        mockGame.initialState.synonyms,
+        mockGame.triggerWords,
+        mockGame.initialState.availableHints,
+        mockGame.initialState.wordOfDay,
+      ),
+    ).toBe("hsl(111, 32%, 38%)");
   });
 
   it('should return "hsl(111, 32%, 38%)" if myGuess is the secret word', () => {
-    const myGuess = "book";
-    const trgWords = ["hello", "world"];
-    const synonyms = ["hi", "greetings"];
-    const secretWord = "book";
-    expect(setSynBackgroundCol(myGuess, trgWords, synonyms, secretWord)).toBe(
-      "hsl(111, 32%, 38%)"
-    );
+    const guess = "happy";
+    expect(
+      generateStatusColour(
+        guess,
+        mockGame.initialState.synonyms,
+        mockGame.triggerWords,
+        mockGame.initialState.availableHints,
+        mockGame.initialState.wordOfDay,
+      ),
+    ).toBe("hsl(111, 32%, 38%)");
   });
 
   it('should return "hsl(0, 84%, 68%)" if myGuess is not included in trgWords or synonyms', () => {
-    const myGuess = "goodbye";
-    const trgWords = ["hello", "world"];
-    const synonyms = ["hi", "greetings"];
-    const secretWord = "book";
-    expect(setSynBackgroundCol(myGuess, trgWords, synonyms, secretWord)).toBe(
-      "hsl(0, 84%, 68%)"
-    );
+    const guess = "kite";
+    expect(
+      generateStatusColour(
+        guess,
+        mockGame.initialState.synonyms,
+        mockGame.triggerWords,
+        mockGame.initialState.availableHints,
+        mockGame.initialState.wordOfDay,
+      ),
+    ).toBe("hsl(0, 84%, 68%)");
   });
 });

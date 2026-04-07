@@ -1,9 +1,11 @@
-import WordLst from "../../shufflewordLst.json";
+import type { WordListTheme } from "../types/projectTypes";
 
-export const getOffsetDay = (currDate: Date): number => {
-  const baseLineDay = new Date("July 19, 2022 04:00:00 UTC");
+import { wordListThemes } from "../constants/word-lists";
 
-  const offSet: number = Math.floor(currDate.valueOf() - baseLineDay.valueOf());
+export const getOffsetDay = (baseLineDate: Date, currDate: Date): number => {
+  const offSet: number = Math.floor(
+    currDate.valueOf() - baseLineDate.valueOf(),
+  );
   const toDaysConverter = 24 * 60 * 60 * 1000;
 
   const convertToDaysNumber = Math.abs(Math.floor(offSet / toDaysConverter));
@@ -11,7 +13,10 @@ export const getOffsetDay = (currDate: Date): number => {
   return convertToDaysNumber;
 };
 
-const getTodaysWord = (): { wordOfDay: string; offsetDate: number } => {
+const getTodaysWord = (
+  date: Date,
+  theme: WordListTheme,
+): { wordOfDay: string; offsetDate: number } => {
   // calculate todays date in days and then have an offest value
   // The day are going to be used in index the wordLst, therefore,
   // everyday a new word is going to be selected from the word list
@@ -22,10 +27,12 @@ const getTodaysWord = (): { wordOfDay: string; offsetDate: number } => {
   // and then index the word lst for that specific index to get the
   // word for the day and then return that from this function
 
-  const todaysDate = new Date();
-  const indexArray = getOffsetDay(todaysDate);
+  const wordLst = wordListThemes[theme];
 
-  const wordOfDay = WordLst[indexArray];
+  const indexArray =
+    getOffsetDay(wordLst.startDate, date) % wordLst.themeList.length;
+
+  const wordOfDay = wordLst.themeList[indexArray];
 
   return { wordOfDay, offsetDate: indexArray };
 };
