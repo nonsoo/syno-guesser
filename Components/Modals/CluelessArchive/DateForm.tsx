@@ -10,18 +10,13 @@ import styles from "@/styles/CluelessArchive.module.css";
 import { CLUELESS_ARCHIVE_MODAL_ID } from "@/utils/constants/id-constants";
 import { wordListThemes } from "@/utils/constants/word-lists";
 import { getRandomDateByDay } from "@/utils/helpers/dates";
-import { WordListTheme } from "@/utils/types/projectTypes";
 
-interface DataFormProps {
-  theme: WordListTheme;
-}
+const DateForm = () => {
+  const fromDate = wordListThemes["random-list"].startDate;
+  const today = new Date();
 
-const DateForm = ({ theme }: DataFormProps) => {
-  const fromDate = wordListThemes[theme].startDate;
-  const toDate = new Date();
-
-  const defaultDate = subDays(toDate, 1);
-  const [selectedDate, setSelectedDate] = useState<Date>(defaultDate);
+  const toDate = subDays(today, 1);
+  const [selectedDate, setSelectedDate] = useState<Date>(toDate);
 
   const formattedDate = format(selectedDate, "yyyy-MM-dd");
 
@@ -34,7 +29,7 @@ const DateForm = ({ theme }: DataFormProps) => {
         setSelectedDate={setSelectedDate}
         fromDate={fromDate}
         toDate={toDate}
-        disabledRange={{ before: fromDate, after: defaultDate }}
+        disabledRange={{ before: fromDate, after: toDate }}
       />
       <section className={styles.btnGroups}>
         <button
@@ -57,7 +52,7 @@ const DateForm = ({ theme }: DataFormProps) => {
           popoverTargetAction="hide"
           onClick={() =>
             startTransition(() => {
-              const randomDay = getRandomDateByDay(fromDate, defaultDate);
+              const randomDay = getRandomDateByDay(fromDate, toDate);
               router.push(`/archive/${randomDay}`);
             })
           }

@@ -115,7 +115,7 @@ const Game = ({ triggerWords }: GameProps) => {
           </>
         )}
       </main>
-      {availableHints.length === 0 && (
+      {availableHints.length === 0 && synonyms.length <= 3 && (
         <p className={styles.Disclamer}>
           Looks like the secret word today does not have any synonyms. You can
           try your luck to guess the word unaided or come back tomorrow for a

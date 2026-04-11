@@ -26,7 +26,9 @@ const createGameStoreCreator =
           return state;
         }
 
-        if (state.myLives <= 0) {
+        const noLivesRemaining = state.myLives - 1 <= 0;
+
+        if (noLivesRemaining) {
           if (gameStatisticsStore && !state.archivedGame) {
             const setGameStatistics =
               gameStatisticsStore.getState().setGameStatistics;
@@ -38,7 +40,6 @@ const createGameStoreCreator =
 
         const newHint = state.availableHints[0];
         const newAvailableHints = state.availableHints.slice(1);
-        const noLivesRemaining = state.myLives - 1 <= 0;
 
         return {
           synonyms: [...state.synonyms, newHint],
