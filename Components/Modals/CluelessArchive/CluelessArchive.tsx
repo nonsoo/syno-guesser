@@ -26,7 +26,7 @@ const CluelessArchive = () => {
       <p className={styles.Modal__Description}>Play through past challenges!</p>
 
       <Suspense>
-        <DateForm theme="random-list" />
+        <DateForm />
       </Suspense>
     </section>
   );
