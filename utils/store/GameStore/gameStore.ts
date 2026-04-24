@@ -28,14 +28,10 @@ const createGameStoreCreator =
 
         const noLivesRemaining = state.myLives - 1 <= 0;
 
-        if (noLivesRemaining) {
-          if (gameStatisticsStore && !state.archivedGame) {
-            const setGameStatistics =
-              gameStatisticsStore.getState().setGameStatistics;
-            setGameStatistics(false, state.gameState.dayOfPlay);
-          }
-
-          return state;
+        if (noLivesRemaining && gameStatisticsStore && !state.archivedGame) {
+          const setGameStatistics =
+            gameStatisticsStore.getState().setGameStatistics;
+          setGameStatistics(false, state.gameState.dayOfPlay);
         }
 
         const newHint = state.availableHints[0];
