@@ -1,14 +1,16 @@
 import type { WordListTheme } from "@/utils/types/projectTypes";
 
-import { isToday } from "date-fns";
-
+import { GAME_TIME_ZONE } from "@/utils/helpers/dates";
 import generateInitialSynonymsList from "@/utils/helpers/get-initial-synonyms-lst";
 import randomizeHint from "@/utils/helpers/randomizeHints";
 import { GameState } from "@/utils/store/GameStore/gameStore.types";
 
 import { getWordOfTheDay } from "./getWord";
 
-export const setupGame = async (date: Date, theme?: WordListTheme) => {
+export const setupGame = async (
+  date: Temporal.PlainDate,
+  theme?: WordListTheme,
+) => {
   const words = await getWordOfTheDay(date, theme ?? "random-list");
 
   const initialSynonyms = generateInitialSynonymsList(words.synonyms);
@@ -27,7 +29,11 @@ export const setupGame = async (date: Date, theme?: WordListTheme) => {
       winState: "none",
       dayOfPlay: words.offsetDate,
     },
-    archivedGame: !isToday(date),
+    archivedGame:
+      Temporal.PlainDate.compare(
+        date,
+        Temporal.Now.plainDateISO(GAME_TIME_ZONE),
+      ) !== 0,
   } satisfies GameState;
 
   return {

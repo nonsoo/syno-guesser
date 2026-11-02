@@ -10,7 +10,9 @@
 
 - Zustand `^5.0.13` for client state stores.
 - Axios `^1.16.1` for HTTP/data fetching.
-- Date handling via `date-fns` and `@date-fns/tz`.
+- Date handling via the native Temporal API. React Day Picker's `Date` interface
+  is adapted at the component boundary. The daily calendar uses
+  `America/New_York`.
 
 ## UI and Utilities
 
