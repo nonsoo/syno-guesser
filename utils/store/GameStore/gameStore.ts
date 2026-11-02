@@ -6,6 +6,7 @@ import type {
 } from "./gameStore.types";
 import type { StateCreator } from "zustand";
 
+import { randomUUIDv7 } from "node:crypto";
 import { createStore } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 
@@ -88,7 +89,7 @@ const createGameStoreCreator =
             guessLst: [
               ...state.guessLst,
               {
-                id: crypto.randomUUID(),
+                id: randomUUIDv7(),
                 word: myGuess,
                 statusColour: synonymBackgroudColour,
               },
@@ -113,7 +114,7 @@ const createGameStoreCreator =
           guessLst: [
             ...state.guessLst,
             {
-              id: crypto.randomUUID(),
+              id: randomUUIDv7(),
               word: myGuess,
               statusColour: synonymBackgroudColour,
             },
