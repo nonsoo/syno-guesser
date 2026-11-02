@@ -2,19 +2,17 @@ import type { WordListTheme } from "../types/projectTypes";
 
 import { wordListThemes } from "../constants/word-lists";
 
-export const getOffsetDay = (baseLineDate: Date, currDate: Date): number => {
-  const offSet: number = Math.floor(
-    currDate.valueOf() - baseLineDate.valueOf(),
+export const getOffsetDay = (
+  baseLineDate: Temporal.PlainDate,
+  currDate: Temporal.PlainDate,
+): number => {
+  return Math.abs(
+    baseLineDate.until(currDate, { largestUnit: "days" }).days,
   );
-  const toDaysConverter = 24 * 60 * 60 * 1000;
-
-  const convertToDaysNumber = Math.abs(Math.floor(offSet / toDaysConverter));
-
-  return convertToDaysNumber;
 };
 
 const getTodaysWord = (
-  date: Date,
+  date: Temporal.PlainDate,
   theme: WordListTheme,
 ): { wordOfDay: string; offsetDate: number } => {
   // calculate todays date in days and then have an offest value
