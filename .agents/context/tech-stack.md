@@ -20,7 +20,6 @@
 - `clsx` for class name composition.
 - `lucide-react` and `react-icons` for iconography.
 - `react-day-picker` for date selection UI.
-- `uuid` for unique identifiers.
 
 ## Quality Tooling
 
