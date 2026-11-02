@@ -46,7 +46,7 @@ export interface UserGuessLst {
 
 export type StatusColour = "hsl(111, 32%, 38%)" | "hsl(0, 84%, 68%)";
 export type WordListThemeConstant = {
-  [key: string]: { themeList: string[]; startDate: Date };
+  [key: string]: { themeList: string[]; startDate: Temporal.PlainDate };
 };
 export type WordListTheme = keyof typeof wordListThemes;
 export type WordListThemes = typeof wordListThemes;

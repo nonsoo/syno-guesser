@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation";
 
+import "@/utils/helpers/ensure-temporal";
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { describe, it, expect, beforeEach, vi } from "vitest";
@@ -21,7 +23,7 @@ vi.mock("@/app/server-helpers/setupGame", () => ({
 
 // Mock constants
 vi.mock("@/utils/constants/consts", () => ({
-  BASELINE_DATE: new Date("2024-01-01"),
+  BASELINE_DATE: Temporal.PlainDate.from("2024-01-01"),
   BASE_URL: "localhost:3000",
   METADATA_TITLE: "Clueless Words | Daily word game with Synonyms",
   METADATA_DESCRIPTION:
@@ -34,6 +36,7 @@ vi.mock("@/utils/constants/consts", () => ({
 }));
 
 import { setupGame } from "@/app/server-helpers/setupGame";
+import { GAME_TIME_ZONE } from "@/utils/helpers/dates";
 
 const stringWords = ["hello", "you", "test"];
 const word: string = "there";
@@ -84,9 +87,9 @@ describe("Archive Game Integration Tests", () => {
 
     it("should redirect when date is not in the past", async () => {
       // Use a date near today (2 days ago) to ensure it's definitely in the past
-      const twoDaysAgo = new Date();
-      twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-      const pastDateString = twoDaysAgo.toISOString().split("T")[0];
+      const pastDateString = Temporal.Now.plainDateISO(GAME_TIME_ZONE)
+        .subtract({ days: 2 })
+        .toString();
       const params = Promise.resolve({ date: pastDateString });
 
       // This should NOT redirect since it's validly in the past
@@ -100,9 +103,9 @@ describe("Archive Game Integration Tests", () => {
     });
 
     it("should redirect when date is in the future", async () => {
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      const futureDate = tomorrow.toISOString().split("T")[0];
+      const futureDate = Temporal.Now.plainDateISO(GAME_TIME_ZONE)
+        .add({ days: 1 })
+        .toString();
       const params = Promise.resolve({ date: futureDate });
 
       try {
@@ -147,7 +150,7 @@ describe("Archive Game Integration Tests", () => {
 
       render(await ArchivedGame({ params }));
 
-      expect(setupGame).toHaveBeenCalledWith(expect.any(Date));
+      expect(setupGame).toHaveBeenCalledWith(expect.any(Temporal.PlainDate));
     });
 
     it("should pass archivedGame=true to Game component", async () => {

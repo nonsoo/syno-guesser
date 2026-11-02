@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   poweredByHeader: false,
   cacheComponents: true,
+  partialPrefetching: false,
 };
 
 export default nextConfig;

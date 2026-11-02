@@ -7,7 +7,10 @@ import type {
 import fetchData from "@/utils/helpers/fetchData";
 import getWordOftheDay from "@/utils/helpers/newDay";
 
-export const getWordOfTheDay = async (date: Date, theme: WordListTheme) => {
+export const getWordOfTheDay = async (
+  date: Temporal.PlainDate,
+  theme: WordListTheme,
+) => {
   const { wordOfDay, offsetDate } = getWordOftheDay(date, theme);
 
   try {

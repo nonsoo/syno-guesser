@@ -1,11 +1,9 @@
-import { startOfTomorrow } from "date-fns";
-
 import styles from "@/styles/wingame.module.css";
+import { getNextGameDayStart } from "@/utils/helpers/dates";
 import useCountdown from "@/utils/hooks/useCountdown";
 
 const Countdown = () => {
-  const tomorrow = startOfTomorrow().toUTCString();
-  const [hours, minutes, seconds] = useCountdown(tomorrow);
+  const [hours, minutes, seconds] = useCountdown(getNextGameDayStart());
 
   return (
     <p className={styles.countDown}>
