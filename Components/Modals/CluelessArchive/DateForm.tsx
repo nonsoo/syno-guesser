@@ -1,24 +1,25 @@
 "use client";
+
+import "@/utils/helpers/ensure-temporal";
+
 import { useRouter } from "next/navigation";
 
 import { startTransition, useState } from "react";
-
-import { format, subDays } from "date-fns";
 
 import DateSelector from "@/Components/DateSelector/DateSelector";
 import styles from "@/styles/CluelessArchive.module.css";
 import { CLUELESS_ARCHIVE_MODAL_ID } from "@/utils/constants/id-constants";
 import { wordListThemes } from "@/utils/constants/word-lists";
-import { getRandomDateByDay } from "@/utils/helpers/dates";
+import { GAME_TIME_ZONE, getRandomDateByDay } from "@/utils/helpers/dates";
 
 const DateForm = () => {
   const fromDate = wordListThemes["random-list"].startDate;
-  const today = new Date();
+  const today = Temporal.Now.plainDateISO(GAME_TIME_ZONE);
 
-  const toDate = subDays(today, 1);
-  const [selectedDate, setSelectedDate] = useState<Date>(toDate);
+  const toDate = today.subtract({ days: 1 });
+  const [selectedDate, setSelectedDate] = useState(toDate);
 
-  const formattedDate = format(selectedDate, "yyyy-MM-dd");
+  const formattedDate = selectedDate.toString();
 
   const router = useRouter();
 

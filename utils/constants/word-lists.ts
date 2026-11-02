@@ -9,7 +9,7 @@ import WordLst from "../../shufflewordLst.json";
 const WordLstMap = {
   "random-list": {
     themeList: WordLst,
-    startDate: new Date("July 19, 2022 04:00:00 UTC"),
+    startDate: Temporal.PlainDate.from("2022-07-19"),
   },
 } as const satisfies WordListThemeConstant;
 

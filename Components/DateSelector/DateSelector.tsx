@@ -7,20 +7,24 @@ import {
   YearsDropdown,
   CaptionLabel,
 } from "react-day-picker";
-
-import { enCA } from "date-fns/locale";
-
+import { enCA } from "react-day-picker/locale";
 import "react-day-picker/style.css";
+
+import "@/utils/helpers/ensure-temporal";
+import { fromPickerDate, toPickerDate } from "@/utils/helpers/dates";
 
 import styles from "./DateSelector.module.css";
 
 interface DateSelectorProps {
-  defaultDate?: Date;
-  selectedDate: Date;
-  setSelectedDate: Dispatch<SetStateAction<Date>>;
-  fromDate: Date;
-  toDate: Date;
-  disabledRange?: { before: Date; after: Date };
+  defaultDate?: Temporal.PlainDate;
+  selectedDate: Temporal.PlainDate;
+  setSelectedDate: Dispatch<SetStateAction<Temporal.PlainDate>>;
+  fromDate: Temporal.PlainDate;
+  toDate: Temporal.PlainDate;
+  disabledRange?: {
+    before: Temporal.PlainDate;
+    after: Temporal.PlainDate;
+  };
   className?: Partial<{
     dayPicker: string;
   }>;
@@ -45,14 +49,14 @@ const DateSelector = ({
       mode="single"
       captionLayout="dropdown"
       navLayout="around"
-      defaultMonth={defaultDate}
-      selected={selectedDate}
+      defaultMonth={defaultDate ? toPickerDate(defaultDate) : undefined}
+      selected={toPickerDate(selectedDate)}
       onSelect={(date) => {
         if (!date) return;
-        setSelectedDate(date);
+        setSelectedDate(fromPickerDate(date));
       }}
-      startMonth={fromDate}
-      endMonth={toDate}
+      startMonth={toPickerDate(fromDate)}
+      endMonth={toPickerDate(toDate)}
       locale={enCA}
       components={{
         MonthCaption: (props) => (
@@ -66,7 +70,12 @@ const DateSelector = ({
         CaptionLabel: CaptionLabel,
       }}
       animate
-      disabled={disabledRange}
+      disabled={
+        disabledRange && {
+          before: toPickerDate(disabledRange.before),
+          after: toPickerDate(disabledRange.after),
+        }
+      }
     />
   );
 };

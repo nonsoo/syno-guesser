@@ -1,6 +1,7 @@
 import { cacheLife, cacheTag } from "next/cache";
 
 import GameProvider from "@/utils/context/GameContext";
+import { GAME_TIME_ZONE } from "@/utils/helpers/dates";
 
 import Game from "./components/Game";
 import { setupGame } from "./server-helpers/setupGame";
@@ -10,7 +11,7 @@ const RootPage = async () => {
   cacheLife("hours");
   cacheTag("word-of-the-day");
 
-  const today = new Date();
+  const today = Temporal.Now.plainDateISO(GAME_TIME_ZONE);
 
   const { initialState, triggerWords } = await setupGame(today);
 
