@@ -3,7 +3,6 @@ import type {
   GameActions,
 } from "../../utils/store/GameStore/gameStore.types";
 
-import { randomUUID } from "node:crypto";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { createStore } from "zustand";
 
@@ -78,7 +77,7 @@ const createTestGameStore = (initialState: GameState) => {
             guessLst: [
               ...state.guessLst,
               {
-                id: randomUUID(),
+                id: crypto.randomUUID(),
                 word: myGuess,
                 statusColour: synonymBackgroudColour,
               },
@@ -95,7 +94,7 @@ const createTestGameStore = (initialState: GameState) => {
           guessLst: [
             ...state.guessLst,
             {
-              id: randomUUID(),
+              id: crypto.randomUUID(),
               word: myGuess,
               statusColour: synonymBackgroudColour,
             },
