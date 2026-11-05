@@ -6,6 +6,8 @@ import type {
 
 import WordLst from "../../shufflewordLst.json";
 
+import "@/utils/helpers/ensure-temporal";
+
 const WordLstMap = {
   "random-list": {
     themeList: WordLst,
